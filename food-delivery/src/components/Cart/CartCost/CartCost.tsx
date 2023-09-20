@@ -1,12 +1,12 @@
 import { FC } from 'react';
-import style from './Cost.module.scss';
+import style from './CartCost.module.scss';
 
-interface ICostProps {
+interface ICartCostProps {
     orderCost: number;
     deliveryCost: number;
 }
 
-const Cost: FC<ICostProps> = ({ orderCost,  deliveryCost }) => {
+const CartCost: FC<ICartCostProps> = ({ orderCost,  deliveryCost }) => {
     return (
         <div className={style.ordersCost}>
             <div className={style.ordersCost__item}>
@@ -25,4 +25,4 @@ const Cost: FC<ICostProps> = ({ orderCost,  deliveryCost }) => {
     );
 }
 
-export default Cost;
+export default CartCost;

@@ -10,7 +10,7 @@ const App: FC = () => {
 
   return (
     <div className = {style.App}>
-      <Cart showCart = {showCart} cartItems = {cartItems} />
+      { !showCart && <Cart setShowCart = {setShowCart} showCart = {showCart} cartItems = {cartItems} /> }
       <Header />
       <Menu />
       <button onClick = {() => setShowCart(!showCart)}> Открыть корзину </button>

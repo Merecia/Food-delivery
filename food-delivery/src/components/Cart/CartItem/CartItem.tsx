@@ -10,44 +10,39 @@ interface ICartItemProps {
 
 const CartItem: FC<ICartItemProps> = ({ cartItem, css }) => {
     const { foodItem, amount } = cartItem;
-    const { imageURL, name, price } = foodItem;
+    const { imageURL, name, price, weight } = foodItem;
 
     return (
-        <div className={style.CartItem} style = {css}>
+        <div className={style.CartItem} style={css}>
             <div className={style.LeftSide}>
-                <div>
-                    <img
-                        src={imageURL}
-                        alt={`${name}`}
-                        className={style.Image}
-                    />
-                </div>
+                <img
+                    src={imageURL}
+                    alt={`${name}`}
+                    className={style.Image}
+                />
                 <div className={style.Description}>
-                    <p className={style.Name}> {name} </p>
-                    <p className={style.Price}> ₴ {price} </p>
+                    <p className={style.Description_Name}> {name} </p>
+                    <div className={style.Description_PriceWeight}>
+                        <p className={style.Description_Price}> ₴ {price} </p>
+                        <p className={style.Description_Weight}> {weight} грамм </p>
+                    </div>
+
                 </div>
             </div>
             <div className={style.RightSide}>
-                <div className={style.Operations}>
-                    <button
-                        className={style.Remove}
-                    >
-                        X
-                    </button>
-                    <button
-                        className={style.Decrease}
-                    >
-                        ꟷ
-                    </button>
-                    <span className={style.Counter}>
-                        {amountFormatting(amount)}
-                    </span>
-                    <button
-                        className={style.Increase}
-                    >
-                        🞣
-                    </button>
-                </div>
+                <button
+                    className={style.Decrease}
+                >
+                    ꟷ
+                </button>
+                <span className={style.Counter}>
+                    {amountFormatting(amount)}
+                </span>
+                <button
+                    className={style.Increase}
+                >
+                    🞣
+                </button>
             </div>
         </div>
     );

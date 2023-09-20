@@ -1,73 +1,82 @@
 .CartItem {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
     .LeftSide {
         display: flex;
+
+        .Image {
+            border-radius: 20px;
+            width: 100px;
+            height: 100px;
+            margin-right: 20px;
+        }
+
+        .Description {
+            .Description_Name {
+                width: 200px;
+                margin-bottom: 15px;
+                font-size: 25px;
+                color: black;
+            }
+
+            .Description_PriceWeight {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                .Description_Price {
+                    font-weight: bold;
+                    font-size: 20px;
+                    color: #FE724C;
+                }
+
+                .Description_Weight {
+                    font-weight: 300;
+                    color: #67666D;
+                }
+            }
+        }
     }
-    
-    .Image {
-        border-radius: 20px;
+
+    .RightSide {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         width: 100px;
-        height: 100px;
-        margin-right: 20px;
-    }
-    
-    .Price {
-        font-weight: bold;
-        font-size: 20px;
-        color: #FE724C;
-    }
-    
-    .Name {
-        width: 200px;
-        margin-bottom: 15px;
-        font-size: 25px;
-        color: black;
-    }
-    
-    .Decrease:hover, .Increase:hover, .Remove:hover {
-        box-shadow: rgba(80, 63, 205, 0.5) 0 1px 30px;
-        transition-duration: .1s; 
-    }
-    
-    .Decrease, .Increase {
-        display: inline-block;
-        border: 1px solid #FE724C;
-        border-radius: 20px;
-        text-align: center;
-        width: 30px;
-        height: 30px;
-        font-size: 20px;
-        cursor: pointer;
-    }
-    
-    .Decrease {
-        color: #FE724C;
-        background-color: white;
-    }
-    
-    .Increase {
-        padding-bottom: 10px;
-        color: white;
-        background-color:#FE724C;
-    }
-    
-    .Remove {
-        display: block;
-        padding: 5px;
-        border-radius: 20px;
-        margin-bottom: 30px;
-        margin-left: 85px;
-        font-weight: bold;
-        cursor: pointer;
-        color: #FE724C;
-        background-color: #f8e1cd;
-        border: none;
-    }
-    
-    .Amount {
-        margin: 0 8px;
-        font-size: 18px;
+
+        .Decrease,
+        .Increase {
+            border: 1px solid #FE724C;
+            border-radius: 20px;
+            width: 30px;
+            height: 30px;
+            font-size: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+
+            &:hover {
+                box-shadow: rgba(80, 63, 205, 0.5) 0 1px 30px;
+                transition-duration: .1s;
+            }
+        }
+
+        .Decrease {
+            color: #FE724C;
+            background-color: white;
+        }
+
+        .Increase {
+            color: white;
+            background-color: #FE724C;
+        }
+
+        .Counter {
+            font-size: 20px;
+            font-weight: 400;
+        }
     }
 }

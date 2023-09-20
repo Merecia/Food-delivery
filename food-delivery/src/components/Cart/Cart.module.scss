@@ -8,7 +8,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    pointer-events: none;
+    // pointer-events: none;
     transition: 0.5s;
     z-index: 300;
 
@@ -18,13 +18,14 @@
         background-color: white;
         width: 50vw;
         height: auto;
-        pointer-events: all;
+        // pointer-events: all;
         transform: scale(0.5);
         transition: 0.4s all;
 
         .Header {
             display: flex;
             justify-content: space-between;
+            margin-bottom: 30px;
 
             .Cart_Title {
                 font-weight: 400;
@@ -34,6 +35,10 @@
                 font-weight: 300;
                 color: #67666D;
             }
+        }
+
+        .CartItems {
+            margin-bottom: 20px;
         }
 
         .PayButton {

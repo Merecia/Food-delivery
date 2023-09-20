@@ -9,12 +9,12 @@
     .Logo {
         width: 105px;
         height: 100px;
-        margin-right: 150px;
+        margin-right: 9.375rem;
     }
 
     .Search {
         position: relative;
-        margin-right: 150px;
+        margin-right: 9.375rem;
 
         &::before {
             content: "";
@@ -55,7 +55,7 @@
     .Profile {
         display: flex;
         align-items: center;
-        margin-right: 140px;
+        margin-right: 8.75rem;
     
         .Username {
             color: #323643;

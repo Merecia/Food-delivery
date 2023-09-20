@@ -2,21 +2,23 @@ import { FC } from 'react';
 import { ICartItem } from '../../types';
 import style from './Cart.module.scss';
 import CartItem from './CartItem/CartItem';
-import Cost from './Cost/Cost';
+import CartCost from './CartCost/CartCost';
 import emptyCart from '../../assets/images/emptyCart.svg';
 
 interface ICartProps {
     cartItems: ICartItem[];
     showCart: boolean;
+    setShowCart: (showCart: boolean) => void;
 }
 
-const Cart: FC<ICartProps> = ({ cartItems, showCart }) => {
+const Cart: FC<ICartProps> = ({ cartItems, showCart, setShowCart }) => {
     const DELIVERY_COST = 100;
 
     const renderCartItem = (cartItem: ICartItem) => {
         return (
             <CartItem
                 cartItem={cartItem}
+                css = {{ marginBottom: '10px' }}
             />
         );
     }
@@ -42,7 +44,7 @@ const Cart: FC<ICartProps> = ({ cartItems, showCart }) => {
                     {renderCartItems(cartItems)}
                 </div>
                 <hr />
-                <Cost
+                <CartCost
                     orderCost={500}
                     deliveryCost={DELIVERY_COST}
                 />
@@ -54,9 +56,11 @@ const Cart: FC<ICartProps> = ({ cartItems, showCart }) => {
     }
 
     return (
-        <div className={style.Modal} style={{
-            opacity: showCart ? '0' : '1'
-        }}>
+        <div 
+            className={style.Modal} 
+            style={{ opacity: showCart ? '0' : '1' }}
+            onClick = {() => setShowCart(!showCart)}
+        >
             <div className={style.Cart} style={{
                 transform: showCart ? 'scale(0.5)' : 'scale(1)'
             }}>
