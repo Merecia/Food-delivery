@@ -5,7 +5,11 @@ import avatar from '../../assets/images/avatar.svg';
 import menu from '../../assets/images/menu.svg';
 import cart from '../../assets/images/cart.svg';
 
-const Header: FC = () => {
+interface HeaderProps {
+    setShowCart: (showCart: boolean) => void;
+}
+
+const Header: FC<HeaderProps> = ({ setShowCart }) => {
     return (
         <header className = {style.Header}>
             <img src={logo} alt="logo" className={style.Logo} />
@@ -16,8 +20,15 @@ const Header: FC = () => {
                     className={style.SearchInput}
                 />
             </div>
-            <div className={style.Cart}>
-                <img src={cart} alt="cartIcon" className = {style.Cart_Icon}/>
+            <div 
+                className={style.Cart} 
+                onClick = {() => setShowCart(true)}
+            >
+                <img 
+                    src={cart} 
+                    alt="cartIcon" 
+                    className = {style.Cart_Icon}
+                />
                 <div className = {style.Cart_Counter}>
                     <span> 3 </span>
                 </div>
