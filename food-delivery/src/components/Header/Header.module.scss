@@ -1,0 +1,78 @@
+.Header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 5px 15px;
+    z-index: 10;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);
+
+    .Logo {
+        width: 105px;
+        height: 100px;
+        margin-right: 150px;
+    }
+
+    .Search {
+        position: relative;
+        margin-right: 150px;
+
+        &::before {
+            content: "";
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            top: 11px;
+            left: 10px;
+            background-repeat: no-repeat;
+            background-image: url('../../assets/images/search.svg');
+        }
+
+        .SearchInput {
+            width: 500px;
+            border: 1px solid grey;
+            padding: 12px 40px;
+            border-radius: 25px;
+        }
+    }
+
+    .Cart {
+        display: flex;
+
+        .Cart_Counter {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 25px;
+            height: 20px;
+            border-radius: 10px;
+            background-color: red;
+            color: white;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+    }
+
+    .Profile {
+        display: flex;
+        align-items: center;
+        margin-right: 140px;
+    
+        .Username {
+            color: #323643;
+            font-size: 14px;
+            font-weight: 700;
+        }
+    
+        .Avatar {
+            width: 100px;
+            height: 100px;
+        }
+    }
+    
+    .ToggleMenu {
+        img {
+            width: 30px;
+            height: 30px;
+        }
+    }
+}

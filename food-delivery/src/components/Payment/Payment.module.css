@@ -1,0 +1,153 @@
+.Payment__open {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    backdrop-filter: blur(7px);
+    height: 100%;
+    display: block;
+}
+
+.Payment__close {
+    height: 0;
+    display: none;
+}
+
+.Form {
+    max-width: 500px;
+    margin: auto;
+    background: #fbf7f7;
+    border: 1px solid black;
+    margin-top: 5%;
+    padding: 20px;
+    border-radius: 10px;
+    max-height: 500px;
+    overflow-y: scroll;
+    box-shadow: 0 5px 5px 0 rgba(0,0,0, .7);
+
+}
+
+.Form::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+}
+
+.Form > input[type='text'] {
+    outline: 2px solid #eeeeee;
+    box-sizing: border-box;
+    width: 400px;
+    display: block;
+    border: none;
+    padding: 0 20px;
+    margin: 0px auto 30px auto;
+    background: #F9F6F1;
+    line-height: 40px;
+    border-radius: 20px;
+}
+
+.Form > input[type='text']:focus {
+    outline: 2px solid #FE724C;
+}
+
+.Cost {
+    display: flex;
+    justify-content: space-between;
+    margin: 40px 40px 30px 40px;
+}
+
+.Cost>span:first-child {
+    font-size: 20px;
+}
+
+.Cost>span:last-child {
+    font-weight: bold;
+    font-size: 20px;
+    color: #FE724C;
+    margin-right: 20px;
+}
+
+.Choice {
+    text-align: center;
+    margin: 0 auto;
+}
+
+.Form input[type='radio'] {
+    margin-left: 20px;
+}
+
+.Error {
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 20px;
+    color: red;
+    font-weight: bold;
+}
+
+.Success {
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 20px;
+    color: #32CD32;
+    font-weight: bold;
+}
+
+/* --------------------------------------- */
+
+.Card {
+    margin: 20px 0px;
+    padding-top: 20px;
+}
+
+.CardImg {
+    width: 90px;
+    height: 90px;
+    margin-left: 300px;
+}
+
+.CardBottom {
+    margin-bottom: 20px;
+    display: flex;
+}
+
+.Card input {
+    padding: 5px;
+}
+
+.CardTop input[name='cardNumber'] {
+    margin-bottom: 20px;
+    margin-left: 50px;
+    width: 350px;
+}
+
+.CardBottom input[name='month'] {
+    margin-right: 5px;
+    margin-left: 50px;
+}
+
+.CardBottom input[name='year'] {
+    margin-left: 5px;
+}
+
+.CardBottom input[name='month'], 
+.CardBottom input[name='year'] {
+    width: 40px;
+}
+
+.CardBottom input[name='CVV'] {
+    margin-left: 70px;
+}
+
+/* --------------------------------------- */
+
+.closeButton {
+    font-weight: bold;
+    font-size: 18px;
+    margin-left: 450px;
+    margin-bottom: 30px;
+    background: #fbf7f7;
+    border: none;
+    color: red;
+}
+
+.closeButton:hover {
+    cursor: pointer;
+}

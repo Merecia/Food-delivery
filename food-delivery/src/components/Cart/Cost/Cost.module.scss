@@ -1,0 +1,22 @@
+.ordersCost {
+    margin-top: 30px;
+    margin-left: 20px;
+}
+
+
+.ordersCost__item {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.ordersCost__item>span:first-child {
+    font-size: 20px;
+}
+
+.ordersCost__item>span:last-child {
+    font-weight: bold;
+    font-size: 20px;
+    color: #FE724C;
+    margin-right: 20px;
+}

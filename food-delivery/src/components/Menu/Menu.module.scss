@@ -1,0 +1,24 @@
+.Menu {
+    background: rgb(246, 244, 244);
+    padding: 50px 0px 10px 0px;
+
+    h1 {
+        color: #323643;
+        font-size: 18px;
+    }
+
+    .Categories {
+        display: flex;
+        margin-bottom: 50px;
+    }
+    
+    .FoodCards {
+        padding: 10px 20px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+}
+
+
+
