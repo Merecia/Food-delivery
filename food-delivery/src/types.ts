@@ -8,6 +8,7 @@ export interface IFood {
     id: string, 
     imageURL: string, 
     name: string, 
+    description: string,
     weight: number, 
     price: number
 };

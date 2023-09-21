@@ -17,8 +17,14 @@
         background-color: white;
         width: 50vw;
         height: auto;
-        transform: scale(0.5);
+        overflow: auto;
+        height: 550px;
         transition: 0.4s all;
+
+        &::-webkit-scrollbar {
+            width: 0;
+            background: transparent;
+        }
 
         .Header {
             display: flex;

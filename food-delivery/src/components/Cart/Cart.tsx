@@ -17,7 +17,7 @@ const Cart: FC<ICartProps> = ({ cartItems, setShowCart }) => {
 
     useEffect(() => {
         setRendered(true);
-    }, [])
+    }, []);
 
     const renderCartItem = (cartItem: ICartItem) => {
         return (
