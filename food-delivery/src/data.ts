@@ -16,7 +16,10 @@ export const categories: ICategory[] = [
 export const foodList:  IFood[] = [
     { 
         id: '1', 
-        imageURL: 'https://cheese-cake.ru/DesertImg/ponchiki-assorti-0-1-1.jpg', 
+        imagesURL: [
+            'https://cheese-cake.ru/DesertImg/ponchiki-assorti-0-1-1.jpg',
+            'https://upload.wikimedia.org/wikipedia/commons/7/77/00409_paczki_z_serem%2C_sanok.jpg'
+        ], 
         name: 'Маргарита', 
         weight: 20, 
         price: 150,
@@ -24,7 +27,7 @@ export const foodList:  IFood[] = [
     },
     { 
         id: '2', 
-        imageURL: 'https://upload.wikimedia.org/wikipedia/commons/7/77/00409_paczki_z_serem%2C_sanok.jpg', 
+        imagesURL: ['https://upload.wikimedia.org/wikipedia/commons/7/77/00409_paczki_z_serem%2C_sanok.jpg'], 
         name: 'Суши', 
         weight: 50, 
         price: 200,
@@ -32,7 +35,7 @@ export const foodList:  IFood[] = [
     },
     { 
         id: '3', 
-        imageURL: 'https://upload.wikimedia.org/wikipedia/commons/7/77/00409_paczki_z_serem%2C_sanok.jpg', 
+        imagesURL: ['https://upload.wikimedia.org/wikipedia/commons/7/77/00409_paczki_z_serem%2C_sanok.jpg'], 
         name: 'Суши', 
         weight: 50, 
         price: 200,
@@ -40,7 +43,7 @@ export const foodList:  IFood[] = [
     },
     { 
         id: '4', 
-        imageURL: 'https://upload.wikimedia.org/wikipedia/commons/7/77/00409_paczki_z_serem%2C_sanok.jpg', 
+        imagesURL: ['https://upload.wikimedia.org/wikipedia/commons/7/77/00409_paczki_z_serem%2C_sanok.jpg'], 
         name: 'Суши', 
         weight: 50, 
         price: 200,

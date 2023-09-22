@@ -10,9 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.9.5",
     "@types/sass": "^1.45.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-redux": "^8.1.2",
+    "react-responsive-carousel": "^3.2.23",
+    "react-slideshow-image": "^4.2.1",
+    "redux-persist": "^6.0.0",
     "sass": "^1.67.0"
   },
   "devDependencies": {

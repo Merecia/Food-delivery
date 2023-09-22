@@ -6,7 +6,7 @@ export interface ICategory {
 
 export interface IFood {
     id: string, 
-    imageURL: string, 
+    imagesURL: string[], 
     name: string, 
     description: string,
     weight: number, 

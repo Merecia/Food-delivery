@@ -8,13 +8,13 @@ interface IFoodCardProps {
 }
 
 const FoodCard: FC<IFoodCardProps> = ({ foodItem, css }) => {
-    const { imageURL, weight, price, name } = foodItem;
+    const { imagesURL, weight, price, name } = foodItem;
 
     return (
         <div className = {style.FoodCard} style = {css}>
             <img 
                 className = {style.Image}
-                src = {imageURL}
+                src = {imagesURL[0]}
                 alt = {`${name}_img`}
             />
             <p className = {style.Price}> ₴ {price} </p>
@@ -24,23 +24,6 @@ const FoodCard: FC<IFoodCardProps> = ({ foodItem, css }) => {
                 Добавить
             </button>
         </div>
-        // <div className={style.FoodCard} style = {css}>
-        //     <div className={style.LeftSide}>
-        //         <img
-        //             src={imageURL}
-        //             alt={`${name}_img`}
-        //             className={style.Image}
-        //         />
-        //     </div>
-        //     <div className={style.RightSide}>
-        //         <p className={style.Name}> {name} </p>
-        //         <p className={style.Weight}> {weight} грамм </p>
-        //         <p className={style.Price}> ₴ {price} </p>
-        //         <div className={style.AddToCart}>
-        //             <span> Добавить в корзину </span>
-        //         </div>
-        //     </div>
-        // </div>
     );
 }
 

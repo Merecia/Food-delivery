@@ -5,3 +5,20 @@
     // height: 100vh;
     // width: 100vw;
 }
+
+.Slide {
+    div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-size: cover;
+        height: 150px;
+    }
+
+    span {
+        padding: 20px;
+        font-size: 20px;
+        background: #efefef;
+        text-align: center;
+    }
+}
