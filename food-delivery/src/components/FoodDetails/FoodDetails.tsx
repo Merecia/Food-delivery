@@ -1,8 +1,11 @@
 import { FC } from 'react';
 import { IFood } from '../../types';
 import { Carousel } from 'react-responsive-carousel';
-import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { closeFoodDetails } from '../../redux/applicationSlice';
+import { useDispatch } from 'react-redux';
 import style from './FoodDetails.module.scss';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { useOutsideClick } from '../../hooks/useOutsideClick';
 
 interface IFoodDetailsProps {
     foodItem: IFood;
@@ -10,6 +13,8 @@ interface IFoodDetailsProps {
 
 const FoodDetails: FC<IFoodDetailsProps> = ({ foodItem }) => {
     const { name, imagesURL, weight, description, price } = foodItem;
+
+    const dispatch = useDispatch();
 
     const renderImage = (imageURL: string) => {
         return (
@@ -27,10 +32,18 @@ const FoodDetails: FC<IFoodDetailsProps> = ({ foodItem }) => {
         );
     }
 
+    const ref = useOutsideClick(() => {
+        dispatch(closeFoodDetails());
+    });
+
     return (
         <div className={style.Substrate}>
-            <div className={style.FoodDetails}>
-                <div className={style.CloseIcon}></div>
+            <div className={style.FoodDetails} ref = {ref}>
+                <div
+                    className={style.CloseIcon}
+                    onClick={() => dispatch(closeFoodDetails())}
+                >
+                </div>
                 <div className={style.LeftSide}>
                     {
                         imagesURL.length > 1

@@ -1,4 +1,5 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import applicationReducer from './applicationSlice';
 import counterReducer from './counterSlice';
 import {
     persistStore,
@@ -19,6 +20,7 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({ 
+    application: applicationReducer,
     counter: counterReducer
 });
 

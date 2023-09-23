@@ -1,19 +1,22 @@
 import { FC, useState, useEffect } from 'react';
 import { ICartItem } from '../../types';
+import { useOutsideClick } from '../../hooks/useOutsideClick';
+import { useDispatch } from 'react-redux';
+import { closeCart } from '../../redux/applicationSlice';
 import style from './Cart.module.scss';
 import CartItem from './CartItem/CartItem';
 import CartCost from './CartCost/CartCost';
 import emptyCart from '../../assets/images/emptyCart.svg';
-import { useOutsideClick } from '../../hooks/useOutsideClick';
 
 interface ICartProps {
     cartItems: ICartItem[];
-    setShowCart: (showCart: boolean) => void;
 }
 
-const Cart: FC<ICartProps> = ({ cartItems, setShowCart }) => {
+const Cart: FC<ICartProps> = ({ cartItems }) => {
     const DELIVERY_COST = 100;
     const [rendered, setRendered] = useState(false);
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         setRendered(true);
@@ -43,7 +46,7 @@ const Cart: FC<ICartProps> = ({ cartItems, setShowCart }) => {
     }
 
     const ref = useOutsideClick(() => {
-        setShowCart(false);
+        dispatch(closeCart());
     });
 
     const renderCart = () => {

@@ -10,13 +10,13 @@ interface ICartItemProps {
 
 const CartItem: FC<ICartItemProps> = ({ cartItem, css }) => {
     const { foodItem, amount } = cartItem;
-    const { imageURL, name, price, weight } = foodItem;
+    const { imagesURL, name, price, weight } = foodItem;
 
     return (
         <div className={style.CartItem} style={css}>
             <div className={style.LeftSide}>
                 <img
-                    src={imageURL}
+                    src={imagesURL[0]}
                     alt={`${name}`}
                     className={style.Image}
                 />

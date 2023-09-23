@@ -1,15 +1,15 @@
 import { FC } from 'react';
+import { useDispatch } from 'react-redux';
+import { openCart } from '../../redux/applicationSlice';
 import style from './Header.module.scss';
 import logo from '../../assets/images/logo.svg';
 import avatar from '../../assets/images/avatar.svg';
 import menu from '../../assets/images/menu.svg';
 import cart from '../../assets/images/cart.svg';
 
-interface HeaderProps {
-    setShowCart: (showCart: boolean) => void;
-}
+const Header: FC = () => {
+    const dispatch = useDispatch();
 
-const Header: FC<HeaderProps> = ({ setShowCart }) => {
     return (
         <header className = {style.Header}>
             <img src={logo} alt="logo" className={style.Logo} />
@@ -22,7 +22,7 @@ const Header: FC<HeaderProps> = ({ setShowCart }) => {
             </div>
             <div 
                 className={style.Cart} 
-                onClick = {() => setShowCart(true)}
+                onClick = {() => dispatch(openCart())}
             >
                 <img 
                     src={cart} 
