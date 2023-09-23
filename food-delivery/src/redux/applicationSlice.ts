@@ -4,11 +4,13 @@ import { IFood } from '../types';
 interface ApplicationState {
     showCart: boolean;
     foodDetails: IFood | null;
+    choicedCategoryID: string | null;
 }
 
 const initialState: ApplicationState = {
   showCart: false,
-  foodDetails: null
+  foodDetails: null,
+  choicedCategoryID: null
 };
 
 export const applicationSlice = createSlice({
@@ -26,13 +28,17 @@ export const applicationSlice = createSlice({
     },
     closeFoodDetails: (state) => {
       state.foodDetails = null;
+    },
+    chooseCategory: (state, action: PayloadAction<string>) => {
+      state.choicedCategoryID = action.payload;
     }
   }
 });
 
 export const { 
   openCart, closeCart, 
-  openFoodDetails, closeFoodDetails 
+  openFoodDetails, closeFoodDetails,
+  chooseCategory
 } = applicationSlice.actions;
 
 export default applicationSlice.reducer;
