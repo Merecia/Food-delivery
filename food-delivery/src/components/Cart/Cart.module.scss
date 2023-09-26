@@ -17,8 +17,8 @@
         background-color: white;
         width: 50vw;
         height: auto;
+        max-height: 80vh;
         overflow: auto;
-        height: 550px;
         transition: 0.4s all;
 
         &::-webkit-scrollbar {
@@ -36,6 +36,7 @@
             }
 
             .Clear_Title {
+                cursor: pointer;
                 font-weight: 300;
                 color: #67666D;
             }
@@ -56,17 +57,17 @@
             cursor: pointer;
             font-size: 18px;
             font-weight: bold;
-        
+
             &:hover {
                 box-shadow: rgba(80, 63, 205, 0.5) 0 1px 30px;
                 transition-duration: .1s;
             }
         }
-        
+
         .EmptyCart {
             display: flex;
             flex-direction: column;
-            padding-top: 7rem;
+            padding: 2rem 0rem;
             justify-content: center;
             align-items: center;
 

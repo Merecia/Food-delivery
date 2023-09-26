@@ -1,12 +1,12 @@
 import { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { openCart, selectCart } from '../../redux/applicationSlice';
+import { countFoodItemsInCart } from '../../utils/helper';
+import { openCart, selectCart } from '../../redux/cartSlice';
 import style from './Header.module.scss';
 import logo from '../../assets/images/logo.svg';
 import avatar from '../../assets/images/avatar.svg';
 import menu from '../../assets/images/menu.svg';
 import cartIcon from '../../assets/images/cartIcon.svg';
-import { countFoodItemsInCart } from '../../utils/helper';
 
 const Header: FC = () => {
     const dispatch = useDispatch();

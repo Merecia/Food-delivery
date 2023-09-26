@@ -1,7 +1,8 @@
 import { FC, CSSProperties } from 'react';
 import { IFood } from '../../types';
 import { useDispatch } from 'react-redux';
-import { addFoodToCart, openFoodDetails } from '../../redux/applicationSlice';
+import { openFoodDetails } from '../../redux/applicationSlice';
+import { addFoodToCart } from '../../redux/cartSlice';
 import style from './FoodCard.module.scss';
 
 interface IFoodCardProps {

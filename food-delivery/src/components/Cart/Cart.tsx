@@ -2,14 +2,15 @@ import { FC, useState, useEffect } from 'react';
 import { ICartItem } from '../../types';
 import { useOutsideClick } from '../../hooks/useOutsideClick';
 import { useDispatch, useSelector } from 'react-redux';
-import { closeCart, selectCart } from '../../redux/applicationSlice';
+import { closeCart, emptyCart, selectCart } from '../../redux/cartSlice';
+import { countFoodItemsCost } from '../../utils/helper';
 import style from './Cart.module.scss';
 import CartItem from './CartItem/CartItem';
 import CartCost from './CartCost/CartCost';
-import emptyCart from '../../assets/images/emptyCart.svg';
+import emptyCartIcon from '../../assets/images/emptyCartIcon.svg';
 
 const Cart: FC = () => {
-    const DELIVERY_COST = 100;
+    const DELIVERY_COST = Number(import.meta.env.VITE_DELIVERY_COST) || 100;
     const [rendered, setRendered] = useState(false);
 
     const dispatch = useDispatch();
@@ -36,7 +37,7 @@ const Cart: FC = () => {
         return (
             <div className={style.EmptyCart}>
                 <img
-                    src={emptyCart}
+                    src={emptyCartIcon}
                     alt='Empty cart'
                     className={style.EmptyCart_Img}
                 />
@@ -51,6 +52,10 @@ const Cart: FC = () => {
         dispatch(closeCart());
     });
 
+    const clearTitleClickHandler = () => {
+        dispatch(emptyCart());
+    }
+
     const renderCart = (cart: ICartItem[]) => {
         return (
             <>
@@ -59,7 +64,7 @@ const Cart: FC = () => {
                 </div>
                 <hr />
                 <CartCost
-                    orderCost={500}
+                    orderCost={countFoodItemsCost(cart)}
                     deliveryCost={DELIVERY_COST}
                 />
                 <button className={style.PayButton}>
@@ -81,7 +86,12 @@ const Cart: FC = () => {
             >
                 <div className={style.Header}>
                     <h1 className={style.Cart_Title}> Корзина </h1>
-                    <h2 className={style.Clear_Title}> Очистить </h2>
+                    <div 
+                        className={style.Clear_Title}
+                        onClick = {clearTitleClickHandler}
+                    > 
+                        Очистить 
+                    </div>
                 </div>
 
                 {cart.length > 0 ? renderCart(cart) : renderEmptyCart()}
