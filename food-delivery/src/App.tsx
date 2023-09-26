@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { cartItems } from './data';
-import { useAppSelector } from './redux/hooks';
+import { useSelector } from 'react-redux';
+import { selectFoodDetails, selectShowCart } from './redux/applicationSlice';
 import Header from './components/Header/Header';
 import Menu from './components/Menu/Menu';
 import Cart from './components/Cart/Cart';
@@ -8,14 +8,14 @@ import style from './App.module.scss';
 import FoodDetails from './components/FoodDetails/FoodDetails';
 
 const App: FC = () => {
-  const showCart = useAppSelector((state) => state.application.showCart);
-  const foodDetails = useAppSelector((state) => state.application.foodDetails);
+  const showCart = useSelector(selectShowCart);
+  const foodDetails = useSelector(selectFoodDetails);
 
   return (
     <div className={style.App}>
       <Header />
       <Menu />
-      {showCart && <Cart cartItems={cartItems} />}
+      {showCart && <Cart />}
       {foodDetails && <FoodDetails foodItem={foodDetails} />}
     </div>
   );

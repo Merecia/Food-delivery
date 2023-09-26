@@ -1,11 +1,11 @@
-import { FC } from 'react';
+import { FC, useState, useEffect } from 'react';
 import { IFood } from '../../types';
 import { Carousel } from 'react-responsive-carousel';
 import { closeFoodDetails } from '../../redux/applicationSlice';
 import { useDispatch } from 'react-redux';
+import { useOutsideClick } from '../../hooks/useOutsideClick';
 import style from './FoodDetails.module.scss';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { useOutsideClick } from '../../hooks/useOutsideClick';
 
 interface IFoodDetailsProps {
     foodItem: IFood;
@@ -14,11 +14,20 @@ interface IFoodDetailsProps {
 const FoodDetails: FC<IFoodDetailsProps> = ({ foodItem }) => {
     const { name, imagesURL, weight, description, price } = foodItem;
 
+    const [rendered, setRendered] = useState(false);
     const dispatch = useDispatch();
 
-    const renderImage = (imageURL: string) => {
+    useEffect(() => {
+        setRendered(true);
+    }, []);
+
+    const renderImage = (imageURL: string, index?: number) => {
         return (
-            <img src={imageURL} className={style.Image} />
+            <img
+                src={imageURL}
+                className={style.Image}
+                key={index}
+            />
         );
     }
 
@@ -26,10 +35,18 @@ const FoodDetails: FC<IFoodDetailsProps> = ({ foodItem }) => {
         return (
             <div style={{ width: '30vw', height: '60vh' }}>
                 <Carousel useKeyboardArrows dynamicHeight showThumbs={false}>
-                    {imagesURL.map(imageURL => renderImage(imageURL))}
+                    {
+                        imagesURL.map(
+                            (imageURL, index) => renderImage(imageURL, index)
+                        )
+                    }
                 </Carousel>
             </div>
         );
+    }
+    
+    const closeIconClickHandler = () => {
+        dispatch(closeFoodDetails());
     }
 
     const ref = useOutsideClick(() => {
@@ -37,11 +54,18 @@ const FoodDetails: FC<IFoodDetailsProps> = ({ foodItem }) => {
     });
 
     return (
-        <div className={style.Substrate}>
-            <div className={style.FoodDetails} ref = {ref}>
+        <div
+            className={style.Substrate}
+            style={{ opacity: rendered ? '1' : '0' }}
+        >
+            <div
+                className={style.FoodDetails}
+                style={{ transform: rendered ? 'scaleY(1)' : 'null' }}
+                ref={ref}
+            >
                 <div
                     className={style.CloseIcon}
-                    onClick={() => dispatch(closeFoodDetails())}
+                    onClick={closeIconClickHandler}
                 >
                 </div>
                 <div className={style.LeftSide}>

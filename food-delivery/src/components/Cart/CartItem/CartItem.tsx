@@ -1,7 +1,9 @@
 import { FC, CSSProperties } from 'react';
 import { ICartItem } from '../../../types';
-import { amountFormatting } from '../../../utils/helper';
 import style from './CartItem.module.scss';
+import Counter from '../../Counter/Counter';
+import { useDispatch } from 'react-redux';
+import { decreaseFoodAmountInCart, increaseFoodAmountInCart } from '../../../redux/applicationSlice';
 
 interface ICartItemProps {
     cartItem: ICartItem;
@@ -11,6 +13,16 @@ interface ICartItemProps {
 const CartItem: FC<ICartItemProps> = ({ cartItem, css }) => {
     const { foodItem, amount } = cartItem;
     const { imagesURL, name, price, weight } = foodItem;
+    
+    const dispatch = useDispatch();
+
+    const increaseButtonClickHandler = () => {
+        dispatch(increaseFoodAmountInCart(cartItem.foodItem));
+    }
+
+    const decreaseButtonClickHandler = () => {
+        dispatch(decreaseFoodAmountInCart(cartItem.foodItem));
+    }
 
     return (
         <div className={style.CartItem} style={css}>
@@ -30,19 +42,12 @@ const CartItem: FC<ICartItemProps> = ({ cartItem, css }) => {
                 </div>
             </div>
             <div className={style.RightSide}>
-                <button
-                    className={style.Decrease}
-                >
-                    ꟷ
-                </button>
-                <span className={style.Counter}>
-                    {amountFormatting(amount)}
-                </span>
-                <button
-                    className={style.Increase}
-                >
-                    🞣
-                </button>
+                <Counter
+                    amount={amount}
+                    increaseButtonClickHandler={increaseButtonClickHandler}
+                    decreaseButtonClickHandler={decreaseButtonClickHandler}
+                    css = {{ width: '150px' }}
+                />
             </div>
         </div>
     );

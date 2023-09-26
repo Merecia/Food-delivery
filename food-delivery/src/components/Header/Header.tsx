@@ -1,17 +1,24 @@
 import { FC } from 'react';
-import { useDispatch } from 'react-redux';
-import { openCart } from '../../redux/applicationSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { openCart, selectCart } from '../../redux/applicationSlice';
 import style from './Header.module.scss';
 import logo from '../../assets/images/logo.svg';
 import avatar from '../../assets/images/avatar.svg';
 import menu from '../../assets/images/menu.svg';
-import cart from '../../assets/images/cart.svg';
+import cartIcon from '../../assets/images/cartIcon.svg';
+import { countFoodItemsInCart } from '../../utils/helper';
 
 const Header: FC = () => {
     const dispatch = useDispatch();
+    const cart = useSelector(selectCart);
+    const foodItemsAmount = countFoodItemsInCart(cart);
+
+    const cartIconClickHandler = () => {
+        dispatch(openCart());
+    }
 
     return (
-        <header className = {style.Header}>
+        <header className={style.Header}>
             <img src={logo} alt="logo" className={style.Logo} />
             <div className={style.Search}>
                 <input
@@ -20,27 +27,30 @@ const Header: FC = () => {
                     className={style.SearchInput}
                 />
             </div>
-            <div 
-                className={style.Cart} 
-                onClick = {() => dispatch(openCart())}
+            <div
+                className={style.Cart}
+                onClick={cartIconClickHandler}
             >
-                <img 
-                    src={cart} 
-                    alt="cartIcon" 
-                    className = {style.Cart_Icon}
+                <img
+                    src={cartIcon}
+                    alt="cartIcon"
+                    className={style.Cart_Icon}
                 />
-                <div className = {style.Cart_Counter}>
-                    <span> 3 </span>
-                </div>
+                {
+                    foodItemsAmount > 0 &&
+                    <div className={style.Cart_Counter}>
+                        <span> {foodItemsAmount} </span>
+                    </div>
+                }
             </div>
             <div className={style.Profile} >
                 <img src={avatar} alt="avatar" className={style.Avatar} />
             </div>
             <div className={style.ToggleMenu}>
-                <img 
-                    src={menu} 
-                    alt="menu" 
-                    className={style.MenuIcon} 
+                <img
+                    src={menu}
+                    alt="menu"
+                    className={style.MenuIcon}
                 />
             </div>
         </header>

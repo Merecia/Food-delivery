@@ -1,6 +1,5 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import applicationReducer from './applicationSlice';
-import counterReducer from './counterSlice';
 import {
     persistStore,
     persistReducer,
@@ -20,8 +19,7 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({ 
-    application: applicationReducer,
-    counter: counterReducer
+    application: applicationReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -37,9 +35,7 @@ export const store = configureStore({
     }
 });
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;
 
 export const persistor = persistStore(store);
