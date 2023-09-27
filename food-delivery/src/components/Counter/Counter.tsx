@@ -4,8 +4,8 @@ import style from './Counter.module.scss';
 
 interface ICounterProps {
     amount: number;
-    decreaseButtonClickHandler: () => void;
-    increaseButtonClickHandler: () => void;
+    decreaseButtonClickHandler: (event: React.MouseEvent<HTMLElement>) => void;
+    increaseButtonClickHandler: (event: React.MouseEvent<HTMLElement>) => void;
     css?: CSSProperties;
 }
 

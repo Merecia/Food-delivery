@@ -1,9 +1,16 @@
 import { FC, useState, useEffect } from 'react';
-import { IFood } from '../../types';
+import { ICartItem, IFood } from '../../types';
 import { Carousel } from 'react-responsive-carousel';
 import { closeFoodDetails } from '../../redux/applicationSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useOutsideClick } from '../../hooks/useOutsideClick';
+import {
+    addFoodToCart,
+    decreaseFoodAmountInCart,
+    increaseFoodAmountInCart,
+    selectCart
+} from '../../redux/cartSlice';
+import Counter from '../Counter/Counter';
 import style from './FoodDetails.module.scss';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
@@ -16,6 +23,9 @@ const FoodDetails: FC<IFoodDetailsProps> = ({ foodItem }) => {
 
     const [rendered, setRendered] = useState(false);
     const dispatch = useDispatch();
+
+    const cart = useSelector(selectCart);
+    const cartItem = cart.find((cartItem) => cartItem.foodItem.id === foodItem.id);
 
     useEffect(() => {
         setRendered(true);
@@ -33,7 +43,7 @@ const FoodDetails: FC<IFoodDetailsProps> = ({ foodItem }) => {
 
     const renderCarousel = (imagesURL: string[]) => {
         return (
-            <div style={{ width: '30vw', height: '60vh' }}>
+            <div style={{ width: '30vw', height: '100%' }}>
                 <Carousel useKeyboardArrows dynamicHeight showThumbs={false}>
                     {
                         imagesURL.map(
@@ -44,7 +54,26 @@ const FoodDetails: FC<IFoodDetailsProps> = ({ foodItem }) => {
             </div>
         );
     }
-    
+
+    const addToCartButtonClickHandler = (event: React.MouseEvent<HTMLElement>) => {
+        event.stopPropagation();
+        dispatch(addFoodToCart(foodItem));
+    }
+
+    const increaseFoodAmountClickHandler = (event: React.MouseEvent<HTMLElement>) => {
+        event.stopPropagation();
+        dispatch(
+            increaseFoodAmountInCart((cartItem as ICartItem).foodItem)
+        );
+    }
+
+    const decreaseFoodAmountClickHandler = (event: React.MouseEvent<HTMLElement>) => {
+        event.stopPropagation();
+        dispatch(
+            decreaseFoodAmountInCart((cartItem as ICartItem).foodItem)
+        );
+    }
+
     const closeIconClickHandler = () => {
         dispatch(closeFoodDetails());
     }
@@ -83,10 +112,28 @@ const FoodDetails: FC<IFoodDetailsProps> = ({ foodItem }) => {
                         <p className={style.Description_Text}> {description} </p>
                     </div>
                     <div className={style.PriceAddingButton}>
-                        <h3 className={style.Price}> {price} ₴ </h3>
-                        <button className={style.AddingButton}>
-                            Добавить
-                        </button>
+                        <h3 className={style.Price}>
+                            {
+                                cartItem
+                                    ? `${cartItem.foodItem.price * cartItem.amount} ₴`
+                                    : `${price} ₴`
+                            }
+                        </h3>
+                        {
+                            cartItem
+                                ? <Counter
+                                    amount={cartItem.amount}
+                                    increaseButtonClickHandler={increaseFoodAmountClickHandler}
+                                    decreaseButtonClickHandler={decreaseFoodAmountClickHandler}
+                                    css={{ width: '50%' }}
+                                />
+                                : <button
+                                    className={style.AddingButton}
+                                    onClick={addToCartButtonClickHandler}
+                                >
+                                    Добавить
+                                </button>
+                        }
                     </div>
                 </div>
             </div>

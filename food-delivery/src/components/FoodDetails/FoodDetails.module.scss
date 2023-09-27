@@ -18,6 +18,7 @@ $lightGray: #9E9B98;
         padding: 20px;
         border-radius: 20px;
         background-color: white;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2), 0 4px 6px rgba(0, 0, 0, 0.2);
         width: 70vw;
         height: 65vh;
         overflow: auto;
@@ -29,12 +30,14 @@ $lightGray: #9E9B98;
 
             .Image {
                 width: 30vw;
-                height: 60vh;
+                height: 65vh;
                 border-radius: 20px;
             }
         }
 
         .RightSide {
+            width: 100%;
+
             .Name {
                 font-weight: 600;
                 font-size: 20px;
@@ -49,7 +52,7 @@ $lightGray: #9E9B98;
             }
 
             .Description {
-                margin-bottom: 14rem;
+                height: 70%;
 
                 .Description_Title {
                     font-weight: 400;
@@ -65,6 +68,8 @@ $lightGray: #9E9B98;
             .PriceAddingButton {
                 display: flex;
                 align-items: center;
+                justify-content: space-between;
+                width: 100%;
 
                 .Price {
                     width: 10vw;

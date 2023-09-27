@@ -1,9 +1,15 @@
 import { FC, CSSProperties } from 'react';
-import { IFood } from '../../types';
-import { useDispatch } from 'react-redux';
+import { ICartItem, IFood } from '../../types';
+import { useDispatch, useSelector } from 'react-redux';
 import { openFoodDetails } from '../../redux/applicationSlice';
-import { addFoodToCart } from '../../redux/cartSlice';
+import { 
+    addFoodToCart, 
+    decreaseFoodAmountInCart, 
+    increaseFoodAmountInCart, 
+    selectCart 
+} from '../../redux/cartSlice';
 import style from './FoodCard.module.scss';
+import Counter from '../Counter/Counter';
 
 interface IFoodCardProps {
     foodItem: IFood;
@@ -15,13 +21,30 @@ const FoodCard: FC<IFoodCardProps> = ({ foodItem, css }) => {
 
     const dispatch = useDispatch();
 
+    const cart = useSelector(selectCart);
+    const cartItem = cart.find((cartItem) => cartItem.foodItem.id === foodItem.id);
+
     const cardClickHandler = () => {
         dispatch(openFoodDetails(foodItem));
     }
 
-    const addingButtonClickHandler = (event: React.MouseEvent<HTMLElement>) => {
+    const addToCartButtonClickHandler = (event: React.MouseEvent<HTMLElement>) => {
         event.stopPropagation();
         dispatch(addFoodToCart(foodItem));
+    }
+
+    const increaseFoodAmountClickHandler = (event: React.MouseEvent<HTMLElement>) => {
+        event.stopPropagation();
+        dispatch(
+            increaseFoodAmountInCart((cartItem as ICartItem).foodItem)
+        );
+    }
+
+    const decreaseFoodAmountClickHandler = (event: React.MouseEvent<HTMLElement>) => {
+        event.stopPropagation();
+        dispatch(
+            decreaseFoodAmountInCart((cartItem as ICartItem).foodItem)
+        );
     }
 
     return (
@@ -31,19 +54,28 @@ const FoodCard: FC<IFoodCardProps> = ({ foodItem, css }) => {
             onClick={cardClickHandler}
         >
             <img
-                className={style.Image} 
+                className={style.Image}
                 src={imagesURL[0]}
                 alt={`${name}_img`}
             />
             <p className={style.Price}> ₴ {price} </p>
             <p className={style.Name}> {name} </p>
             <p className={style.Weight}> {weight} грамм </p>
-            <button 
-                className={style.AddingButton}
-                onClick = {addingButtonClickHandler}
-            >
-                Добавить
-            </button>
+            {
+                cartItem
+                    ? <Counter
+                        amount={cartItem.amount}
+                        increaseButtonClickHandler={increaseFoodAmountClickHandler}
+                        decreaseButtonClickHandler={decreaseFoodAmountClickHandler}
+                        css={{ width: '100%', paddingTop: '10px' }}
+                    />
+                    : <button
+                        className={style.AddingButton}
+                        onClick={addToCartButtonClickHandler}
+                    >
+                        Добавить
+                    </button>
+            }
         </div>
     );
 }

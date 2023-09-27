@@ -4,7 +4,6 @@ $orange: #FE724C;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    // width: 100px;
 
     .Decrease,
     .Increase {
@@ -17,11 +16,6 @@ $orange: #FE724C;
         justify-content: center;
         align-items: center;
         cursor: pointer;
-
-        &:hover {
-            box-shadow: rgba(80, 63, 205, 0.5) 0 1px 30px;
-            transition-duration: .1s;
-        }
     }
 
     .Decrease {

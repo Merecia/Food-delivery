@@ -27,7 +27,7 @@ export const applicationSlice = createSlice({
       const foodItem = action.payload;
       const cartItemIndex = findCartItemIndex(foodItem, state.cart);
 
-      if (cartItemIndex) state.cart[cartItemIndex].amount += 1;
+      if (cartItemIndex !== undefined) state.cart[cartItemIndex].amount += 1;
       else state.cart.push({ foodItem, amount: 1 });
     },
     emptyCart: (state) => {
