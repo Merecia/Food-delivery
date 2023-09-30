@@ -1,4 +1,4 @@
-import { ICartItem, IFood } from "../types";
+import { ICartItem, IFood, IRegistrationData } from "../types";
 
 export const amountFormatting = (amount: number): string => {
     let formattedAmount = String(amount);
@@ -40,4 +40,13 @@ export const countFoodItemsCost = (cart: ICartItem[]) => {
     }
 
     return cost;
+}
+
+export const isRegistrationData = (data: any): data is IRegistrationData => {
+    return (
+        'firstName' in data && 
+        'lastName' in data && 
+        'email' in data && 
+        'password' in data
+    );
 }

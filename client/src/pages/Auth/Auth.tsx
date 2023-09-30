@@ -1,7 +1,11 @@
-import { FC, useState } from 'react';
+import { FC, useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { TextField, Button, Typography } from '@mui/material';
 import { Snackbar, Alert } from '@mui/material';
+import { auth, selectAuthStatus, selectError, setError } from '../../redux/authSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch } from '../../redux/store';
+import { useNavigate } from 'react-router-dom';
 import style from './Auth.module.scss';
 
 const Auth: FC = () => {
@@ -20,23 +24,26 @@ const Auth: FC = () => {
     });
 
     const [signUp, setSignUp] = useState(false);
-    const [errorAlert, setErrorAlert] = useState<string | null>(null);
+    const dispatch = useDispatch<AppDispatch>();
+    const error = useSelector(selectError);
+    const authStatus = useSelector(selectAuthStatus);
+    const navigate = useNavigate();
+
+    const RED = '#dc3545';
+    const BLUE = '#1877f2';
 
     const renderErrorAlert = (message: string) => (
         <Snackbar
-            open={errorAlert !== null}
+            open={error !== null}
             autoHideDuration={6000}
-            onClose={() => setErrorAlert(null)}
+            onClose={() => dispatch(setError(null))}
             anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         >
-            <Alert onClose={() => setErrorAlert(null)} severity="error">
+            <Alert onClose={() => dispatch(setError(null))} severity="error">
                 {message}
             </Alert>
         </Snackbar>
     )
-
-    const RED = '#dc3545';
-    const BLUE = '#1877f2';
 
     const renderSignInLabel = () => {
         return (
@@ -73,7 +80,7 @@ const Auth: FC = () => {
                     size='small'
                     {
                         ...register(
-                            'firstName', 
+                            'firstName',
                             { required: "First name is required" }
                         )
                     }
@@ -87,7 +94,7 @@ const Auth: FC = () => {
                     size='small'
                     {
                         ...register(
-                            'lastName', 
+                            'lastName',
                             { required: "Last name is required" }
                         )
                     }
@@ -132,20 +139,28 @@ const Auth: FC = () => {
         password,
         confirmPassword
     }) => {
-        if (password !== confirmPassword) {
-            setErrorAlert(`The passwords don't match`);
+        if (signUp) {
+            if (password !== confirmPassword) {
+                dispatch(
+                    setError(`The passwords don't match`)
+                );
+            } else {
+                dispatch(
+                    auth({ firstName, lastName, email, password })
+                );
+            }            
         } else {
-            console.log(
-                firstName, 
-                lastName, 
-                email, 
-                password, 
-                confirmPassword
+            dispatch(
+                auth({ email, password })
             );
-
-            // There is the logic for auth...
         }
     })
+
+    useEffect(() => {
+        if (authStatus === 'succeeded') {
+            navigate('/');
+        }
+    }, [authStatus]);
 
     return (
         <div className={style.Substrate}>
@@ -153,7 +168,7 @@ const Auth: FC = () => {
                 className={style.AuthForm}
                 onSubmit={handleAuth}
             >
-                {errorAlert && renderErrorAlert(errorAlert)}
+                {error && renderErrorAlert(error)}
 
                 <Typography
                     variant={'h5'}
@@ -172,16 +187,16 @@ const Auth: FC = () => {
                     size='small'
                     fullWidth
                     {
-                        ...register(
-                            'email', 
-                            {
-                                required: "Email is required",
-                                pattern: {
-                                    value: /\S+@\S+\.\S+/,
-                                    message: "Entered value does not match email format",
-                                }
+                    ...register(
+                        'email',
+                        {
+                            required: "Email is required",
+                            pattern: {
+                                value: /\S+@\S+\.\S+/,
+                                message: "Entered value does not match email format",
                             }
-                        )
+                        }
+                    )
                     }
                     sx={{ marginBottom: '20px' }}
                     error={errors.email?.message !== undefined}
@@ -229,6 +244,7 @@ const Auth: FC = () => {
                     type='submit'
                     fullWidth
                     sx={{ marginBottom: '20px' }}
+                    disabled = {authStatus === 'pending'}
                 >
                     {signUp ? 'Sign Up' : 'Sign In'}
                 </Button>

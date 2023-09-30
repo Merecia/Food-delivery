@@ -2,7 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
-import userRouter from './routes/auth.js';
+import authRouter from './routes/auth.js';
 
 const corsOptions = {
     origin: "*",
@@ -28,7 +28,7 @@ const app = express();
 
 app.use(cors(corsOptions));
 app.use(express.json());
-app.use('/auth', userRouter);
+app.use('/auth', authRouter);
 
 app.listen(PORT, (error) => {
     if (error) {

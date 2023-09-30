@@ -16,4 +16,27 @@ export interface IFood {
 export interface ICartItem {
     foodItem: IFood;
     amount: number;
+};
+
+export interface ILoginData {
+    email: string;
+    password: string;
+}
+
+export interface IRegistrationData {
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+}
+
+export interface IUser {
+    _id: string;
+    email: string;
+    isAdmin: boolean;
+    createdAt: string;
+    updatedAt: string;
+    firstName: string;
+    lastName: string;
+    accessToken: string;
 }
