@@ -5,12 +5,14 @@ export interface ICategory {
 };
 
 export interface IFood {
-    id: string, 
-    imagesURL: string[], 
-    name: string, 
-    description: string,
-    weight: number, 
-    price: number
+    id: string; 
+    imagesURL: string[];
+    category: string;
+    name: string;
+    description: string;
+    weight: number;
+    price: number;
+    inStock: boolean;
 };
 
 export interface ICartItem {
