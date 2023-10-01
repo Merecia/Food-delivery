@@ -2,8 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
-import authRouter from './routes/auth.js';
-import categoryRouter from './routes/category.js';
+import { authRouter, categoryRouter, foodRouter } from './routes/index.js';
 
 const corsOptions = {
     origin: "*",
@@ -32,11 +31,9 @@ app.use(express.json());
 
 app.use('/auth', authRouter);
 app.use('/categories', categoryRouter);
+app.use('/food', foodRouter);
 
 app.listen(PORT, (error) => {
-    if (error) {
-        console.log(error);
-    }
-
-    console.log(`Server is running on port ${PORT}`);
+    if (error) console.log(error);
+    else console.log(`Server is running on port ${PORT}`);
 });

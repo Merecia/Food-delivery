@@ -33,7 +33,7 @@ export const remove = async (request, response) => {
     }
 }
 
-export const getOne = async (request, response) => {
+export const getById = async (request, response) => {
     try {
         const category = await Category.findById(request.params.id);
         response.status(200).json(category);
