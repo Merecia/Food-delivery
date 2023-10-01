@@ -1,9 +1,8 @@
 import Category from '../models/Category.js';
 
 export const create = async (request, response) => {
-    const category = new Category(request.body);
-
     try {
+        const category = new Category(request.body);
         const savedCategory = await category.save();
         response.status(200).json(savedCategory);
     } catch (error) {
