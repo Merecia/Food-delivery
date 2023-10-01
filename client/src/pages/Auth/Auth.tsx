@@ -32,6 +32,10 @@ const Auth: FC = () => {
     const RED = '#dc3545';
     const BLUE = '#1877f2';
 
+    const MIN_PASSWORD_LENGTH = parseInt(import.meta.env.VITE_MIN_PASSWORD_LENGTH || '5');
+    const MIN_NAME_LENGTH = parseInt(import.meta.env.VITE_MIN_NAME_LENGTH || '3');
+    const MAX_NAME_LENGTH = parseInt(import.meta.env.VITE_MAX_NAME_LENGTH || '35');
+
     const renderErrorAlert = (message: string) => (
         <Snackbar
             open={error !== null}
@@ -39,7 +43,7 @@ const Auth: FC = () => {
             onClose={() => dispatch(setError(null))}
             anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         >
-            <Alert onClose={() => dispatch(setError(null))} severity="error">
+            <Alert onClose={() => dispatch(setError(null))} severity='error'>
                 {message}
             </Alert>
         </Snackbar>
@@ -49,8 +53,8 @@ const Auth: FC = () => {
         return (
             <>
                 <Typography
-                    variant={"h6"}
-                    component={"h6"}
+                    variant={'h6'}
+                    component={'h6'}
                     fontWeight={'300'}
                     sx={{ marginRight: '15px' }}
                 >
@@ -75,13 +79,25 @@ const Auth: FC = () => {
         return (
             <div className={style.NameFields}>
                 <TextField
-                    placeholder="Enter a first name"
+                    placeholder='Enter a first name'
                     autoComplete={'off'}
                     size='small'
                     {
                         ...register(
                             'firstName',
-                            { required: "First name is required" }
+                            { 
+                                required: 'First name is required',
+                                minLength: {
+                                    value: MIN_NAME_LENGTH,
+                                    message: `First name must contain at least 
+                                    ${MIN_NAME_LENGTH} characters`
+                                },
+                                maxLength: {
+                                    value: MAX_NAME_LENGTH,
+                                    message: `First name can't be longer than
+                                    ${MAX_NAME_LENGTH} characters`
+                                } 
+                            }
                         )
                     }
                     sx={{ width: '48%' }}
@@ -89,13 +105,25 @@ const Auth: FC = () => {
                     helperText={errors.firstName?.message}
                 />
                 <TextField
-                    placeholder="Enter a last name"
+                    placeholder='Enter a last name'
                     autoComplete={'off'}
                     size='small'
                     {
                         ...register(
                             'lastName',
-                            { required: "Last name is required" }
+                            { 
+                                required: 'Last name is required',
+                                minLength: {
+                                    value: MIN_NAME_LENGTH,
+                                    message: `Last name must contain at least 
+                                    ${MIN_NAME_LENGTH} characters`
+                                },
+                                maxLength: {
+                                    value: MAX_NAME_LENGTH,
+                                    message: `Last name can't be longer than
+                                    ${MAX_NAME_LENGTH} characters`
+                                } 
+                            }
                         )
                     }
                     sx={{ width: '48%' }}
@@ -183,20 +211,20 @@ const Auth: FC = () => {
                 {signUp && renderFullNameFields()}
 
                 <TextField
-                    placeholder="Enter an email"
+                    placeholder='Enter an email'
                     size='small'
                     fullWidth
                     {
-                    ...register(
-                        'email',
-                        {
-                            required: "Email is required",
-                            pattern: {
-                                value: /\S+@\S+\.\S+/,
-                                message: "Entered value does not match email format",
+                        ...register(
+                            'email',
+                            {
+                                required: 'Email is required',
+                                pattern: {
+                                    value: /\S+@\S+\.\S+/,
+                                    message: 'Entered value does not match email format',
+                                }
                             }
-                        }
-                    )
+                        )
                     }
                     sx={{ marginBottom: '20px' }}
                     error={errors.email?.message !== undefined}
@@ -211,7 +239,14 @@ const Auth: FC = () => {
                     {
                         ...register(
                             'password',
-                            { required: 'Password is required' }
+                            { 
+                                required: 'Password is required',
+                                minLength: {
+                                    value: MIN_PASSWORD_LENGTH,
+                                    message: `Password must contain at least 
+                                    ${MIN_PASSWORD_LENGTH} characters`
+                                } 
+                            }
                         )
                     }
                     sx={{ marginBottom: '20px' }}
