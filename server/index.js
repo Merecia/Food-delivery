@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import authRouter from './routes/auth.js';
+import categoryRouter from './routes/category.js';
 
 const corsOptions = {
     origin: "*",
@@ -28,7 +29,9 @@ const app = express();
 
 app.use(cors(corsOptions));
 app.use(express.json());
+
 app.use('/auth', authRouter);
+app.use('/categories', categoryRouter);
 
 app.listen(PORT, (error) => {
     if (error) {
