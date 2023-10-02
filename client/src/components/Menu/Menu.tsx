@@ -1,11 +1,34 @@
-import { FC } from 'react'
-import { categories, foodList } from '../../data';
+import { FC, useEffect } from 'react'
+import { categories } from '../../data';
 import { ICategory, IFood } from '../../types';
+import { useSelector } from 'react-redux';
+import { selectCategoryId } from '../../redux/mainPageSlice';
+import { 
+    fetchFoodList, 
+    selectError, 
+    selectFoodList, 
+    selectLoading 
+} from '../../redux/foodSlice';
 import style from './Menu.module.scss';
 import FoodCard from '../FoodCard/FoodCard';
 import Category from '../CategoryButton/CategoryButton';
+import { useAppDispatch } from '../../redux/hooks';
 
 const Menu: FC = () => {
+    const foodList = useSelector(selectFoodList);
+    const error = useSelector(selectError);
+    const loading = useSelector(selectLoading);
+    const categoryId = useSelector(selectCategoryId);
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        if (categoryId) {
+            dispatch(
+                fetchFoodList(categoryId)
+            );
+        }
+    }, [categoryId]);
+
     const renderFoodCard = (foodItem: IFood, index: number) => {
         return (
             <FoodCard
@@ -40,13 +63,21 @@ const Menu: FC = () => {
         );
     }
 
+    if (loading) {
+        return 'Loading';
+    }
+
+    if (error) {
+        return 'Error';
+    }
+
     return (
         <div className={style.Menu}>
             <div className={style.Categories}>
                 {renderCategoryButtons(categories)}
             </div>
             <div className={style.FoodCards}>
-                {renderFoodCards(foodList)}
+                {foodList && renderFoodCards(foodList)}
             </div>
         </div>
     );

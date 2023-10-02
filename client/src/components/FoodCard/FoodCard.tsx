@@ -1,7 +1,7 @@
 import { FC, CSSProperties } from 'react';
 import { ICartItem, IFood } from '../../types';
 import { useDispatch, useSelector } from 'react-redux';
-import { openFoodDetails } from '../../redux/applicationSlice';
+import { openFoodDetails } from '../../redux/mainPageSlice';
 import { 
     addFoodToCart, 
     decreaseFoodAmountInCart, 

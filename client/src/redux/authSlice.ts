@@ -1,5 +1,5 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { publicRequest } from "../routes";
+import { publicRequest } from "../httpRequests";
 import { ILoginData, IRegistrationData, IUser } from "../types";
 import { RootState } from "./store";
 import { AxiosError } from "axios";
@@ -12,13 +12,13 @@ type AuthError = {
 interface AuthState {
     user: IUser | null;
     error: string | null;
-    authStatus: 'idle' | 'pending' | 'succeeded' | 'failed'
+    loading: boolean;
 };
 
 const initialState: AuthState = {
     user: null,
     error: null,
-    authStatus: 'idle',
+    loading: false,
 };
 
 export const auth = createAsyncThunk<
@@ -54,25 +54,27 @@ export const authSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(auth.pending, (state) => {
-            state.authStatus = 'pending';
+            state.loading = true;
             state.error = null;
         });
         builder.addCase(auth.fulfilled, (state, action: PayloadAction<IUser>) => {
             state.user = action.payload;
-            state.authStatus = 'succeeded';
+            state.loading = false;
             state.error = null;
         });
         builder.addCase(auth.rejected, (
             state, action: PayloadAction<AuthError | undefined>
         ) => {
-            state.authStatus = 'failed';
-            if (action.payload) state.error = action.payload.message;
+            state.loading = false;
+            if (action.payload) {
+                state.error = action.payload.message;
+            }
         });
     }
 });
 
 export const selectUser = (state: RootState) => state.auth.user;
-export const selectAuthStatus = (state: RootState) => state.auth.authStatus;
+export const selectLoading = (state: RootState) => state.auth.loading;
 export const selectError = (state: RootState) => state.auth.error;
 
 export const { setError } = authSlice.actions;

@@ -9,9 +9,10 @@ import {
     PURGE,
     REGISTER,
 } from 'redux-persist';
-import applicationReducer from './applicationSlice';
+import menuReducer from './mainPageSlice';
 import cartReducer from './cartSlice';
 import authReducer from './authSlice';
+import foodReducer from './foodSlice';
 import storage from 'redux-persist/lib/storage';
 
 const persistConfig = {
@@ -21,9 +22,10 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({ 
-    application: applicationReducer,
+    menu: menuReducer,
     cart: cartReducer,
-    auth: authReducer
+    auth: authReducer,
+    food: foodReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -2,10 +2,16 @@ import { FC, useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { TextField, Button, Typography } from '@mui/material';
 import { Snackbar, Alert } from '@mui/material';
-import { auth, selectAuthStatus, selectError, setError } from '../../redux/authSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch } from '../../redux/store';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../../redux/hooks';
+import { 
+    auth, 
+    selectLoading, 
+    selectError, 
+    setError, 
+    selectUser 
+} from '../../redux/authSlice';
 import style from './Auth.module.scss';
 
 const Auth: FC = () => {
@@ -24,9 +30,10 @@ const Auth: FC = () => {
     });
 
     const [signUp, setSignUp] = useState(false);
-    const dispatch = useDispatch<AppDispatch>();
+    const dispatch = useAppDispatch();
     const error = useSelector(selectError);
-    const authStatus = useSelector(selectAuthStatus);
+    const loading = useSelector(selectLoading);
+    const user = useSelector(selectUser);
     const navigate = useNavigate();
 
     const RED = '#dc3545';
@@ -185,10 +192,10 @@ const Auth: FC = () => {
     })
 
     useEffect(() => {
-        if (authStatus === 'succeeded') {
+        if (user) {
             navigate('/');
         }
-    }, [authStatus]);
+    }, [user]);
 
     return (
         <div className={style.Substrate}>
@@ -279,7 +286,7 @@ const Auth: FC = () => {
                     type='submit'
                     fullWidth
                     sx={{ marginBottom: '20px' }}
-                    disabled = {authStatus === 'pending'}
+                    disabled = {loading}
                 >
                     {signUp ? 'Sign Up' : 'Sign In'}
                 </Button>

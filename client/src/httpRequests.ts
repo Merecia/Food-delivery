@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-const SERVER_URL = import.meta.env.VITE_SERVER_URL || "http://localhost:5000";
+const SERVER_URL = import.meta.env.VITE_SERVER_URL || 'http://localhost:5000';
 
-const storage = localStorage.getItem("persist:root");
+const storage = localStorage.getItem('persist:root');
 const user = storage && JSON.parse(storage)?.user;
 const currentUser = user && JSON.parse(user).currentUser;
 const TOKEN = currentUser?.accessToken;
