@@ -35,7 +35,18 @@ export const remove = async (request, response) => {
 
 export const getById = async (request, response) => {
     try {
+        console.log(request.params.id);
         const food = await Food.findById(request.params.id);
+        response.status(200).json(food);
+    } catch (error) {
+        response.status(500).json(error);
+    }
+}
+
+export const getByCategory = async (request, response) => {
+    try {
+        const category = request.params.category;
+        const food = await Food.find({ category });
         response.status(200).json(food);
     } catch (error) {
         response.status(500).json(error);
@@ -44,7 +55,20 @@ export const getById = async (request, response) => {
 
 export const getAll = async (request, response) => {
     try {
-        const food = await Food.find();
+        const query = request.query.query;
+
+        let food;
+        if (query) {
+            food = await Food.find({
+                $or: [
+                    { 'name': new RegExp(query, 'i') },
+                    { 'description': new RegExp(query, 'i') }
+                ]
+            });
+        } else {
+            food = await Food.find();
+        }
+
         response.status(200).json(food);
     } catch (error) {
         response.status(500).json(error);

@@ -2,6 +2,7 @@ import express from 'express';
 import { 
     create, 
     getAll, 
+    getByCategory, 
     getById,
     remove, 
     update 
@@ -11,6 +12,7 @@ const foodRouter = express.Router();
 
 foodRouter.get('/', getAll);
 foodRouter.get('/:id', getById);
+foodRouter.get('/:category/category', getByCategory);
 foodRouter.post('/', create);
 foodRouter.delete('/:id', remove);
 foodRouter.put('/:id', update);
