@@ -3,7 +3,6 @@ import { publicRequest } from "../httpRequests";
 import { ILoginData, IRegistrationData, IUser } from "../types";
 import { RootState } from "./store";
 import { AxiosError } from "axios";
-import { isRegistrationData } from "../utils/helper";
 
 type AuthError = {
     message: string;
@@ -21,18 +20,35 @@ const initialState: AuthState = {
     loading: false,
 };
 
-export const auth = createAsyncThunk<
+export const registration = createAsyncThunk<
     IUser,
-    IRegistrationData | ILoginData,
+    IRegistrationData,
     { rejectValue: AuthError }
 > (
-    'auth',
-    async (authData: IRegistrationData | ILoginData, { rejectWithValue }) => {
+    'auth/register',
+    async (registrationData: IRegistrationData, { rejectWithValue }) => {
         try {
-            const response = isRegistrationData(authData)
-                ? await publicRequest.post('/auth/register', authData)
-                : await publicRequest.post('/auth/login', authData);
+            const response = await publicRequest.post('/auth/register', registrationData);
+            return response.data;
+        } catch (error) {
+            if (error instanceof AxiosError && error.response) {
+                return rejectWithValue({ message: error.response.data.message });
+            } else {
+                return rejectWithValue({ message: 'Unexcepted error' });
+            }
+        }
+    }
+);
 
+export const login = createAsyncThunk<
+    IUser,
+    ILoginData,
+    { rejectValue: AuthError }
+> (
+    'auth/login',
+    async (loginData: ILoginData, { rejectWithValue }) => {
+        try {
+            const response = await publicRequest.post('/auth/login', loginData);
             return response.data;
         } catch (error) {
             if (error instanceof AxiosError && error.response) {
@@ -53,16 +69,36 @@ export const authSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(auth.pending, (state) => {
+        // Registration
+        builder.addCase(registration.pending, (state) => {
             state.loading = true;
             state.error = null;
         });
-        builder.addCase(auth.fulfilled, (state, action: PayloadAction<IUser>) => {
+        builder.addCase(registration.fulfilled, (state, action: PayloadAction<IUser>) => {
             state.user = action.payload;
             state.loading = false;
             state.error = null;
         });
-        builder.addCase(auth.rejected, (
+        builder.addCase(registration.rejected, (
+            state, action: PayloadAction<AuthError | undefined>
+        ) => {
+            state.loading = false;
+            if (action.payload) {
+                state.error = action.payload.message;
+            }
+        });
+
+        // Login
+        builder.addCase(login.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        });
+        builder.addCase(login.fulfilled, (state, action: PayloadAction<IUser>) => {
+            state.user = action.payload;
+            state.loading = false;
+            state.error = null;
+        });
+        builder.addCase(login.rejected, (
             state, action: PayloadAction<AuthError | undefined>
         ) => {
             state.loading = false;

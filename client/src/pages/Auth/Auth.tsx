@@ -5,12 +5,13 @@ import { Snackbar, Alert } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../redux/hooks';
-import { 
-    auth, 
-    selectLoading, 
-    selectError, 
-    setError, 
-    selectUser 
+import {
+    registration,
+    login,
+    selectLoading,
+    selectError,
+    setError,
+    selectUser
 } from '../../redux/authSlice';
 import style from './Auth.module.scss';
 
@@ -90,22 +91,22 @@ const Auth: FC = () => {
                     autoComplete={'off'}
                     size='small'
                     {
-                        ...register(
-                            'firstName',
-                            { 
-                                required: 'First name is required',
-                                minLength: {
-                                    value: MIN_NAME_LENGTH,
-                                    message: `First name must contain at least 
+                    ...register(
+                        'firstName',
+                        {
+                            required: 'First name is required',
+                            minLength: {
+                                value: MIN_NAME_LENGTH,
+                                message: `First name must contain at least 
                                     ${MIN_NAME_LENGTH} characters`
-                                },
-                                maxLength: {
-                                    value: MAX_NAME_LENGTH,
-                                    message: `First name can't be longer than
+                            },
+                            maxLength: {
+                                value: MAX_NAME_LENGTH,
+                                message: `First name can't be longer than
                                     ${MAX_NAME_LENGTH} characters`
-                                } 
                             }
-                        )
+                        }
+                    )
                     }
                     sx={{ width: '48%' }}
                     error={errors.firstName?.message !== undefined}
@@ -116,22 +117,22 @@ const Auth: FC = () => {
                     autoComplete={'off'}
                     size='small'
                     {
-                        ...register(
-                            'lastName',
-                            { 
-                                required: 'Last name is required',
-                                minLength: {
-                                    value: MIN_NAME_LENGTH,
-                                    message: `Last name must contain at least 
+                    ...register(
+                        'lastName',
+                        {
+                            required: 'Last name is required',
+                            minLength: {
+                                value: MIN_NAME_LENGTH,
+                                message: `Last name must contain at least 
                                     ${MIN_NAME_LENGTH} characters`
-                                },
-                                maxLength: {
-                                    value: MAX_NAME_LENGTH,
-                                    message: `Last name can't be longer than
+                            },
+                            maxLength: {
+                                value: MAX_NAME_LENGTH,
+                                message: `Last name can't be longer than
                                     ${MAX_NAME_LENGTH} characters`
-                                } 
                             }
-                        )
+                        }
+                    )
                     }
                     sx={{ width: '48%' }}
                     error={errors.lastName?.message !== undefined}
@@ -181,12 +182,12 @@ const Auth: FC = () => {
                 );
             } else {
                 dispatch(
-                    auth({ firstName, lastName, email, password })
+                    registration({ firstName, lastName, email, password })
                 );
-            }            
+            }
         } else {
             dispatch(
-                auth({ email, password })
+                login({ email, password })
             );
         }
     })
@@ -222,16 +223,16 @@ const Auth: FC = () => {
                     size='small'
                     fullWidth
                     {
-                        ...register(
-                            'email',
-                            {
-                                required: 'Email is required',
-                                pattern: {
-                                    value: /\S+@\S+\.\S+/,
-                                    message: 'Entered value does not match email format',
-                                }
+                    ...register(
+                        'email',
+                        {
+                            required: 'Email is required',
+                            pattern: {
+                                value: /\S+@\S+\.\S+/,
+                                message: 'Entered value does not match email format',
                             }
-                        )
+                        }
+                    )
                     }
                     sx={{ marginBottom: '20px' }}
                     error={errors.email?.message !== undefined}
@@ -244,17 +245,17 @@ const Auth: FC = () => {
                     type={'password'}
                     fullWidth
                     {
-                        ...register(
-                            'password',
-                            { 
-                                required: 'Password is required',
-                                minLength: {
-                                    value: MIN_PASSWORD_LENGTH,
-                                    message: `Password must contain at least 
+                    ...register(
+                        'password',
+                        {
+                            required: 'Password is required',
+                            minLength: {
+                                value: MIN_PASSWORD_LENGTH,
+                                message: `Password must contain at least 
                                     ${MIN_PASSWORD_LENGTH} characters`
-                                } 
                             }
-                        )
+                        }
+                    )
                     }
                     sx={{ marginBottom: '20px' }}
                     error={errors.password?.message !== undefined}
@@ -269,10 +270,10 @@ const Auth: FC = () => {
                         type={'password'}
                         fullWidth
                         {
-                            ...register(
-                                'confirmPassword',
-                                { required: 'Please enter your password again' }
-                            )
+                        ...register(
+                            'confirmPassword',
+                            { required: 'Please enter your password again' }
+                        )
                         }
                         sx={{ marginBottom: '20px' }}
                         error={errors.confirmPassword?.message !== undefined}
@@ -286,7 +287,7 @@ const Auth: FC = () => {
                     type='submit'
                     fullWidth
                     sx={{ marginBottom: '20px' }}
-                    disabled = {loading}
+                    disabled={loading}
                 >
                     {signUp ? 'Sign Up' : 'Sign In'}
                 </Button>
