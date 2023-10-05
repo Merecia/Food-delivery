@@ -4,7 +4,8 @@ import { ICategory, IFood } from '../../types';
 import { useSelector } from 'react-redux';
 import { selectCategoryId } from '../../redux/mainPageSlice';
 import { 
-    fetchFoodList, 
+    fetchAllFood,
+    fetchFoodByCategory, 
     selectError, 
     selectFoodList, 
     selectLoading 
@@ -18,16 +19,20 @@ const Menu: FC = () => {
     const foodList = useSelector(selectFoodList);
     const error = useSelector(selectError);
     const loading = useSelector(selectLoading);
-    const categoryId = useSelector(selectCategoryId);
+    const selectedCategoryId = useSelector(selectCategoryId);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        if (categoryId) {
+        dispatch(fetchAllFood());
+    }, []);
+
+    useEffect(() => {
+        if (selectedCategoryId) {
             dispatch(
-                fetchFoodList(categoryId)
+                fetchFoodByCategory(selectedCategoryId)
             );
         }
-    }, [categoryId]);
+    }, [selectedCategoryId]);
 
     const renderFoodCard = (foodItem: IFood, index: number) => {
         return (

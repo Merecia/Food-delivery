@@ -20,15 +20,31 @@ const initialState: FoodState = {
     loading: false
 };
 
-export const fetchFoodList = createAsyncThunk<
-    IFood[],
-    string,
-    { rejectValue: FoodError }
+export const fetchFoodByCategory = createAsyncThunk<
+    IFood[], string, { rejectValue: FoodError }
 > (
-    'food/fetch',
+    'food/id/category',
     async (categoryId: string, { rejectWithValue }) => {
         try {
             const response = await publicRequest.get(`/food/${categoryId}/category`);
+            return response.data;
+        } catch (error) {
+            if (error instanceof AxiosError && error.response) {
+                return rejectWithValue({ message: error.response.data.message });
+            } else {
+                return rejectWithValue({ message: 'Unexcepted error' });
+            }
+        }
+    }
+);
+
+export const fetchAllFood = createAsyncThunk<
+    IFood[], void, { rejectValue: FoodError }
+> (
+    'food',
+    async (_: void, { rejectWithValue }) => {
+        try {
+            const response = await publicRequest.get('/food');
             return response.data;
         } catch (error) {
             if (error instanceof AxiosError && error.response) {
@@ -45,18 +61,39 @@ export const foodSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(fetchFoodList.pending, (state) => {
+        // Fetch all food
+        builder.addCase(fetchAllFood.pending, (state) => {
             state.loading = true;
             state.error = null;
         });
-        builder.addCase(fetchFoodList.fulfilled, (
+        builder.addCase(fetchAllFood.fulfilled, (
             state, action: PayloadAction<IFood[]>
         ) => {
             state.foodList = action.payload;
             state.loading = false;
             state.error = null;
         });
-        builder.addCase(fetchFoodList.rejected, (
+        builder.addCase(fetchAllFood.rejected, (
+            state, action: PayloadAction<FoodError | undefined>
+        ) => {
+            if (action.payload) {
+                state.error = action.payload.message;
+            }
+        });
+
+        // Fetch food by category 
+        builder.addCase(fetchFoodByCategory.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        });
+        builder.addCase(fetchFoodByCategory.fulfilled, (
+            state, action: PayloadAction<IFood[]>
+        ) => {
+            state.foodList = action.payload;
+            state.loading = false;
+            state.error = null;
+        });
+        builder.addCase(fetchFoodByCategory.rejected, (
             state, action: PayloadAction<FoodError | undefined>
         ) => {
             if (action.payload) {
