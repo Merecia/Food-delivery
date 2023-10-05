@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { ICategory } from '../../types';
 import { useDispatch, useSelector } from 'react-redux';
-import { chooseCategory, selectCategoryId } from '../../redux/mainPageSlice';
+import { chooseCategory, selectChosenCategoryId } from '../../redux/categoriesSlice';
 import style from './CategoryButton.module.scss';
 
 interface ICategoryButtonProps {
@@ -13,13 +13,13 @@ const DARK = '#67666D';
 const WHITE = '#FFFFFF';
 
 const CategoryButton: FC<ICategoryButtonProps> = ({ category }) => {
-    const { id, name, imageURL } = category;
+    const { _id, name, imageURL } = category;
 
     const dispatch = useDispatch();
-    const choicedCategoryID = useSelector(selectCategoryId);
-    const isActive = choicedCategoryID === id;
+    const choicedCategoryID = useSelector(selectChosenCategoryId);
+    const isActive = choicedCategoryID === _id;
 
-    const clickHandler = () => dispatch(chooseCategory(id));
+    const clickHandler = () => dispatch(chooseCategory(_id));
 
     return (
         <div

@@ -1,7 +1,7 @@
 import { FC, CSSProperties } from 'react';
 import { ICartItem, IFood } from '../../types';
 import { useDispatch, useSelector } from 'react-redux';
-import { openFoodDetails } from '../../redux/mainPageSlice';
+import { openFoodDetails } from '../../redux/foodDetailsSlice';
 import { 
     addFoodToCart, 
     decreaseFoodAmountInCart, 
@@ -22,7 +22,7 @@ const FoodCard: FC<IFoodCardProps> = ({ foodItem, css }) => {
     const dispatch = useDispatch();
 
     const cart = useSelector(selectCart);
-    const cartItem = cart.find((cartItem) => cartItem.foodItem.id === foodItem.id);
+    const cartItem = cart.find((cartItem) => cartItem.foodItem._id === foodItem._id);
 
     const cardClickHandler = () => {
         dispatch(openFoodDetails(foodItem));

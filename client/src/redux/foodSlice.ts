@@ -1,12 +1,9 @@
+import { FetchError } from './../types';
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { publicRequest } from "../httpRequests";
 import { IFood } from "../types";
 import { RootState } from "./store";
 import { AxiosError } from "axios";
-
-type FoodError = {
-    message: string;
-}
 
 interface FoodState {
     foodList: IFood[];
@@ -21,7 +18,7 @@ const initialState: FoodState = {
 };
 
 export const fetchFoodByCategory = createAsyncThunk<
-    IFood[], string, { rejectValue: FoodError }
+    IFood[], string, { rejectValue: FetchError }
 > (
     'food/id/category',
     async (categoryId: string, { rejectWithValue }) => {
@@ -39,9 +36,9 @@ export const fetchFoodByCategory = createAsyncThunk<
 );
 
 export const fetchAllFood = createAsyncThunk<
-    IFood[], void, { rejectValue: FoodError }
+    IFood[], void, { rejectValue: FetchError }
 > (
-    'food',
+    'food/all',
     async (_: void, { rejectWithValue }) => {
         try {
             const response = await publicRequest.get('/food');
@@ -74,7 +71,7 @@ export const foodSlice = createSlice({
             state.error = null;
         });
         builder.addCase(fetchAllFood.rejected, (
-            state, action: PayloadAction<FoodError | undefined>
+            state, action: PayloadAction<FetchError | undefined>
         ) => {
             if (action.payload) {
                 state.error = action.payload.message;
@@ -94,7 +91,7 @@ export const foodSlice = createSlice({
             state.error = null;
         });
         builder.addCase(fetchFoodByCategory.rejected, (
-            state, action: PayloadAction<FoodError | undefined>
+            state, action: PayloadAction<FetchError | undefined>
         ) => {
             if (action.payload) {
                 state.error = action.payload.message;

@@ -9,10 +9,11 @@ import {
     PURGE,
     REGISTER,
 } from 'redux-persist';
-import menuReducer from './mainPageSlice';
+import foodDetailsReducer from './foodDetailsSlice';
 import cartReducer from './cartSlice';
 import authReducer from './authSlice';
 import foodReducer from './foodSlice';
+import categoriesReducer from './categoriesSlice';
 import storage from 'redux-persist/lib/storage';
 
 const persistConfig = {
@@ -22,10 +23,11 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({ 
-    menu: menuReducer,
     cart: cartReducer,
     auth: authReducer,
-    food: foodReducer
+    food: foodReducer,
+    categories: categoriesReducer,
+    foodDetails: foodDetailsReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

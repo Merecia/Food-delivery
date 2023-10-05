@@ -1,7 +1,7 @@
 import { FC, useState, useEffect } from 'react';
 import { ICartItem, IFood } from '../../types';
 import { Carousel } from 'react-responsive-carousel';
-import { closeFoodDetails } from '../../redux/mainPageSlice';
+import { closeFoodDetails } from '../../redux/foodDetailsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useOutsideClick } from '../../hooks/useOutsideClick';
 import {
@@ -25,7 +25,7 @@ const FoodDetails: FC<IFoodDetailsProps> = ({ foodItem }) => {
     const dispatch = useDispatch();
 
     const cart = useSelector(selectCart);
-    const cartItem = cart.find((cartItem) => cartItem.foodItem.id === foodItem.id);
+    const cartItem = cart.find((cartItem) => cartItem.foodItem._id === foodItem._id);
 
     useEffect(() => {
         setRendered(true);

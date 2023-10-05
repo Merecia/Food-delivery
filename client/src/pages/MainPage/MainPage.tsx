@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useSelector } from 'react-redux';
 import { selectShowCart } from '../../redux/cartSlice';
-import { selectFoodDetails } from '../../redux/mainPageSlice';
+import { selectFoodDetails } from '../../redux/foodDetailsSlice';
 import style from './MainPage.module.scss';
 import Header from '../../components/Header/Header';
 import Menu from '../../components/Menu/Menu';

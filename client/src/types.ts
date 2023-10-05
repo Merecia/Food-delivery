@@ -1,11 +1,11 @@
 export interface ICategory {
-    id: string;
+    _id: string;
     name: string;
     imageURL: string;
 };
 
 export interface IFood {
-    id: string; 
+    _id: string; 
     imagesURL: string[];
     category: string;
     name: string;
@@ -41,4 +41,8 @@ export interface IUser {
     firstName: string;
     lastName: string;
     accessToken: string;
+}
+
+export interface FetchError {
+    message: string;
 }

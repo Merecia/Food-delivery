@@ -1,8 +1,7 @@
-import { FC, useEffect } from 'react'
-import { categories } from '../../data';
+import { FC, useEffect } from 'react';
 import { ICategory, IFood } from '../../types';
 import { useSelector } from 'react-redux';
-import { selectCategoryId } from '../../redux/mainPageSlice';
+import { selectChosenCategoryId } from '../../redux/categoriesSlice';
 import { 
     fetchAllFood,
     fetchFoodByCategory, 
@@ -14,25 +13,36 @@ import style from './Menu.module.scss';
 import FoodCard from '../FoodCard/FoodCard';
 import Category from '../CategoryButton/CategoryButton';
 import { useAppDispatch } from '../../redux/hooks';
+import { fetchCategories, selectCategories } from '../../redux/categoriesSlice';
 
 const Menu: FC = () => {
     const foodList = useSelector(selectFoodList);
+    const categories = useSelector(selectCategories);
     const error = useSelector(selectError);
     const loading = useSelector(selectLoading);
-    const selectedCategoryId = useSelector(selectCategoryId);
-    const dispatch = useAppDispatch();
+    const chosenCategoryId = useSelector(selectChosenCategoryId);
 
+    const dispatch = useAppDispatch();
+    
     useEffect(() => {
-        dispatch(fetchAllFood());
+        if (!categories) {
+            dispatch(fetchCategories());
+        }
+        
+        if (chosenCategoryId) {
+            dispatch(fetchFoodByCategory(chosenCategoryId));
+        } else {
+            dispatch(fetchAllFood());
+        }
     }, []);
 
     useEffect(() => {
-        if (selectedCategoryId) {
-            dispatch(
-                fetchFoodByCategory(selectedCategoryId)
-            );
+        if (chosenCategoryId) {
+            dispatch(fetchFoodByCategory(chosenCategoryId));
+        } else {
+            dispatch(fetchAllFood());
         }
-    }, [selectedCategoryId]);
+    }, [chosenCategoryId]);
 
     const renderFoodCard = (foodItem: IFood, index: number) => {
         return (
