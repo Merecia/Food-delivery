@@ -73,6 +73,7 @@ export const foodSlice = createSlice({
         builder.addCase(fetchAllFood.rejected, (
             state, action: PayloadAction<FetchError | undefined>
         ) => {
+            state.loading = false;
             if (action.payload) {
                 state.error = action.payload.message;
             }

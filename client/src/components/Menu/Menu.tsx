@@ -1,38 +1,49 @@
-import { FC, useEffect } from 'react';
+import { CSSProperties, FC, useEffect } from 'react';
 import { ICategory, IFood } from '../../types';
 import { useSelector } from 'react-redux';
 import { selectChosenCategoryId } from '../../redux/categoriesSlice';
-import { 
+import { useAppDispatch } from '../../redux/hooks';
+import { Skeleton } from '@mui/material';
+import {
+    fetchCategories,
+    selectCategories,
+    selectError as selectCategoriesFetchError,
+    selectLoading as selectCategoriesFetchLoading
+} from '../../redux/categoriesSlice';
+import {
     fetchAllFood,
-    fetchFoodByCategory, 
-    selectError, 
-    selectFoodList, 
-    selectLoading 
+    fetchFoodByCategory,
+    selectFoodList,
+    selectError as selectFoodFetchError,
+    selectLoading as selectFoodFetchLoading
 } from '../../redux/foodSlice';
 import style from './Menu.module.scss';
 import FoodCard from '../FoodCard/FoodCard';
-import Category from '../CategoryButton/CategoryButton';
-import { useAppDispatch } from '../../redux/hooks';
-import { fetchCategories, selectCategories } from '../../redux/categoriesSlice';
+import CategoryButton from '../CategoryButton/CategoryButton';
 
 const Menu: FC = () => {
     const foodList = useSelector(selectFoodList);
+    const foodFetchError = useSelector(selectFoodFetchError);
+    const foodFetchLoading = useSelector(selectFoodFetchLoading);
+
     const categories = useSelector(selectCategories);
-    const error = useSelector(selectError);
-    const loading = useSelector(selectLoading);
+    const categoriesFetchError = useSelector(selectCategoriesFetchError);
+    const categoriesFetchLoading = useSelector(selectCategoriesFetchLoading);
     const chosenCategoryId = useSelector(selectChosenCategoryId);
 
     const dispatch = useAppDispatch();
-    
+
     useEffect(() => {
-        if (!categories) {
+        if (categories.length === 0) {
             dispatch(fetchCategories());
         }
-        
-        if (chosenCategoryId) {
-            dispatch(fetchFoodByCategory(chosenCategoryId));
-        } else {
-            dispatch(fetchAllFood());
+
+        if (foodList.length === 0) {
+            if (chosenCategoryId) {
+                dispatch(fetchFoodByCategory(chosenCategoryId));
+            } else {
+                dispatch(fetchAllFood());
+            }
         }
     }, []);
 
@@ -44,46 +55,102 @@ const Menu: FC = () => {
         }
     }, [chosenCategoryId]);
 
-    const renderFoodCard = (foodItem: IFood, index: number) => {
+    const renderFoodCard = (
+        foodItem: IFood,
+        index: number,
+        cssProperties?: CSSProperties
+    ) => {
         return (
             <FoodCard
                 foodItem={foodItem}
                 key={index}
-                css={{
-                    marginBottom: '50px',
-                    marginLeft: '15px'
-                }}
+                css={cssProperties}
             />
         );
     }
 
-    const renderCategoryButton = (category: ICategory, index: number) => {
+    const renderSkeleton = (cssProperties?: CSSProperties) => {
         return (
-            <Category
+            <Skeleton
+                animation='wave'
+                variant='rounded'
+                style={cssProperties}
+            />
+        );
+    }
+
+    const renderCategoryButton = (
+        category: ICategory,
+        index: number,
+        cssProperties?: CSSProperties
+    ) => {
+        return (
+            <CategoryButton
                 category={category}
                 key={index}
+                css={cssProperties}
             />
         );
     }
 
     const renderFoodCards = (foodList: IFood[]) => {
-        return foodList.map(
-            (foodItem, index) => renderFoodCard(foodItem, index)
-        );
+        const foodCardCssProperties: CSSProperties = {
+            marginBottom: '50px',
+            marginLeft: '15px',
+            borderRadius: '20px',
+            width: '240px',
+            height: '360px'
+        }
+
+        if (foodFetchLoading) {
+            return Array(5).fill(
+                renderSkeleton(foodCardCssProperties)
+            );
+        } else {
+            if (foodList.length === 0) {
+                return (
+                    <div className={style.NothingFound}>
+                        <h2 className={style.NothingFound_Title}>
+                            Nothing was found in the database matching your request
+                        </h2>
+                    </div>
+                );
+            } else return foodList.map((foodItem, index) =>
+                renderFoodCard(
+                    foodItem, index, foodCardCssProperties
+                )
+            );
+        }
     }
 
     const renderCategoryButtons = (categories: ICategory[]) => {
-        return categories.map(
-            (category, index) => renderCategoryButton(category, index)
+        const categoryButtonCssProperties: CSSProperties = {
+            width: '120px',
+            padding: '25px 0px 30px 0px',
+            margin: '0 75px'
+        };
+
+        if (categoriesFetchLoading) {
+            return Array(5).fill(
+                renderSkeleton(
+                    categoryButtonCssProperties
+                )
+            );
+        } else return categories.map((category, index) => {
+            return renderCategoryButton(
+                category, index, categoryButtonCssProperties
+            );
+        });
+    }
+
+    if (foodFetchError || categoriesFetchError) {
+        return (
+            <div className={style.FetchError}>
+                <h2 className={style.FetchError_Title}>
+                    An error occurred during data loading
+                </h2>
+            </div>
         );
-    }
-
-    if (loading) {
-        return 'Loading';
-    }
-
-    if (error) {
-        return 'Error';
     }
 
     return (
@@ -92,7 +159,7 @@ const Menu: FC = () => {
                 {renderCategoryButtons(categories)}
             </div>
             <div className={style.FoodCards}>
-                {foodList && renderFoodCards(foodList)}
+                {renderFoodCards(foodList)}
             </div>
         </div>
     );

@@ -64,6 +64,7 @@ export const categoriesSlice = createSlice({
         builder.addCase(fetchCategories.rejected, (
             state, action: PayloadAction<FetchError | undefined>
         ) => {
+            state.loading = false;
             if (action.payload) {
                 state.error = action.payload.message;
             }

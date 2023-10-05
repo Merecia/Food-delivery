@@ -1,12 +1,9 @@
 .FoodCard {
     padding: 10px;
-    min-height: 358px;
     width: fit-content;
     height: fit-content;
-    width: 240px;
     background-color: white;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2), 0 4px 6px rgba(0,0,0,0.2);
-    border-radius: 20px;
     transition: .2s ease box-shadow;
     cursor: pointer;
 

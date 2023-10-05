@@ -20,5 +20,24 @@
     }
 }
 
+.NothingFound, .FetchError {
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+
+    .NothingFound_Title, .FetchError_Title {
+        font-weight: 300;
+        color: #67666D;
+    }
+}
+
+.NothingFound {
+    margin-top: 50px;
+}
+
+.FetchError {
+    margin-top: 150px;
+}
+
 
 

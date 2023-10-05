@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, CSSProperties } from 'react'
 import { ICategory } from '../../types';
 import { useDispatch, useSelector } from 'react-redux';
 import { chooseCategory, selectChosenCategoryId } from '../../redux/categoriesSlice';
@@ -6,13 +6,14 @@ import style from './CategoryButton.module.scss';
 
 interface ICategoryButtonProps {
     category: ICategory;
+    css?: CSSProperties
 }
 
 const ORANGE = '#FE724C';
 const DARK = '#67666D';
 const WHITE = '#FFFFFF';
 
-const CategoryButton: FC<ICategoryButtonProps> = ({ category }) => {
+const CategoryButton: FC<ICategoryButtonProps> = ({ category, css }) => {
     const { _id, name, imageURL } = category;
 
     const dispatch = useDispatch();
@@ -25,7 +26,7 @@ const CategoryButton: FC<ICategoryButtonProps> = ({ category }) => {
         <div
             className={style.CategoryButton}
             onClick={clickHandler}
-            style={{ backgroundColor: isActive ? ORANGE : WHITE }}
+            style={{ backgroundColor: isActive ? ORANGE : WHITE, ...css }}
         >
             <img
                 src={imageURL}
