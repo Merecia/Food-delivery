@@ -5,20 +5,21 @@ import { openCart, selectCart } from '../../redux/cartSlice';
 import { useDebounce } from '../../hooks/useDebounce';
 import { useAppDispatch } from '../../redux/hooks';
 import { IAutocompleteOption } from '../../types';
-import { 
-    getAutocompleteOptions, 
-    hideAutocompleteOptions, 
-    selectAutocompeteOptions, 
-    selectAutocompeteVisible, 
-    selectQuery, 
-    setQuery 
+import { fetchFoodById } from '../../redux/foodSlice';
+import { useOutsideClick } from '../../hooks/useOutsideClick';
+import {
+    getAutocompleteOptions,
+    hideAutocompleteOptions,
+    selectAutocompeteOptions,
+    selectAutocompeteVisible,
+    selectQuery,
+    setQuery
 } from '../../redux/searchSlice';
 import style from './Header.module.scss';
 import logo from '../../assets/images/logo.svg';
 import avatar from '../../assets/images/avatar.svg';
 import menu from '../../assets/images/menu.svg';
 import cartIcon from '../../assets/images/cartIcon.svg';
-import { fetchFoodById } from '../../redux/foodSlice';
 
 const Header: FC = () => {
     const dispatch = useAppDispatch();
@@ -37,16 +38,14 @@ const Header: FC = () => {
         dispatch(openCart());
     }
 
-    const searchInputChangeHandler = (
-        event: React.ChangeEvent<HTMLInputElement>
-    ) => {
+    const searchInputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(setQuery(event.target.value));
     }
 
     const renderAutocompleteOptions = (
         autocompleteOptions: IAutocompleteOption[]
     ) => {
-        return autocompleteOptions.map(autocompleteOption => {
+        return autocompleteOptions.map((autocompleteOption) => {
             return renderAutocompleteOption(autocompleteOption);
         });
     }
@@ -55,9 +54,9 @@ const Header: FC = () => {
         autocompleteOption: IAutocompleteOption
     ) => {
         return (
-            <li 
+            <li
                 className={style.Autocomplete_Option}
-                onClick = {
+                onClick={
                     () => autocompleteOptionClickHandler(autocompleteOption._id)
                 }
             >
@@ -65,6 +64,10 @@ const Header: FC = () => {
             </li>
         );
     }
+
+    const ref = useOutsideClick(() => {
+        dispatch(hideAutocompleteOptions());
+    });
 
     const autocompleteOptionClickHandler = (_id: string) => {
         dispatch(fetchFoodById(_id));
@@ -79,10 +82,11 @@ const Header: FC = () => {
         }
     }, [debouncedQuery]);
 
+
     return (
         <header className={style.Header}>
             <img src={logo} alt="logo" className={style.Logo} />
-            <div className={style.Search}>
+            <div className={style.Search} ref={ref}>
                 <input
                     type="text"
                     placeholder="Введите название блюда"
@@ -91,10 +95,10 @@ const Header: FC = () => {
                     onChange={searchInputChangeHandler}
                 />
                 <ul className={style.Autocomplete}>
-                    { 
-                        autocompleteVisible 
-                        && debouncedQuery.length !== 0 
-                        && renderAutocompleteOptions(autocompleteOptions)     
+                    {
+                        autocompleteVisible
+                        && debouncedQuery.length !== 0
+                        && renderAutocompleteOptions(autocompleteOptions)
                     }
                 </ul>
             </div>

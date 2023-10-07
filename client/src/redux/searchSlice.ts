@@ -26,18 +26,9 @@ export const getAutocompleteOptions = createAsyncThunk<
     async (query: string, { rejectWithValue }) => {
         try {
             const response = await publicRequest.get(`/food/?query=${query}`);
-
-            console.log(response.data);
-
             const autocompleteOptions = response.data.map((foodItem: IFood) => {
-                return {
-                    _id: foodItem._id,
-                    name: foodItem.name
-                };
+                return { _id: foodItem._id, name: foodItem.name };
             });
-
-            console.log(autocompleteOptions);
-
             return autocompleteOptions;
         } catch (error) {
             if (error instanceof AxiosError && error.response) {
@@ -56,15 +47,11 @@ export const searchSlice = createSlice({
         setQuery: (state, action: PayloadAction<string>) => {
             state.query = action.payload;
         },
-        showAutocompleteOptions: (state) => {
-            state.autocompleteVisible = true;
-        },
         hideAutocompleteOptions: (state) => {
             state.autocompleteVisible = false;
         }
     },
     extraReducers: (builder) => {
-        // Get autocomplete options
         builder.addCase(getAutocompleteOptions.pending, (state) => {
             state.autocompleteVisible = false;
             state.error = null;
@@ -92,10 +79,6 @@ export const selectAutocompeteOptions = (state: RootState) => state.search.autoc
 export const selectAutocompeteVisible = (state: RootState) => state.search.autocompleteVisible;
 export const selectError = (state: RootState) => state.search.error;
 
-export const { 
-    setQuery, 
-    showAutocompleteOptions, 
-    hideAutocompleteOptions 
-} = searchSlice.actions;
+export const { setQuery, hideAutocompleteOptions } = searchSlice.actions;
 
 export default searchSlice.reducer;

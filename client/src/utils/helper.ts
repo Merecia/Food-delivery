@@ -12,7 +12,7 @@ export const amountFormatting = (amount: number): string => {
 
 export const findCartItemIndex = (foodItem: IFood, cart: ICartItem[]) => {
     const cartItemIndex = cart.findIndex(
-        (cartItem) => cartItem.foodItem.id === foodItem.id
+        (cartItem) => cartItem.foodItem._id === foodItem._id
     );
 
     if (cartItemIndex === -1) {
