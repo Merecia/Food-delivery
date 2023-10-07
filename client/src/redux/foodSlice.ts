@@ -35,6 +35,24 @@ export const fetchFoodByCategory = createAsyncThunk<
     }
 );
 
+export const fetchFoodById = createAsyncThunk<
+    IFood, string, { rejectValue: FetchError }
+> (
+    'food/id',
+    async (id: string, { rejectWithValue }) => {
+        try {
+            const response = await publicRequest.get(`/food/${id}`);
+            return response.data;
+        } catch (error) {
+            if (error instanceof AxiosError && error.response) {
+                return rejectWithValue({ message: error.response.data.message });
+            } else {
+                return rejectWithValue({ message: 'Unexcepted error' });
+            }
+        }
+    }
+);
+
 export const fetchAllFood = createAsyncThunk<
     IFood[], void, { rejectValue: FetchError }
 > (
@@ -52,6 +70,7 @@ export const fetchAllFood = createAsyncThunk<
         }
     }
 );
+
 
 export const foodSlice = createSlice({
     name: 'food',
@@ -94,6 +113,27 @@ export const foodSlice = createSlice({
         builder.addCase(fetchFoodByCategory.rejected, (
             state, action: PayloadAction<FetchError | undefined>
         ) => {
+            if (action.payload) {
+                state.error = action.payload.message;
+            }
+        });
+
+        // Fetch food by query
+        builder.addCase(fetchFoodById.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        });
+        builder.addCase(fetchFoodById.fulfilled, (
+            state, action: PayloadAction<IFood>
+        ) => {
+            state.foodList = [action.payload];
+            state.loading = false;
+            state.error = null;
+        });
+        builder.addCase(fetchFoodById.rejected, (
+            state, action: PayloadAction<FetchError | undefined>
+        ) => {
+            state.loading = false;
             if (action.payload) {
                 state.error = action.payload.message;
             }

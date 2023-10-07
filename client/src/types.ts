@@ -46,3 +46,8 @@ export interface IUser {
 export interface FetchError {
     message: string;
 }
+
+export interface IAutocompleteOption {
+    _id: string;
+    name: string;
+}

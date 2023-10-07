@@ -14,6 +14,7 @@ import cartReducer from './cartSlice';
 import authReducer from './authSlice';
 import foodReducer from './foodSlice';
 import categoriesReducer from './categoriesSlice';
+import searchReducer from './searchSlice';
 import storage from 'redux-persist/lib/storage';
 
 const persistConfig = {
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
     cart: cartReducer,
     auth: authReducer,
     food: foodReducer,
+    search: searchReducer,
     categories: categoriesReducer,
     foodDetails: foodDetailsReducer
 });

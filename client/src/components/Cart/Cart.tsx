@@ -97,7 +97,6 @@ const Cart: FC = () => {
                 {cart.length > 0 ? renderCart(cart) : renderEmptyCart()}
             </div>
         </div>
-
     );
 }
 

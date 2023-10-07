@@ -6,16 +6,16 @@ import donat from './assets/images/donat.svg';
 import { ICartItem, ICategory, IFood } from './types';
 
 export const categories: ICategory[] = [
-    { id: '1', name: 'Пицца', imageURL: pizza },
-    { id: '2', name: 'Суши', imageURL: asian },
-    { id: '3', name: 'Бургеры', imageURL: burger },
-    { id: '4', name: 'Хот-доги', imageURL: mexican },
-    { id: '5', name: 'Пончики', imageURL: donat }
+    { _id: '1', name: 'Пицца', imageURL: pizza },
+    { _id: '2', name: 'Суши', imageURL: asian },
+    { _id: '3', name: 'Бургеры', imageURL: burger },
+    { _id: '4', name: 'Хот-доги', imageURL: mexican },
+    { _id: '5', name: 'Пончики', imageURL: donat }
 ];
 
 export const foodList:  IFood[] = [
     { 
-        id: '1', 
+        _id: '1', 
         imagesURL: [
             'https://cheese-cake.ru/DesertImg/ponchiki-assorti-0-1-1.jpg',
             'https://upload.wikimedia.org/wikipedia/commons/7/77/00409_paczki_z_serem%2C_sanok.jpg'
@@ -28,7 +28,7 @@ export const foodList:  IFood[] = [
         inStock: true 
     },
     { 
-        id: '2', 
+        _id: '2', 
         imagesURL: [
             'https://e2.edimdoma.ru/data/posts/0001/6493/16493-ed4_wide.jpg?1631186249',
             'https://static.1000.menu/img/content-v2/02/1d/53551/xot-dog-v-domashnix-usloviyax-v-bulochke-s-sosiskoi_1616347265_21_max.jpg'
@@ -41,7 +41,7 @@ export const foodList:  IFood[] = [
         inStock: true 
     },
     { 
-        id: '3', 
+        _id: '3', 
         imagesURL: [
             'https://cdn.tokyo-city.ru//goods/sake_sushi_13062022.jpg'
         ], 
@@ -53,7 +53,7 @@ export const foodList:  IFood[] = [
         inStock: true
     },
     { 
-        id: '4', 
+        _id: '4', 
         imagesURL: [
             'https://restoran-karamba.ru/wp-content/uploads/burgery.jpg',
             'https://www.gastronom.ru/binfiles/images/20160203/b267a543.jpg',
