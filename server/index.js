@@ -2,7 +2,12 @@ import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
-import { authRouter, categoryRouter, foodRouter } from './routes/index.js';
+import { 
+    authRouter, 
+    categoryRouter, 
+    foodRouter,
+    paymentRouter
+} from './routes/index.js';
 
 const corsOptions = {
     origin: "*",
@@ -32,6 +37,7 @@ app.use(express.json());
 app.use('/auth', authRouter);
 app.use('/categories', categoryRouter);
 app.use('/food', foodRouter);
+app.use('/payment', paymentRouter);
 
 app.listen(PORT, (error) => {
     if (error) console.log(error);
