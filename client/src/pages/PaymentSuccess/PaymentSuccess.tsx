@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import style from './PaymentSuccess.module.scss';
+import Button from '../../GUI/Button/Button';
 
 const PaymentSuccess: FC = () => {
     return (
@@ -25,9 +26,12 @@ const PaymentSuccess: FC = () => {
                         <p className={style.AttributeValue}> 1491294912499124 </p>
                     </div>
                 </div>
-                <button className = {style.ReturnButton}>
+                <Button
+                    type='success'
+                    cssProperties={{ margin: '0 auto' }}
+                >
                     Back to Main Page
-                </button>
+                </Button>
             </div>
         </div>
     );

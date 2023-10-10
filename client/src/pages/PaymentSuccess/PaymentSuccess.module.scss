@@ -1,4 +1,4 @@
-$green: rgb(50,181,124,255);
+$green: rgb(50,181,124);
 
 .Substrate {
     display: flex;
@@ -12,6 +12,7 @@ $green: rgb(50,181,124,255);
         width: 30vw;
         padding: 40px;
         border-radius: 40px;
+        background-color: white;
         box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 
         .Checkmark {

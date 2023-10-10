@@ -6,7 +6,7 @@ import {
     increaseFoodAmountInCart 
 } from '../../../redux/cartSlice';
 import style from './CartItem.module.scss';
-import Counter from '../../Counter/Counter';
+import Counter from '../../../GUI/Counter/Counter';
 
 interface ICartItemProps {
     cartItem: ICartItem;

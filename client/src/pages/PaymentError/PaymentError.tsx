@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import style from './PaymentError.module.scss';
+import Button from '../../GUI/Button/Button';
 
 const PaymentError: FC = () => {
     return (
@@ -14,9 +15,9 @@ const PaymentError: FC = () => {
                 <p className={style.Message}>
                     We aren't able to process your payment. Please try again
                 </p>
-                <button className = {style.ReturnButton}>
+                <Button type = 'error' cssProperties={{ margin: '0 auto' }}>
                     Back to Main Page
-                </button>
+                </Button>
             </div>
         </div>
     );

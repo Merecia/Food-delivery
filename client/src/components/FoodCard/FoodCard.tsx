@@ -2,14 +2,15 @@ import { FC, CSSProperties } from 'react';
 import { ICartItem, IFood } from '../../types';
 import { useDispatch, useSelector } from 'react-redux';
 import { openFoodDetails } from '../../redux/foodDetailsSlice';
-import { 
-    addFoodToCart, 
-    decreaseFoodAmountInCart, 
-    increaseFoodAmountInCart, 
-    selectCart 
+import {
+    addFoodToCart,
+    decreaseFoodAmountInCart,
+    increaseFoodAmountInCart,
+    selectCart
 } from '../../redux/cartSlice';
 import style from './FoodCard.module.scss';
-import Counter from '../Counter/Counter';
+import Counter from '../../GUI/Counter/Counter';
+import Button from '../../GUI/Button/Button';
 
 interface IFoodCardProps {
     foodItem: IFood;
@@ -28,19 +29,25 @@ const FoodCard: FC<IFoodCardProps> = ({ foodItem, css }) => {
         dispatch(openFoodDetails(foodItem));
     }
 
-    const addToCartButtonClickHandler = (event: React.MouseEvent<HTMLElement>) => {
+    const addToCartButtonClickHandler = (
+        event: React.MouseEvent<HTMLElement>
+    ) => {
         event.stopPropagation();
         dispatch(addFoodToCart(foodItem));
     }
 
-    const increaseFoodAmountClickHandler = (event: React.MouseEvent<HTMLElement>) => {
+    const increaseFoodAmountClickHandler = (
+        event: React.MouseEvent<HTMLElement>
+    ) => {
         event.stopPropagation();
         dispatch(
             increaseFoodAmountInCart((cartItem as ICartItem).foodItem)
         );
     }
 
-    const decreaseFoodAmountClickHandler = (event: React.MouseEvent<HTMLElement>) => {
+    const decreaseFoodAmountClickHandler = (
+        event: React.MouseEvent<HTMLElement>
+    ) => {
         event.stopPropagation();
         dispatch(
             decreaseFoodAmountInCart((cartItem as ICartItem).foodItem)
@@ -69,12 +76,17 @@ const FoodCard: FC<IFoodCardProps> = ({ foodItem, css }) => {
                         decreaseButtonClickHandler={decreaseFoodAmountClickHandler}
                         css={{ width: '100%', paddingTop: '10px' }}
                     />
-                    : <button
-                        className={style.AddingButton}
+                    : <Button
+                        type='default'
                         onClick={addToCartButtonClickHandler}
+                        cssProperties={{
+                            padding: '15px 20px',
+                            fontSize: '15px',
+                            width: '100%'
+                        }}
                     >
                         Добавить
-                    </button>
+                    </Button>
             }
         </div>
     );

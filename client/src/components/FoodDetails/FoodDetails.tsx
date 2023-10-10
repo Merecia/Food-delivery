@@ -10,9 +10,10 @@ import {
     increaseFoodAmountInCart,
     selectCart
 } from '../../redux/cartSlice';
-import Counter from '../Counter/Counter';
+import Counter from '../../GUI/Counter/Counter';
 import style from './FoodDetails.module.scss';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import Button from '../../GUI/Button/Button';
 
 interface IFoodDetailsProps {
     foodItem: IFood;
@@ -55,19 +56,25 @@ const FoodDetails: FC<IFoodDetailsProps> = ({ foodItem }) => {
         );
     }
 
-    const addToCartButtonClickHandler = (event: React.MouseEvent<HTMLElement>) => {
+    const addToCartButtonClickHandler = (
+        event: React.MouseEvent<HTMLElement>
+    ) => {
         event.stopPropagation();
         dispatch(addFoodToCart(foodItem));
     }
 
-    const increaseFoodAmountClickHandler = (event: React.MouseEvent<HTMLElement>) => {
+    const increaseFoodAmountClickHandler = (
+        event: React.MouseEvent<HTMLElement>
+    ) => {
         event.stopPropagation();
         dispatch(
             increaseFoodAmountInCart((cartItem as ICartItem).foodItem)
         );
     }
 
-    const decreaseFoodAmountClickHandler = (event: React.MouseEvent<HTMLElement>) => {
+    const decreaseFoodAmountClickHandler = (
+        event: React.MouseEvent<HTMLElement>
+    ) => {
         event.stopPropagation();
         dispatch(
             decreaseFoodAmountInCart((cartItem as ICartItem).foodItem)
@@ -127,12 +134,17 @@ const FoodDetails: FC<IFoodDetailsProps> = ({ foodItem }) => {
                                     decreaseButtonClickHandler={decreaseFoodAmountClickHandler}
                                     css={{ width: '50%' }}
                                 />
-                                : <button
-                                    className={style.AddingButton}
+                                : <Button
+                                    type='default'
                                     onClick={addToCartButtonClickHandler}
+                                    cssProperties={{
+                                        padding: '15px 20px',
+                                        fontSize: '15px',
+                                        width: '20vw'
+                                    }}
                                 >
                                     Добавить
-                                </button>
+                                </Button>
                         }
                     </div>
                 </div>

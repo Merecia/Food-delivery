@@ -12,6 +12,7 @@ import CartItem from './CartItem/CartItem';
 import CartCost from './CartCost/CartCost';
 import emptyCartIcon from '../../assets/images/emptyCartIcon.svg';
 import StripeCheckout, { Token } from 'react-stripe-checkout-nsen';
+import Button from '../../GUI/Button/Button';
 
 const Cart: FC = () => {
     const DELIVERY_COST = Number(import.meta.env.VITE_DELIVERY_COST) || 100;
@@ -103,9 +104,15 @@ const Cart: FC = () => {
                     token={onToken}
                     stripeKey={STRIPE_PUBLISHABLE_KEY}
                 >
-                    <button className={style.PaymentButton}>
+                    <Button 
+                        type = 'default' 
+                        cssProperties={{ 
+                            margin: '0 auto',
+                            width: '15vw'
+                        }}
+                    >
                         Оплатить
-                    </button>
+                    </Button>
                 </StripeCheckout>
             </>
         );
