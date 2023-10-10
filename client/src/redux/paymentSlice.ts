@@ -59,7 +59,7 @@ export const paymentSlice = createSlice({
         state.error = null;
     });
     builder.addCase(makeStripeRequest.fulfilled, (
-        state, action: PayloadAction<any>
+        state, action: PayloadAction<object>
     ) => {
         state.stripeData = action.payload;
         state.error = null;
