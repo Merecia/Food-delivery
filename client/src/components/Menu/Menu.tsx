@@ -69,9 +69,13 @@ const Menu: FC = () => {
         );
     }
 
-    const renderSkeleton = (cssProperties?: CSSProperties) => {
+    const renderSkeleton = (
+        index: number,
+        cssProperties?: CSSProperties
+    ) => {
         return (
             <Skeleton
+                key={index}
                 animation='wave'
                 variant='rounded'
                 style={cssProperties}
@@ -94,7 +98,7 @@ const Menu: FC = () => {
     }
 
     const renderFoodCards = (foodList: IFood[]) => {
-        const foodCardCssProperties: CSSProperties = {
+        const cssProperties: CSSProperties = {
             marginBottom: '50px',
             marginLeft: '15px',
             borderRadius: '20px',
@@ -103,8 +107,8 @@ const Menu: FC = () => {
         }
 
         if (foodFetchLoading) {
-            return Array(5).fill(
-                renderSkeleton(foodCardCssProperties)
+            return Array(5).map((index) =>
+                renderSkeleton(index, cssProperties)
             );
         } else {
             if (foodList.length === 0) {
@@ -115,32 +119,30 @@ const Menu: FC = () => {
                         </h2>
                     </div>
                 );
-            } else return foodList.map((foodItem, index) =>
-                renderFoodCard(
-                    foodItem, index, foodCardCssProperties
-                )
-            );
+            } else {
+                return foodList.map((foodItem, index) =>
+                    renderFoodCard(foodItem, index, cssProperties)
+                );
+            };
         }
     }
 
     const renderCategoryButtons = (categories: ICategory[]) => {
-        const categoryButtonCssProperties: CSSProperties = {
+        const cssProperties: CSSProperties = {
             width: '120px',
             padding: '25px 0px 30px 0px',
             margin: '0 75px'
         };
 
         if (categoriesFetchLoading) {
-            return Array(5).fill(
-                renderSkeleton(
-                    categoryButtonCssProperties
-                )
+            return Array(5).map((index) =>
+                renderSkeleton(index, cssProperties)
             );
-        } else return categories.map((category, index) => {
-            return renderCategoryButton(
-                category, index, categoryButtonCssProperties
+        } else {
+            return categories.map((category, index) =>
+                renderCategoryButton(category, index, cssProperties)
             );
-        });
+        };
     }
 
     if (foodFetchError || categoriesFetchError) {

@@ -15,6 +15,7 @@ import authReducer from './authSlice';
 import foodReducer from './foodSlice';
 import categoriesReducer from './categoriesSlice';
 import searchReducer from './searchSlice';
+import paymentReducer from './paymentSlice';
 import storage from 'redux-persist/lib/storage';
 
 const persistConfig = {
@@ -29,7 +30,8 @@ const rootReducer = combineReducers({
     food: foodReducer,
     search: searchReducer,
     categories: categoriesReducer,
-    foodDetails: foodDetailsReducer
+    foodDetails: foodDetailsReducer,
+    payment: paymentReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

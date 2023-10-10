@@ -106,7 +106,7 @@ const FoodDetails: FC<IFoodDetailsProps> = ({ foodItem }) => {
                 </div>
                 <div className={style.RightSide}>
                     <h2 className={style.Name}> {name} </h2>
-                    <p className={style.WeightPrice}> {weight} грамм • {price} ₴ </p>
+                    <p className={style.WeightPrice}> {weight} грамм • {price} $ </p>
                     <div className={style.Description}>
                         <h3 className={style.Description_Title}> Описание </h3>
                         <p className={style.Description_Text}> {description} </p>
@@ -115,8 +115,8 @@ const FoodDetails: FC<IFoodDetailsProps> = ({ foodItem }) => {
                         <h3 className={style.Price}>
                             {
                                 cartItem
-                                    ? `${cartItem.foodItem.price * cartItem.amount} ₴`
-                                    : `${price} ₴`
+                                    ? `${cartItem.foodItem.price * cartItem.amount} $`
+                                    : `${price} $`
                             }
                         </h3>
                         {

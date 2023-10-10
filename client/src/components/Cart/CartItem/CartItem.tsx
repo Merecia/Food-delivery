@@ -38,7 +38,7 @@ const CartItem: FC<ICartItemProps> = ({ cartItem, css }) => {
                 <div className={style.Description}>
                     <p className={style.Description_Name}> {name} </p>
                     <div className={style.Description_PriceWeight}>
-                        <p className={style.Description_Price}> ₴ {price} </p>
+                        <p className={style.Description_Price}> $ {price} </p>
                         <p className={style.Description_Weight}> {weight} грамм </p>
                     </div>
 

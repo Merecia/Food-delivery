@@ -6,11 +6,11 @@ dotenv.config();
 const secretKey = process.env.STRIPE_SECRET_KEY;
 const stripe = new Stripe(secretKey);
 
-export const payment = () => {
+export const payment = (request, response) => {
     stripe.charges.create(
         {
             source: request.body.params.tokenId,
-            amount: request.body.params.amount,
+            amount: request.body.params.totalCost,
             currency: 'usd'
         }, (stripeError, stripeResponse) => {
             if (stripeError) {

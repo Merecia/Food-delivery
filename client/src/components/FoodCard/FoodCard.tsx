@@ -58,7 +58,7 @@ const FoodCard: FC<IFoodCardProps> = ({ foodItem, css }) => {
                 src={imagesURL[0]}
                 alt={`${name}_img`}
             />
-            <p className={style.Price}> ₴ {price} </p>
+            <p className={style.Price}> $ {price} </p>
             <p className={style.Name}> {name} </p>
             <p className={style.Weight}> {weight} грамм </p>
             {
