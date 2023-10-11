@@ -70,8 +70,8 @@ const Menu: FC = () => {
     }
 
     const renderSkeleton = (
-        index: number,
-        cssProperties?: CSSProperties
+        index?: number,
+        cssProperties?: CSSProperties,
     ) => {
         return (
             <Skeleton
@@ -97,6 +97,18 @@ const Menu: FC = () => {
         );
     }
 
+    const renderSkeletons = (amount: number, cssProperties?: CSSProperties) => {
+        let skeletonIndexes = [];
+
+        for (let index = 0; index < amount; index++) {
+            skeletonIndexes.push(index);
+        }
+
+        return skeletonIndexes.map((index) => 
+            renderSkeleton(index, cssProperties)
+        );
+    }
+
     const renderFoodCards = (foodList: IFood[]) => {
         const cssProperties: CSSProperties = {
             marginBottom: '50px',
@@ -107,9 +119,7 @@ const Menu: FC = () => {
         }
 
         if (foodFetchLoading) {
-            return Array(5).map((index) =>
-                renderSkeleton(index, cssProperties)
-            );
+            return renderSkeletons(5, cssProperties);
         } else {
             if (foodList.length === 0) {
                 return (
@@ -135,9 +145,7 @@ const Menu: FC = () => {
         };
 
         if (categoriesFetchLoading) {
-            return Array(5).map((index) =>
-                renderSkeleton(index, cssProperties)
-            );
+            return renderSkeletons(5, cssProperties);
         } else {
             return categories.map((category, index) =>
                 renderCategoryButton(category, index, cssProperties)
