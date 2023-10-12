@@ -10,7 +10,7 @@ export const payment = (request, response) => {
     stripe.charges.create(
         {
             source: request.body.params.tokenId,
-            amount: request.body.params.totalCost,
+            amount: request.body.params.totalCost * 100,
             currency: 'usd'
         }, (stripeError, stripeResponse) => {
             if (stripeError) {

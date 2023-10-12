@@ -3,6 +3,7 @@ import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from './store';
 import { userRequest } from '../httpRequests';
 import { AxiosError } from 'axios';
+import { IPaymentData } from '../types';
 
 type PaymentError = {
     message: string;
@@ -11,13 +12,13 @@ type PaymentError = {
 interface IPaymentState {
   token: Token | null;
   error: string | null;
-  stripeData: object | null;
+  paymentData: IPaymentData | null;
 }
 
 const initialState: IPaymentState = {
   token: null,
   error: null,
-  stripeData: null
+  paymentData: null
 };
 
 interface IStripeRequest {
@@ -26,8 +27,8 @@ interface IStripeRequest {
 }
 
 export const makeStripeRequest = createAsyncThunk<
-    object, IStripeRequest, { rejectValue: PaymentError }
->(
+    IPaymentData, IStripeRequest, { rejectValue: PaymentError }
+> (
     'payment/stripeRequest',
     async (request: IStripeRequest, { rejectWithValue }) => {
         try {
@@ -35,7 +36,7 @@ export const makeStripeRequest = createAsyncThunk<
             const { token, totalCost } = request;
 
             const response = await userRequest.post('/payment', {
-                params: { tokenId: token.id, totalCost },
+                params: { tokenId: token.id, totalCost: totalCost },
                 headers: { Authorization: `Bearer ${PUBLISHABLE_KEY}` }
             });
 
@@ -53,15 +54,21 @@ export const makeStripeRequest = createAsyncThunk<
 export const paymentSlice = createSlice({
   name: 'payment',
   initialState,
-  reducers: {},
+  reducers: {
+    resetToInitial: (state) => {
+        state.token = null;
+        state.error = null;
+        state.paymentData = null;
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(makeStripeRequest.pending, (state) => {
         state.error = null;
     });
     builder.addCase(makeStripeRequest.fulfilled, (
-        state, action: PayloadAction<object>
+        state, action: PayloadAction<IPaymentData>
     ) => {
-        state.stripeData = action.payload;
+        state.paymentData = action.payload;
         state.error = null;
     });
     builder.addCase(makeStripeRequest.rejected, (
@@ -76,6 +83,10 @@ export const paymentSlice = createSlice({
 
 export const selectToken = (state: RootState) => state.payment.token;
 export const selectError = (state: RootState) => state.payment.error;
-export const selectStripeData = (state: RootState) => state.payment.stripeData;
+export const selectPaymentData = (state: RootState) => state.payment.paymentData;
+
+export const {
+    resetToInitial
+  } = paymentSlice.actions;
 
 export default paymentSlice.reducer;

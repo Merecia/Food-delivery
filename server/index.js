@@ -6,6 +6,7 @@ import {
     authRouter, 
     categoryRouter, 
     foodRouter,
+    orderRouter,
     paymentRouter
 } from './routes/index.js';
 
@@ -37,6 +38,7 @@ app.use(express.json());
 app.use('/auth', authRouter);
 app.use('/categories', categoryRouter);
 app.use('/food', foodRouter);
+app.use('/orders', orderRouter);
 app.use('/payment', paymentRouter);
 
 app.listen(PORT, (error) => {

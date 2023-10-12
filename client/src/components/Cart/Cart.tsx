@@ -4,7 +4,9 @@ import { useOutsideClick } from '../../hooks/useOutsideClick';
 import { useSelector } from 'react-redux';
 import { closeCart, emptyCart, selectCart } from '../../redux/cartSlice';
 import { countFoodItemsCost } from '../../utils/helper';
-import { makeStripeRequest, selectStripeData } from '../../redux/paymentSlice';
+import { makeStripeRequest, selectError, selectPaymentData } from '../../redux/paymentSlice';
+import { useNavigate } from 'react-router-dom';
+import { selectUser } from '../../redux/authSlice';
 import { useAppDispatch } from '../../redux/hooks';
 import style from './Cart.module.scss';
 import logo from '../../assets/images/logo.svg';
@@ -18,17 +20,31 @@ const Cart: FC = () => {
     const DELIVERY_COST = Number(import.meta.env.VITE_DELIVERY_COST) || 100;
     const STRIPE_PUBLISHABLE_KEY = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || '';
 
+    const navigate = useNavigate();
+
     const [rendered, setRendered] = useState(false);
 
     const dispatch = useAppDispatch();
-    const cart = useSelector(selectCart);
-    const stripeData = useSelector(selectStripeData);
 
-    const totalCost = countFoodItemsCost(cart) + DELIVERY_COST;
+    const cart = useSelector(selectCart);
+    const paymentData = useSelector(selectPaymentData);
+    const paymentError = useSelector(selectError);
+    const user = useSelector(selectUser);
+
+    const orderCost = countFoodItemsCost(cart);
+    const totalCost = orderCost + DELIVERY_COST;
 
     useEffect(() => {
         setRendered(true);
     }, []);
+
+    useEffect(() => {
+        if (paymentError) {
+            navigate('/payment-error');
+        } else if (paymentData) {
+            navigate('/payment-success');
+        }
+    }, [paymentData, paymentError]);
 
     const renderCartItem = (cartItem: ICartItem, index: number) => {
         return (
@@ -70,19 +86,21 @@ const Cart: FC = () => {
     }
 
     const onToken = async (token: Token) => {
-        dispatch(makeStripeRequest({ token, totalCost }));
+        dispatch(
+            makeStripeRequest({ 
+                token, 
+                totalCost 
+            })
+        );
     }
 
-    useEffect(() => {
-        if (stripeData) {
-            console.log(stripeData);
-            alert('Payment was successful');
+    const checkAuth = () => {
+        if (user === null) {
+            alert('You need to log in first');
         }
-    }, [stripeData]);
+    }
 
     const renderCart = (cart: ICartItem[]) => {
-        const orderCost = countFoodItemsCost(cart);
-
         return (
             <>
                 <div className={style.CartItems}>
@@ -95,14 +113,16 @@ const Cart: FC = () => {
                     totalCost={totalCost}
                 />
                 <StripeCheckout
+                    label = 'Food'
                     name="Food Delivery"
                     image={logo}
                     billingAddress
-                    // shippingAddress
+                    email = {user?.email}
                     description={`Your total is ${totalCost}$`}
-                    amount={totalCost * 100}
+                    amount={totalCost}
                     token={onToken}
                     stripeKey={STRIPE_PUBLISHABLE_KEY}
+                    disabled = {user === null}
                 >
                     <Button 
                         type = 'default' 
@@ -110,6 +130,7 @@ const Cart: FC = () => {
                             margin: '0 auto',
                             width: '15vw'
                         }}
+                        onClick={checkAuth}
                     >
                         Оплатить
                     </Button>

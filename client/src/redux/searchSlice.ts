@@ -1,9 +1,13 @@
-import { FetchError, IAutocompleteOption } from './../types';
+import { IAutocompleteOption } from './../types';
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { publicRequest } from "../httpRequests";
 import { IFood } from "../types";
 import { RootState } from "./store";
 import { AxiosError } from "axios";
+
+type SearchError = {
+    message: string;
+}
 
 interface ISearchState {
     query: string;
@@ -20,8 +24,8 @@ const initialState: ISearchState = {
 };
 
 export const getAutocompleteOptions = createAsyncThunk<
-    IFood[], string, { rejectValue: FetchError }
->(
+    IFood[], string, { rejectValue: SearchError }
+> (
     'search/query',
     async (query: string, { rejectWithValue }) => {
         try {
@@ -64,7 +68,7 @@ export const searchSlice = createSlice({
             state.error = null;
         });
         builder.addCase(getAutocompleteOptions.rejected, (
-            state, action: PayloadAction<FetchError | undefined>
+            state, action: PayloadAction<SearchError | undefined>
         ) => {
             state.autocompleteVisible = false;
             if (action.payload) {

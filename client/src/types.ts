@@ -51,3 +51,19 @@ export interface IAutocompleteOption {
     _id: string;
     name: string;
 }
+
+export interface IPaymentData {
+    amount: number;
+    billing_details: IBillingDetails;
+}
+
+export interface IBillingDetails {
+    name: string;
+    address: IAddress;
+}
+
+export interface IAddress {
+    city: string;
+    country: string;
+    line1: string;
+}

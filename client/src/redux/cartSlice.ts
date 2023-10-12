@@ -13,7 +13,7 @@ const initialState: ICartState = {
     cart: []
 };
 
-export const applicationSlice = createSlice({
+export const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
@@ -22,6 +22,10 @@ export const applicationSlice = createSlice({
     },
     closeCart: (state) => {
       state.showCart = false;
+    },
+    resetToInitial: (state) => {
+        state.showCart = false;
+        state.cart = [];
     },
     addFoodToCart: (state, action: PayloadAction<IFood>) => {
       const foodItem = action.payload;
@@ -67,9 +71,10 @@ export const {
   openCart, 
   closeCart, 
   emptyCart,
+  resetToInitial,
   addFoodToCart,
   increaseFoodAmountInCart, 
   decreaseFoodAmountInCart
-} = applicationSlice.actions;
+} = cartSlice.actions;
 
-export default applicationSlice.reducer;
+export default cartSlice.reducer;
