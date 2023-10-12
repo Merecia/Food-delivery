@@ -1,69 +1,77 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Alert, Snackbar } from '@mui/material';
-import { AxiosError } from 'axios';
-import { userRequest } from '../../httpRequests';
 import { selectUser } from '../../redux/authSlice';
-import { ICartItem, IPaymentData, IUser } from '../../types';
+import { ICartItem } from '../../types';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../redux/hooks';
-import { 
-    resetToInitial as resetPaymentToInitial, 
-    selectPaymentData 
+import {
+    resetToInitial as resetPaymentToInitial,
+    selectPaymentData
 } from '../../redux/paymentSlice';
-import { 
-    resetToInitial as resetCartToInitial, 
-    selectCart 
+import {
+    resetToInitial as resetCartToInitial,
+    selectCart
 } from '../../redux/cartSlice';
+import {
+    createOrder,
+    selectError,
+    selectOrderId,
+    setError,
+    resetToInitial as resetOrderToInitial
+} from '../../redux/orderSlice';
 import style from './PaymentSuccess.module.scss';
 import Button from '../../GUI/Button/Button';
 
 const PaymentSuccess: FC = () => {
-    const navigate=  useNavigate();
+    const navigate = useNavigate();
 
     const paymentData = useSelector(selectPaymentData);
     const user = useSelector(selectUser);
     const cart = useSelector(selectCart);
+    const orderId = useSelector(selectOrderId);
+    const error = useSelector(selectError);
 
     const dispatch = useAppDispatch();
 
-    const [error, setError] = useState<string | null>(null);
-    const [orderId, setOrderId] = useState<string | null>(null);
-
     useEffect(() => {
-        const createOrder = async () => {
-            try {
-                const products = cart.map((cartItem: ICartItem) => ({
-                    foodItemId: cartItem.foodItem._id,
-                    amount: cartItem.amount
-                }));
+        if (!orderId && paymentData && user) {
+            const products = cart.map((cartItem: ICartItem) => ({
+                foodItemId: cartItem.foodItem._id,
+                amount: cartItem.amount
+            }));
 
-                const response = await userRequest.post('/orders', {
-                    user: (user as IUser)._id,
-                    products,
-                    totalCost: (paymentData as IPaymentData).amount,
-                    address: (paymentData as IPaymentData).billing_details.address
-                });
-
-                setOrderId(response.data._id);
-            } catch (error) {
-                setError((error as AxiosError).message);
-            }
-        }
-
-        if (paymentData && user) {
-            createOrder();
+            dispatch(
+                createOrder({
+                    userId: user._id,
+                    foodList: products,
+                    totalCost: paymentData.amount / 100,
+                    address: paymentData.billing_details.address
+                })
+            );
         } else {
-            if (!paymentData) {
-                setError(`
+            if (orderId) {
+                dispatch(
+                    setError(`
+                        The order has already been saved to the database. 
+                        You can return to the main menu.
+                    `)
+                );
+            }
+            else if (!paymentData) {
+                dispatch(
+                    setError(`
                     An error occurred while saving the order. 
                     Your payment information has been lost.
-                `);
+                `)
+                );
             } else if (!user) {
-                setError(`
-                    An error occurred while saving the order. 
-                    You are not authorized.
-                `);
+                dispatch(
+                    setError(`
+                        An error occurred while saving the order. 
+                        You are not authorized.
+                    `)
+                );
             }
         }
     }, [paymentData]);
@@ -71,6 +79,7 @@ const PaymentSuccess: FC = () => {
     const backButtonClickHandler = () => {
         dispatch(resetCartToInitial());
         dispatch(resetPaymentToInitial());
+        dispatch(resetOrderToInitial());
         navigate('/');
     }
 
@@ -79,10 +88,10 @@ const PaymentSuccess: FC = () => {
             <Snackbar
                 open={error !== null}
                 autoHideDuration={6000}
-                onClose={() => setError(null)}
+                onClose={() => dispatch(setError(null))}
                 anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
             >
-                <Alert onClose={() => setError(null)} severity='error'>
+                <Alert onClose={() => dispatch(setError(null))} severity='error'>
                     {message}
                 </Alert>
             </Snackbar>
@@ -103,14 +112,14 @@ const PaymentSuccess: FC = () => {
                 <div className={style.PaymentData}>
                     <div className={style.Name}>
                         <p className={style.AttributeName}> Name: </p>
-                        <p className={style.AttributeValue}> 
-                            { `${user?.firstName} ${user?.lastName}` } 
+                        <p className={style.AttributeValue}>
+                            {`${user?.firstName} ${user?.lastName}`}
                         </p>
                     </div>
                     <div className={style.Amount}>
                         <p className={style.AttributeName}> Total amount paid: </p>
-                        <p className={style.AttributeValue}> 
-                            { `${paymentData?.amount}$` } 
+                        <p className={style.AttributeValue}>
+                            {paymentData && `${paymentData.amount / 100}$`}
                         </p>
                     </div>
                     <div className={style.OrderNumber}>
@@ -121,7 +130,7 @@ const PaymentSuccess: FC = () => {
                 <Button
                     type='success'
                     cssProperties={{ margin: '0 auto' }}
-                    onClick = {backButtonClickHandler}
+                    onClick={backButtonClickHandler}
                 >
                     Back to Main Page
                 </Button>

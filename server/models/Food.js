@@ -7,7 +7,7 @@ const FoodSchema = new mongoose.Schema(
         price: { type: Number, required: true },
         inStock: { type: Boolean, default: true },
         weight: { type: Number, required: true },
-        category: { 
+        categoryId: { 
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Category',
             required: true

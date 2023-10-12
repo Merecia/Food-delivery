@@ -35,7 +35,6 @@ export const remove = async (request, response) => {
 
 export const getById = async (request, response) => {
     try {
-        console.log(request.params.id);
         const food = await Food.findById(request.params.id);
         response.status(200).json(food);
     } catch (error) {
@@ -45,8 +44,8 @@ export const getById = async (request, response) => {
 
 export const getByCategory = async (request, response) => {
     try {
-        const category = request.params.category;
-        const food = await Food.find({ category });
+        const categoryId = request.params.categoryId;
+        const food = await Food.find({ categoryId });
         response.status(200).json(food);
     } catch (error) {
         response.status(500).json(error);

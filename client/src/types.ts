@@ -5,9 +5,9 @@ export interface ICategory {
 };
 
 export interface IFood {
-    _id: string; 
+    _id: string;
     imagesURL: string[];
-    category: string;
+    categoryId: string;
     name: string;
     description: string;
     weight: number;
@@ -66,4 +66,19 @@ export interface IAddress {
     city: string;
     country: string;
     line1: string;
+    line2?: string;
+    postal_code?: string;
+    state?: string;
+}
+
+export interface IOrderFood {
+    foodItemId: string;
+    amount: number;
+}
+
+export interface IOrder {
+    userId: string,
+    foodList: IOrderFood[],
+    totalCost: number,
+    address: IAddress
 }

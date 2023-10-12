@@ -119,7 +119,7 @@ const Cart: FC = () => {
                     billingAddress
                     email = {user?.email}
                     description={`Your total is ${totalCost}$`}
-                    amount={totalCost}
+                    amount={totalCost * 100}
                     token={onToken}
                     stripeKey={STRIPE_PUBLISHABLE_KEY}
                     disabled = {user === null}
