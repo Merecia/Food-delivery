@@ -16,9 +16,10 @@ import {
 import {
     createOrder,
     selectError,
-    selectOrderId,
+    selectOrder,
     setError,
-    resetToInitial as resetOrderToInitial
+    resetToInitial as resetOrderToInitial,
+    selectLoading
 } from '../../redux/orderSlice';
 import style from './PaymentSuccess.module.scss';
 import Button from '../../GUI/Button/Button';
@@ -29,13 +30,14 @@ const PaymentSuccess: FC = () => {
     const paymentData = useSelector(selectPaymentData);
     const user = useSelector(selectUser);
     const cart = useSelector(selectCart);
-    const orderId = useSelector(selectOrderId);
+    const order = useSelector(selectOrder);
+    const loading = useSelector(selectLoading);
     const error = useSelector(selectError);
 
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        if (!orderId && paymentData && user) {
+        if (!order && paymentData && user) {
             const products = cart.map((cartItem: ICartItem) => ({
                 foodItemId: cartItem.foodItem._id,
                 amount: cartItem.amount
@@ -50,7 +52,7 @@ const PaymentSuccess: FC = () => {
                 })
             );
         } else {
-            if (orderId) {
+            if (order) {
                 dispatch(
                     setError(`
                         The order has already been saved to the database. 
@@ -122,15 +124,19 @@ const PaymentSuccess: FC = () => {
                             {paymentData && `${paymentData.amount / 100}$`}
                         </p>
                     </div>
-                    <div className={style.OrderNumber}>
-                        <p className={style.AttributeName}> Order number: </p>
-                        <p className={style.AttributeValue}> {orderId} </p>
-                    </div>
+                    {
+                        !loading && order?._id && 
+                        <div className={style.OrderNumber}>
+                            <p className={style.AttributeName}> Order number: </p>
+                            <p className={style.AttributeValue}> {order._id} </p>
+                        </div>
+                    }
                 </div>
                 <Button
                     type='success'
                     cssProperties={{ margin: '0 auto' }}
                     onClick={backButtonClickHandler}
+                    disabled={loading}
                 >
                     Back to Main Page
                 </Button>

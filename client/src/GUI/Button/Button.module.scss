@@ -12,4 +12,11 @@
         box-shadow: rgba(80, 63, 205, 0.5) 0 1px 15px;
         transition-duration: .5s;
     }
+
+    &:disabled,
+    button[disabled] {
+        border: 1px solid #999999;
+        background-color: #cccccc;
+        color: #666666;
+    }
 }

@@ -77,6 +77,7 @@ export interface IOrderFood {
 }
 
 export interface IOrder {
+    _id?: string;
     userId: string,
     foodList: IOrderFood[],
     totalCost: number,

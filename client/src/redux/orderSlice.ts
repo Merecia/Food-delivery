@@ -5,25 +5,25 @@ import { AxiosError } from 'axios';
 import { FetchError, IOrder } from '../types';
 
 interface IOrderState {
-  orderId: string | null;
+  order: IOrder | null;
   error: string | null;
   loading: boolean;
 }
 
 const initialState: IOrderState = {
-  orderId: null,
+  order: null,
   error: null,
   loading: false
 };
 
 export const createOrder = createAsyncThunk<
-  string, IOrder, { rejectValue: FetchError }
+  IOrder, IOrder, { rejectValue: FetchError }
 > (
   'order/create',
   async (order: IOrder, { rejectWithValue }) => {
     try {
       const response = await userRequest.post('/orders', order);
-      return response.data.orderId;
+      return response.data;
     } catch (error) {
       if (error instanceof AxiosError && error.response) {
         return rejectWithValue({ message: error.response.data.message });
@@ -43,7 +43,7 @@ export const orderSlice = createSlice({
     },
     resetToInitial: (state) => {
       state.error = null;
-      state.orderId = null;
+      state.order = null;
       state.loading = false;
     }
   },
@@ -53,9 +53,9 @@ export const orderSlice = createSlice({
       state.loading = true;
     });
     builder.addCase(createOrder.fulfilled, (
-      state, action: PayloadAction<string>
+      state, action: PayloadAction<IOrder>
     ) => {
-      state.orderId = action.payload;
+      state.order = action.payload;
       state.error = null;
       state.loading = false;
     });
@@ -70,7 +70,7 @@ export const orderSlice = createSlice({
   }
 });
 
-export const selectOrderId = (state: RootState) => state.order.orderId;
+export const selectOrder = (state: RootState) => state.order.order;
 export const selectLoading = (state: RootState) => state.order.loading;
 export const selectError = (state: RootState) => state.order.error;
 
