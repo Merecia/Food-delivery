@@ -59,13 +59,12 @@ const PaymentSuccess: FC = () => {
                         You can return to the main menu.
                     `)
                 );
-            }
-            else if (!paymentData) {
+            } else if (!paymentData) {
                 dispatch(
                     setError(`
-                    An error occurred while saving the order. 
-                    Your payment information has been lost.
-                `)
+                        An error occurred while saving the order. 
+                        Your payment information has been lost.
+                    `)
                 );
             } else if (!user) {
                 dispatch(
@@ -125,7 +124,7 @@ const PaymentSuccess: FC = () => {
                         </p>
                     </div>
                     {
-                        !loading && order?._id && 
+                        !loading && order?._id &&
                         <div className={style.OrderNumber}>
                             <p className={style.AttributeName}> Order number: </p>
                             <p className={style.AttributeValue}> {order._id} </p>

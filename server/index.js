@@ -7,7 +7,8 @@ import {
     categoryRouter, 
     foodRouter,
     orderRouter,
-    paymentRouter
+    paymentRouter,
+    userRouter
 } from './routes/index.js';
 
 const corsOptions = {
@@ -40,6 +41,7 @@ app.use('/categories', categoryRouter);
 app.use('/food', foodRouter);
 app.use('/orders', orderRouter);
 app.use('/payment', paymentRouter);
+app.use('/users', userRouter);
 
 app.listen(PORT, (error) => {
     if (error) console.log(error);
