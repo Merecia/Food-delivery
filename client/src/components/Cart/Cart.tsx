@@ -71,7 +71,7 @@ const Cart: FC = () => {
                     className={style.EmptyCart_Img}
                 />
                 <h2 className={style.EmptyCart_Title}>
-                    There are no items in the cart
+                    В корзине ничего нет
                 </h2>
             </div>
         );
@@ -96,7 +96,7 @@ const Cart: FC = () => {
 
     const checkAuth = () => {
         if (user === null) {
-            alert('You need to log in first');
+            navigate('/auth');
         }
     }
 

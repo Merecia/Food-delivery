@@ -4,6 +4,8 @@ $orange: #FE724C;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    font-size: 20px;
+    font-weight: 400;
 
     .Decrease,
     .Increase {
@@ -11,7 +13,7 @@ $orange: #FE724C;
         border-radius: 20px;
         width: 30px;
         height: 30px;
-        font-size: 20px;
+        font-size: 18px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -26,10 +28,5 @@ $orange: #FE724C;
     .Increase {
         color: white;
         background-color: $orange;
-    }
-
-    .Counter {
-        font-size: 20px;
-        font-weight: 400;
     }
 }
