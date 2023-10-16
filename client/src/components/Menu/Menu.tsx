@@ -1,8 +1,7 @@
 import { CSSProperties, FC, useEffect } from 'react';
 import { ICategory, IFood } from '../../types';
-import { useSelector } from 'react-redux';
 import { selectChosenCategoryId } from '../../redux/slices/categoriesSlice';
-import { useAppDispatch } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { Skeleton } from '@mui/material';
 import {
     fetchCategories,
@@ -22,14 +21,13 @@ import FoodCard from '../FoodCard/FoodCard';
 import CategoryButton from '../CategoryButton/CategoryButton';
 
 const Menu: FC = () => {
-    const foodList = useSelector(selectFoodList);
-    const foodFetchError = useSelector(selectFoodFetchError);
-    const foodFetchLoading = useSelector(selectFoodFetchLoading);
-
-    const categories = useSelector(selectCategories);
-    const categoriesFetchError = useSelector(selectCategoriesFetchError);
-    const categoriesFetchLoading = useSelector(selectCategoriesFetchLoading);
-    const chosenCategoryId = useSelector(selectChosenCategoryId);
+    const foodList = useAppSelector(selectFoodList);
+    const foodFetchError = useAppSelector(selectFoodFetchError);
+    const foodFetchLoading = useAppSelector(selectFoodFetchLoading);
+    const categories = useAppSelector(selectCategories);
+    const categoriesFetchError = useAppSelector(selectCategoriesFetchError);
+    const categoriesFetchLoading = useAppSelector(selectCategoriesFetchLoading);
+    const chosenCategoryId = useAppSelector(selectChosenCategoryId);
 
     const dispatch = useAppDispatch();
 

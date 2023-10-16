@@ -2,8 +2,8 @@ import { FC, useState, useEffect } from 'react';
 import { ICartItem, IFood } from '../../types';
 import { Carousel } from 'react-responsive-carousel';
 import { closeFoodDetails } from '../../redux/slices/foodDetailsSlice';
-import { useDispatch, useSelector } from 'react-redux';
 import { useOutsideClick } from '../../hooks/useOutsideClick';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import {
     addFoodToCart,
     decreaseFoodAmountInCart,
@@ -12,8 +12,8 @@ import {
 } from '../../redux/slices/cartSlice';
 import Counter from '../../GUI/Counter/Counter';
 import style from './FoodDetails.module.scss';
-import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Button from '../../GUI/Button/Button';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 interface IFoodDetailsProps {
     foodItem: IFood;
@@ -23,9 +23,10 @@ const FoodDetails: FC<IFoodDetailsProps> = ({ foodItem }) => {
     const { name, imagesURL, weight, description, price } = foodItem;
 
     const [rendered, setRendered] = useState(false);
-    const dispatch = useDispatch();
 
-    const cart = useSelector(selectCart);
+    const dispatch = useAppDispatch();
+    const cart = useAppSelector(selectCart);
+
     const cartItem = cart.find((cartItem) => cartItem.foodItem._id === foodItem._id);
 
     useEffect(() => {

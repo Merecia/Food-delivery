@@ -1,10 +1,9 @@
 import { FC, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import { Alert, Snackbar } from '@mui/material';
 import { selectUser } from '../../redux/slices/authSlice';
 import { ICartItem } from '../../types';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import {
     resetToInitial as resetPaymentToInitial,
     selectPaymentData
@@ -27,12 +26,12 @@ import Button from '../../GUI/Button/Button';
 const PaymentSuccess: FC = () => {
     const navigate = useNavigate();
 
-    const paymentData = useSelector(selectPaymentData);
-    const user = useSelector(selectUser);
-    const cart = useSelector(selectCart);
-    const order = useSelector(selectOrder);
-    const loading = useSelector(selectLoading);
-    const error = useSelector(selectError);
+    const paymentData = useAppSelector(selectPaymentData);
+    const user = useAppSelector(selectUser);
+    const cart = useAppSelector(selectCart);
+    const order = useAppSelector(selectOrder);
+    const loading = useAppSelector(selectLoading);
+    const error = useAppSelector(selectError);
 
     const dispatch = useAppDispatch();
 

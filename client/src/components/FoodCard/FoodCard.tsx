@@ -1,6 +1,5 @@
 import { FC, CSSProperties } from 'react';
 import { ICartItem, IFood } from '../../types';
-import { useDispatch, useSelector } from 'react-redux';
 import { openFoodDetails } from '../../redux/slices/foodDetailsSlice';
 import {
     addFoodToCart,
@@ -11,6 +10,7 @@ import {
 import style from './FoodCard.module.scss';
 import Counter from '../../GUI/Counter/Counter';
 import Button from '../../GUI/Button/Button';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 
 interface IFoodCardProps {
     foodItem: IFood;
@@ -20,9 +20,9 @@ interface IFoodCardProps {
 const FoodCard: FC<IFoodCardProps> = ({ foodItem, css }) => {
     const { imagesURL, weight, price, name } = foodItem;
 
-    const dispatch = useDispatch();
-
-    const cart = useSelector(selectCart);
+    const dispatch = useAppDispatch();
+    const cart = useAppSelector(selectCart);
+    
     const cartItem = cart.find((cartItem) => cartItem.foodItem._id === foodItem._id);
 
     const cardClickHandler = () => {

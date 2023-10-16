@@ -1,9 +1,8 @@
 import { FC, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { countFoodItemsInCart } from '../../utils/helper';
 import { openCart, selectCart } from '../../redux/slices/cartSlice';
 import { useDebounce } from '../../hooks/useDebounce';
-import { useAppDispatch } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { IAutocompleteOption } from '../../types';
 import { fetchFoodById } from '../../redux/slices/foodSlice';
 import { useOutsideClick } from '../../hooks/useOutsideClick';
@@ -36,11 +35,11 @@ import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 const Header: FC = () => {
     const dispatch = useAppDispatch();
 
-    const cart = useSelector(selectCart);
-    const query = useSelector(selectQuery);
-    const autocompleteOptions = useSelector(selectAutocompeteOptions);
-    const autocompleteVisible = useSelector(selectAutocompeteVisible);
-    const user = useSelector(selectUser);
+    const cart = useAppSelector(selectCart);
+    const query = useAppSelector(selectQuery);
+    const autocompleteOptions = useAppSelector(selectAutocompeteOptions);
+    const autocompleteVisible = useAppSelector(selectAutocompeteVisible);
+    const user = useAppSelector(selectUser);
 
     const [userOptionsVisible, setUserOptionsVisible] = useState<boolean>(false);
 
@@ -139,7 +138,12 @@ const Header: FC = () => {
 
     return (
         <header className={style.Header}>
-            <img src={logo} alt='logo' className={style.Logo} />
+            <img 
+                src={logo} 
+                alt='logo' 
+                className={style.Logo}
+                onClick={() => navigate('/')} 
+            />
             <div className={style.Search} ref={searchRef}>
                 <input
                     type='text'

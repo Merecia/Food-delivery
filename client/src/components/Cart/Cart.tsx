@@ -1,13 +1,12 @@
 import { FC, useState, useEffect } from 'react';
 import { ICartItem } from '../../types';
 import { useOutsideClick } from '../../hooks/useOutsideClick';
-import { useSelector } from 'react-redux';
 import { closeCart, emptyCart, selectCart } from '../../redux/slices/cartSlice';
 import { countFoodItemsCost } from '../../utils/helper';
 import { makeStripeRequest, selectError, selectPaymentData } from '../../redux/slices/paymentSlice';
 import { useNavigate } from 'react-router-dom';
 import { selectUser } from '../../redux/slices/authSlice';
-import { useAppDispatch } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import style from './Cart.module.scss';
 import logo from '../../assets/images/logo.svg';
 import CartItem from './CartItem/CartItem';
@@ -26,10 +25,10 @@ const Cart: FC = () => {
 
     const dispatch = useAppDispatch();
 
-    const cart = useSelector(selectCart);
-    const paymentData = useSelector(selectPaymentData);
-    const paymentError = useSelector(selectError);
-    const user = useSelector(selectUser);
+    const cart = useAppSelector(selectCart);
+    const paymentData = useAppSelector(selectPaymentData);
+    const paymentError = useAppSelector(selectError);
+    const user = useAppSelector(selectUser);
 
     const orderCost = countFoodItemsCost(cart);
     const totalCost = orderCost + DELIVERY_COST;

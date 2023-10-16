@@ -2,9 +2,8 @@ import { FC, useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { TextField, Button, Typography } from '@mui/material';
 import { Snackbar, Alert } from '@mui/material';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import {
     registration,
     login,
@@ -14,6 +13,7 @@ import {
     selectUser
 } from '../../redux/slices/authSlice';
 import style from './Auth.module.scss';
+import Header from '../../components/Header/Header';
 
 const Auth: FC = () => {
     const {
@@ -32,9 +32,9 @@ const Auth: FC = () => {
 
     const [signUp, setSignUp] = useState(false);
     const dispatch = useAppDispatch();
-    const error = useSelector(selectError);
-    const loading = useSelector(selectLoading);
-    const user = useSelector(selectUser);
+    const error = useAppSelector(selectError);
+    const loading = useAppSelector(selectLoading);
+    const user = useAppSelector(selectUser);
     const navigate = useNavigate();
 
     const RED = '#dc3545';
@@ -272,6 +272,7 @@ const Auth: FC = () => {
 
     return (
         <div className={style.Substrate}>
+            <Header />
             <form
                 className={style.AuthForm}
                 onSubmit={handleAuth}

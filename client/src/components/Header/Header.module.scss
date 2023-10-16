@@ -2,19 +2,21 @@
     position: relative;
     display: flex;
     align-items: center;
-    padding: 5px 15px;
     z-index: 10;
+    background-color: white;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .2);
+    width: 100%;
 
     .Logo {
         width: 105px;
         height: 100px;
         margin-right: 9.375rem;
+        cursor: pointer;
     }
 
     .Search {
         position: relative;
-        margin-right: 19rem;
+        margin-right: 21rem;
 
         &::before {
             content: "";
@@ -62,7 +64,7 @@
     .Cart {
         display: flex;
         cursor: pointer;
-        margin-right: 1.5rem;
+        margin-right: 2rem;
 
         .Cart_Counter {
             display: flex;
@@ -93,6 +95,26 @@
             height: 100px;
             cursor: pointer;
         }
+
+        .DropdownMenu {
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2), 0 4px 6px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            position: absolute;
+            top: 80px;
+            right: 10px;
+            z-index: 100;
+        }
+    }
+
+    .SignIn {
+        display: flex;
+        width: 100px;
+        color: rgb(161, 161, 161);
+        cursor: pointer;
+
+        .SignInLabel {
+            font-size: 20px;
+        }   
     }
 
     .ToggleMenu {
@@ -102,25 +124,5 @@
             width: 30px;
             height: 30px;
         }
-    }
-
-    .SignIn {
-        display: flex;
-        width: 100px;
-        color: grey;
-        cursor: pointer;
-
-        .SignInLabel {
-            font-size: 20px;
-        }   
-    }
-
-    .DropdownMenu {
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2), 0 4px 6px rgba(0, 0, 0, 0.2);
-        border-radius: 10px;
-        position: absolute;
-        top: 80px;
-        right: 10px;
-        z-index: 100;
     }
 }

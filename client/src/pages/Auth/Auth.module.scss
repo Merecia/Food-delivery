@@ -6,8 +6,9 @@
     top: 0;
     left: 0;
     display: flex;
-    justify-content: center;
     align-items: center;
+    flex-direction: column;
+    overflow: auto;
     transition: 0.5s;
     z-index: 300;
 
@@ -15,8 +16,7 @@
         background: white;
         width: 500px;
         max-height: 90%;
-        overflow: auto;
-        margin: 100px auto;
+        margin: 30px auto;
         border-radius: 10px;
         padding: 20px 40px 20px 40px;
         box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
@@ -32,12 +32,7 @@
         }
 
         .SignInLabel {
-            margiN: 0px 40px;
-        }
-
-        &::-webkit-scrollbar {
-            width: 0;
-            background: transparent;
+            margin: 0px 40px;
         }
 
         .NameFields {
