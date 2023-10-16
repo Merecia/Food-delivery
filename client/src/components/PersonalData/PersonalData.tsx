@@ -4,11 +4,13 @@ import { Alert, Snackbar, TextField } from '@mui/material';
 import { IUser } from '../../types';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { useNavigate } from 'react-router-dom';
-import { selectUser } from '../../redux/slices/authSlice';
+import { selectUser as selectAuthorizedUser } from '../../redux/slices/authSlice';
 import { 
+    fetchUserData,
     selectError, 
     selectLoading,
     selectSuccessNotification, 
+    selectUser, 
     setError, 
     setSuccessNotification, 
     updatePersonalData 
@@ -26,6 +28,8 @@ const PersonalData: FC<IPersonalDataProps> = () => {
     const MAX_NAME_LENGTH = parseInt(import.meta.env.VITE_MAX_NAME_LENGTH || '35');
 
     const dispatch = useAppDispatch();
+
+    const userId = useAppSelector(selectAuthorizedUser)?._id;
     const user = useAppSelector(selectUser);
     const error = useAppSelector(selectError);
     const loading = useAppSelector(selectLoading);
@@ -34,24 +38,26 @@ const PersonalData: FC<IPersonalDataProps> = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (user === null) {
-            navigate('/');
+        if (userId) dispatch(fetchUserData(userId));
+        else navigate('/');
+    }, [userId]);
+
+    useEffect(() => {
+        if (user) {
+            reset({
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email
+            });
         }
     }, [user]);
 
     const {
         register,
         handleSubmit,
+        reset,
         formState: { errors }
-    } = useForm({
-        defaultValues: {
-            firstName: user?.firstName || '',
-            lastName: user?.lastName || '',
-            email: user?.email || '',
-            password: '',
-            confirmPassword: ''
-        }
-    });
+    } = useForm({ mode: 'onBlur' });
 
     const renderErrorAlert = (message: string) => {
         const removeError = () => dispatch(setError(null));
@@ -69,7 +75,6 @@ const PersonalData: FC<IPersonalDataProps> = () => {
             </Snackbar>
         );
     }
-
 
     const renderSuccessAlert = (message: string) => {
         const removeSuccessAlert = () => dispatch(setSuccessNotification(null));
@@ -136,7 +141,7 @@ const PersonalData: FC<IPersonalDataProps> = () => {
                     }
                     sx={{ width: '48%' }}
                     error={errors.firstName?.message !== undefined}
-                    helperText={errors.firstName?.message}
+                    helperText={errors.firstName?.message?.toString()}
                 />
                 <TextField
                     placeholder='Ваша фамилия'
@@ -162,7 +167,7 @@ const PersonalData: FC<IPersonalDataProps> = () => {
                     }
                     sx={{ width: '48%' }}
                     error={errors.lastName?.message !== undefined}
-                    helperText={errors.lastName?.message}
+                    helperText={errors.lastName?.message?.toString()}
                 />
             </div>
         );
@@ -190,7 +195,7 @@ const PersonalData: FC<IPersonalDataProps> = () => {
                 }
                 sx={{ marginBottom: '20px' }}
                 error={errors.password?.message !== undefined}
-                helperText={errors.password?.message}
+                helperText={errors.password?.message?.toString()}
             />
         );
     }
@@ -210,7 +215,7 @@ const PersonalData: FC<IPersonalDataProps> = () => {
                 }
                 sx={{ marginBottom: '20px' }}
                 error={errors.confirmPassword?.message !== undefined}
-                helperText={errors.confirmPassword?.message}
+                helperText={errors.confirmPassword?.message?.toString()}
             />
         );
     }
@@ -235,7 +240,7 @@ const PersonalData: FC<IPersonalDataProps> = () => {
                 }
                 sx={{ marginBottom: '20px' }}
                 error={errors.email?.message !== undefined}
-                helperText={errors.email?.message}
+                helperText={errors.email?.message?.toString()}
             />
         );
     }

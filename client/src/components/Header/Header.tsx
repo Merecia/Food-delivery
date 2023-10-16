@@ -138,62 +138,63 @@ const Header: FC = () => {
 
     return (
         <header className={style.Header}>
-            <img 
-                src={logo} 
-                alt='logo' 
-                className={style.Logo}
-                onClick={() => navigate('/')} 
-            />
-            <div className={style.Search} ref={searchRef}>
-                <input
-                    type='text'
-                    placeholder='Введите название блюда'
-                    className={style.SearchInput}
-                    value={query}
-                    onChange={searchInputChangeHandler}
-                />
-                <ul className={style.Autocomplete}>
-                    {
-                        autocompleteVisible
-                        && debouncedQuery.length !== 0
-                        && renderAutocompleteOptions(autocompleteOptions)
-                    }
-                </ul>
-            </div>
-            <div
-                className={style.Cart}
-                onClick={cartIconClickHandler}
-            >
-                <img src={cartIcon} alt='cartIcon' />
-                {
-                    foodItemsAmount > 0 &&
-                    <div className={style.Cart_Counter}>
-                        <span> {foodItemsAmount} </span>
-                    </div>
-                }
-            </div>
-            {
-                user
-                    ? <div className={style.Profile} ref={dropdownMenuRef}>
-                        <img
-                            src={avatar}
-                            alt='avatar'
-                            className={style.Avatar}
-                            onClick={avatarClickHandler}
-                        />
-                        {userOptionsVisible && renderDropdownMenu()}
-                    </div>
-                    : <div className={style.SignIn} onClick={() => navigate('./auth')}>
-                        <p className={style.SignInLabel}> Войти </p>
-                        <PersonOutlineIcon />
-                    </div>         
-            }
-            <div className={style.ToggleMenu}>
+            <div className={style.LogoSearch}>
                 <img
-                    src={menu}
-                    alt='menu'
-                    className={style.MenuIcon}
+                    src={logo}
+                    alt='logo'
+                    className={style.Logo}
+                    onClick={() => navigate('/')}
                 />
+                <div className={style.Search} ref={searchRef}>
+                    <input
+                        type='text'
+                        placeholder='Введите название блюда'
+                        className={style.SearchInput}
+                        value={query}
+                        onChange={searchInputChangeHandler}
+                    />
+                    <ul className={style.Autocomplete}>
+                        {
+                            autocompleteVisible
+                            && debouncedQuery.length !== 0
+                            && renderAutocompleteOptions(autocompleteOptions)
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div className={style.CartProfile}>
+                <div className={style.Cart} onClick={cartIconClickHandler}>
+                    <img src={cartIcon} alt='cartIcon' />
+                    {
+                        foodItemsAmount > 0 &&
+                        <div className={style.Cart_Counter}>
+                            <span> {foodItemsAmount} </span>
+                        </div>
+                    }
+                </div>
+                {
+                    user
+                        ? <div className={style.Profile} ref={dropdownMenuRef}>
+                            <img
+                                src={avatar}
+                                alt='avatar'
+                                className={style.Avatar}
+                                onClick={avatarClickHandler}
+                            />
+                            {userOptionsVisible && renderDropdownMenu()}
+                        </div>
+                        : <div className={style.SignIn} onClick={() => navigate('./auth')}>
+                            <p className={style.SignInLabel}> Войти </p>
+                            <PersonOutlineIcon />
+                        </div>
+                }
+                <div className={style.ToggleMenu}>
+                    <img
+                        src={menu}
+                        alt='menu'
+                        className={style.MenuIcon}
+                    />
+                </div>
             </div>
         </header >
     );

@@ -54,22 +54,22 @@ const PaymentSuccess: FC = () => {
             if (order) {
                 dispatch(
                     setError(`
-                        The order has already been saved to the database. 
-                        You can return to the main menu.
+                        Заказ уже был сохранён в базе данных. 
+                        Вы можете вернуться в главное меню.
                     `)
                 );
             } else if (!paymentData) {
                 dispatch(
                     setError(`
-                        An error occurred while saving the order. 
-                        Your payment information has been lost.
+                        Произошла ошибка во время сохранения заказа. 
+                        Данные о платеже были утеряны. Обратитесь к администратору.
                     `)
                 );
             } else if (!user) {
                 dispatch(
                     setError(`
-                        An error occurred while saving the order. 
-                        You are not authorized.
+                        Произошла ошибка во время оплаты.
+                        Вы не авторизованы.
                     `)
                 );
             }
@@ -107,17 +107,17 @@ const PaymentSuccess: FC = () => {
                     &#10003;
                 </div>
                 <h2 className={style.Title}>
-                    Payment successful
+                    Оплата выполнена успешно
                 </h2>
                 <div className={style.PaymentData}>
                     <div className={style.Name}>
-                        <p className={style.AttributeName}> Name: </p>
+                        <p className={style.AttributeName}> Имя и фамилия: </p>
                         <p className={style.AttributeValue}>
                             {`${user?.firstName} ${user?.lastName}`}
                         </p>
                     </div>
                     <div className={style.Amount}>
-                        <p className={style.AttributeName}> Total amount paid: </p>
+                        <p className={style.AttributeName}> Сумма: </p>
                         <p className={style.AttributeValue}>
                             {paymentData && `${paymentData.amount / 100}$`}
                         </p>
@@ -125,7 +125,7 @@ const PaymentSuccess: FC = () => {
                     {
                         !loading && order?._id &&
                         <div className={style.OrderNumber}>
-                            <p className={style.AttributeName}> Order number: </p>
+                            <p className={style.AttributeName}> Номер заказа: </p>
                             <p className={style.AttributeValue}> {order._id} </p>
                         </div>
                     }
@@ -136,7 +136,7 @@ const PaymentSuccess: FC = () => {
                     onClick={backButtonClickHandler}
                     disabled={loading}
                 >
-                    Back to Main Page
+                    В главное меню
                 </Button>
             </div>
         </div>

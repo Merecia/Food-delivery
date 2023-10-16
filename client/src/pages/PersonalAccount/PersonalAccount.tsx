@@ -44,8 +44,8 @@ const PersonalAccount: FC = () => {
         
         return (
             <li
+                key={option.id}
                 className={style.PersonalAccount_Option}
-                id={option.id}
                 style={
                     selectedOption.id === option.id
                         ? activeOptionStyle
