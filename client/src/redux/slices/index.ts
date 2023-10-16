@@ -1,0 +1,9 @@
+export { default as authReducer } from './authSlice';
+export { default as cartReducer } from './cartSlice';
+export { default as categoriesReducer } from './categoriesSlice';
+export { default as foodDetailsReducer } from './foodDetailsSlice';
+export { default as foodReducer } from './foodSlice';
+export { default as orderReducer } from './orderSlice';
+export { default as paymentReducer } from './paymentSlice';
+export { default as personalAccountReducer } from './personalAccountSlice';
+export { default as searchReducer } from './searchSlice';

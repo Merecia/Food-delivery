@@ -104,8 +104,20 @@
         }
     }
 
+    .SignIn {
+        display: flex;
+        width: 100px;
+        color: grey;
+        cursor: pointer;
+
+        .SignInLabel {
+            font-size: 20px;
+        }   
+    }
+
     .DropdownMenu {
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2), 0 4px 6px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
         position: absolute;
         top: 80px;
         right: 10px;

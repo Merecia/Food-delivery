@@ -1,4 +1,3 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import {
     persistStore,
     persistReducer,
@@ -9,14 +8,18 @@ import {
     PURGE,
     REGISTER,
 } from 'redux-persist';
-import foodDetailsReducer from './foodDetailsSlice';
-import cartReducer from './cartSlice';
-import authReducer from './authSlice';
-import foodReducer from './foodSlice';
-import categoriesReducer from './categoriesSlice';
-import searchReducer from './searchSlice';
-import paymentReducer from './paymentSlice';
-import orderReducer from './orderSlice';
+import {
+    cartReducer,
+    authReducer,
+    foodReducer,
+    searchReducer,
+    categoriesReducer,
+    foodDetailsReducer,
+    paymentReducer,
+    orderReducer,
+    personalAccountReducer
+} from './slices/index.ts';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import storage from 'redux-persist/lib/storage';
 
 const persistConfig = {
@@ -33,7 +36,8 @@ const rootReducer = combineReducers({
     categories: categoriesReducer,
     foodDetails: foodDetailsReducer,
     payment: paymentReducer,
-    order: orderReducer
+    order: orderReducer,
+    personalAccount: personalAccountReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

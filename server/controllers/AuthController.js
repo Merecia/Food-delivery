@@ -13,7 +13,7 @@ export const register = async (request, response) => {
 
         if (userWithThisEmail) {
             return response.status(401).json({ 
-                message: 'User with this email is already registered' 
+                message: 'Пользователь с такой почтой уже зарегистрирован' 
             });
         }
 
@@ -38,7 +38,7 @@ export const register = async (request, response) => {
         response.status(201).json({ ...userData, accessToken });
     } catch (error) {
         console.log(error);
-        response.status(500).json({ message: 'Failed to register' });
+        response.status(500).json({ message: 'Не удалось зарегистрироваться' });
     }
 };
 
@@ -48,7 +48,7 @@ export const login = async (request, response) => {
         const user = await User.findOne({ email });
 
         if (!user) {
-            return response.status(401).json({ message: 'Wrong credentials' });
+            return response.status(401).json({ message: 'Неверный логин или пароль' });
         }
 
         const hashedPassword = CryptoJS.AES.decrypt(
@@ -58,7 +58,7 @@ export const login = async (request, response) => {
         const originalPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
 
         if (originalPassword !== password) {
-            return response.status(401).json({ message: 'Wrong credentials' });
+            return response.status(401).json({ message: 'Неверный логин или пароль' });
         }
 
         const accessToken = jwt.sign(
@@ -71,6 +71,6 @@ export const login = async (request, response) => {
         response.status(200).json({ ...userData, accessToken });
     } catch (error) {
         console.log(error);
-        response.status(500).json({ message: 'Failed to login' });
+        response.status(500).json({ message: 'Не удалось авторизоваться' });
     }
 };

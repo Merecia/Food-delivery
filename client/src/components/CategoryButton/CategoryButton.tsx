@@ -1,7 +1,7 @@
 import { FC, CSSProperties } from 'react'
 import { ICategory } from '../../types';
 import { useDispatch, useSelector } from 'react-redux';
-import { chooseCategory, selectChosenCategoryId } from '../../redux/categoriesSlice';
+import { chooseCategory, selectChosenCategoryId } from '../../redux/slices/categoriesSlice';
 import style from './CategoryButton.module.scss';
 
 interface ICategoryButtonProps {

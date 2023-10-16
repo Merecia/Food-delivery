@@ -1,16 +1,18 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { ICartItem, IFood } from '../types';
-import { findCartItemIndex } from '../utils/helper';
-import { RootState } from './store';
+import { ICartItem, IFood } from '../../types';
+import { findCartItemIndex } from '../../utils/helper';
+import { RootState } from '../store';
 
 interface ICartState {
     showCart: boolean;
     cart: ICartItem[];
+    error: string | null;
 };
 
 const initialState: ICartState = {
     showCart: false,
-    cart: []
+    cart: [],
+    error: null
 };
 
 export const cartSlice = createSlice({
@@ -44,7 +46,7 @@ export const cartSlice = createSlice({
       if (cartItemIndex !== undefined) {
         state.cart[cartItemIndex].amount += 1;
       } else {
-        console.log('Error has occured during increase operation');
+        state.error = 'Произошла ошибка';
       }
     },
     decreaseFoodAmountInCart: (state, action: PayloadAction<IFood>) => {
@@ -58,7 +60,7 @@ export const cartSlice = createSlice({
           state.cart[cartItemIndex].amount -= 1;
         }
       } else {
-        console.log('Error has occured during decrease operation.');
+        state.error = 'Произошла ошибка';
       }
     }
   }
@@ -66,6 +68,7 @@ export const cartSlice = createSlice({
 
 export const selectCart = (state: RootState) => state.cart.cart;
 export const selectShowCart = (state: RootState) => state.cart.showCart;
+export const selectError = (state: RootState) => state.cart.error;
 
 export const {
   openCart, 

@@ -27,7 +27,7 @@ export const update = async (request, response) => {
 export const remove = async (request, response) => {
     try {
         await Category.findByIdAndDelete(request.params.id);
-        response.status(200).json('Category has been deleted');
+        response.status(200).json('Категория была удалена');
     } catch (error) {
         response.status(500).json(error);
     }

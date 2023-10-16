@@ -1,7 +1,7 @@
 import { CSSProperties, FC, useEffect } from 'react';
 import { ICategory, IFood } from '../../types';
 import { useSelector } from 'react-redux';
-import { selectChosenCategoryId } from '../../redux/categoriesSlice';
+import { selectChosenCategoryId } from '../../redux/slices/categoriesSlice';
 import { useAppDispatch } from '../../redux/hooks';
 import { Skeleton } from '@mui/material';
 import {
@@ -9,14 +9,14 @@ import {
     selectCategories,
     selectError as selectCategoriesFetchError,
     selectLoading as selectCategoriesFetchLoading
-} from '../../redux/categoriesSlice';
+} from '../../redux/slices/categoriesSlice';
 import {
     fetchAllFood,
     fetchFoodByCategory,
     selectFoodList,
     selectError as selectFoodFetchError,
     selectLoading as selectFoodFetchLoading
-} from '../../redux/foodSlice';
+} from '../../redux/slices/foodSlice';
 import style from './Menu.module.scss';
 import FoodCard from '../FoodCard/FoodCard';
 import CategoryButton from '../CategoryButton/CategoryButton';
@@ -125,7 +125,7 @@ const Menu: FC = () => {
                 return (
                     <div className={style.NothingFound}>
                         <h2 className={style.NothingFound_Title}>
-                            Nothing was found in the database matching your request
+                            Ничего не найдено в базе данных по вашему запросу
                         </h2>
                     </div>
                 );
@@ -157,7 +157,7 @@ const Menu: FC = () => {
         return (
             <div className={style.FetchError}>
                 <h2 className={style.FetchError_Title}>
-                    An error occurred during data loading
+                    Произошла ошибка во время загрузки данных
                 </h2>
             </div>
         );

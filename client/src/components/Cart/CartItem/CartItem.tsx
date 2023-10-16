@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { 
     decreaseFoodAmountInCart, 
     increaseFoodAmountInCart 
-} from '../../../redux/cartSlice';
+} from '../../../redux/slices/cartSlice';
 import style from './CartItem.module.scss';
 import Counter from '../../../GUI/Counter/Counter';
 

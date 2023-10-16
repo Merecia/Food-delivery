@@ -1,10 +1,19 @@
 import User from '../models/User.js';
+import CryptoJS from 'crypto-js';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
 export const update = async (request, response) => {
     try {
+        const password = request.body.password;
+
+        if (password) {
+            request.body.password = CryptoJS.AES.encrypt(
+                password, process.env.PASSWORD_SECRET
+            ).toString();
+        }
+
         const updatedUser = await User.findByIdAndUpdate(
             request.params.id,
             { $set: request.body },
@@ -13,6 +22,7 @@ export const update = async (request, response) => {
 
         response.status(200).json(updatedUser);
     } catch (error) {
+        console.log(error);
         response.status(500).json(error);
     }
 }
@@ -20,7 +30,7 @@ export const update = async (request, response) => {
 export const remove = async (request, response) => {
     try {
         await User.findByIdAndDelete(request.params.id);
-        response.status(200).json('User has been deleted');
+        response.status(200).json('Пользователь удалён');
     } catch (error) {
         response.status(500).json(error);
     }

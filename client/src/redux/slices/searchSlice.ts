@@ -1,13 +1,8 @@
-import { IAutocompleteOption } from './../types';
+import { IAutocompleteOption, IFetchError } from '../../types';
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { publicRequest } from "../httpRequests";
-import { IFood } from "../types";
-import { RootState } from "./store";
-import { AxiosError } from "axios";
-
-type SearchError = {
-    message: string;
-}
+import { publicRequest } from "../../httpRequests";
+import { IFood } from "../../types";
+import { RootState } from "../store";
 
 interface ISearchState {
     query: string;
@@ -24,7 +19,7 @@ const initialState: ISearchState = {
 };
 
 export const getAutocompleteOptions = createAsyncThunk<
-    IFood[], string, { rejectValue: SearchError }
+    IFood[], string, { rejectValue: IFetchError }
 > (
     'search/query',
     async (query: string, { rejectWithValue }) => {
@@ -35,11 +30,9 @@ export const getAutocompleteOptions = createAsyncThunk<
             });
             return autocompleteOptions;
         } catch (error) {
-            if (error instanceof AxiosError && error.response) {
-                return rejectWithValue({ message: error.response.data.message });
-            } else {
-                return rejectWithValue({ message: 'Unexcepted error' });
-            }
+            return rejectWithValue({ 
+                message: 'Произошла ошибка во время поиска' 
+            });
         }
     }
 );
@@ -68,7 +61,7 @@ export const searchSlice = createSlice({
             state.error = null;
         });
         builder.addCase(getAutocompleteOptions.rejected, (
-            state, action: PayloadAction<SearchError | undefined>
+            state, action: PayloadAction<IFetchError | undefined>
         ) => {
             state.autocompleteVisible = false;
             if (action.payload) {

@@ -1,13 +1,13 @@
 import { FC, CSSProperties } from 'react';
 import { ICartItem, IFood } from '../../types';
 import { useDispatch, useSelector } from 'react-redux';
-import { openFoodDetails } from '../../redux/foodDetailsSlice';
+import { openFoodDetails } from '../../redux/slices/foodDetailsSlice';
 import {
     addFoodToCart,
     decreaseFoodAmountInCart,
     increaseFoodAmountInCart,
     selectCart
-} from '../../redux/cartSlice';
+} from '../../redux/slices/cartSlice';
 import style from './FoodCard.module.scss';
 import Counter from '../../GUI/Counter/Counter';
 import Button from '../../GUI/Button/Button';

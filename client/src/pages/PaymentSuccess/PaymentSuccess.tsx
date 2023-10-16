@@ -1,18 +1,18 @@
 import { FC, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Alert, Snackbar } from '@mui/material';
-import { selectUser } from '../../redux/authSlice';
+import { selectUser } from '../../redux/slices/authSlice';
 import { ICartItem } from '../../types';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../redux/hooks';
 import {
     resetToInitial as resetPaymentToInitial,
     selectPaymentData
-} from '../../redux/paymentSlice';
+} from '../../redux/slices/paymentSlice';
 import {
     resetToInitial as resetCartToInitial,
     selectCart
-} from '../../redux/cartSlice';
+} from '../../redux/slices/cartSlice';
 import {
     createOrder,
     selectError,
@@ -20,7 +20,7 @@ import {
     setError,
     resetToInitial as resetOrderToInitial,
     selectLoading
-} from '../../redux/orderSlice';
+} from '../../redux/slices/orderSlice';
 import style from './PaymentSuccess.module.scss';
 import Button from '../../GUI/Button/Button';
 

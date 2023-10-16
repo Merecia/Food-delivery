@@ -1,18 +1,17 @@
-import { FetchError } from './../types';
+import { IFetchError } from '../../types';
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { publicRequest } from "../httpRequests";
-import { ICategory } from "../types";
-import { RootState } from "./store";
-import { AxiosError } from "axios"
+import { publicRequest } from "../../httpRequests";
+import { ICategory } from "../../types";
+import { RootState } from "../store";
 
-interface CategoriesState {
+interface ICategoriesState {
     chosenCategoryId: string | null;
     categories: ICategory[];
     error: string | null;
     loading: boolean;
 }
 
-const initialState: CategoriesState = {
+const initialState: ICategoriesState = {
     chosenCategoryId: null,
     categories: [],
     error: null,
@@ -20,7 +19,7 @@ const initialState: CategoriesState = {
 };
 
 export const fetchCategories = createAsyncThunk<
-    ICategory[], void, { rejectValue: FetchError }
+    ICategory[], void, { rejectValue: IFetchError }
 > (
     'categories/all',
     async (_: void, { rejectWithValue }) => {
@@ -28,11 +27,9 @@ export const fetchCategories = createAsyncThunk<
             const response = await publicRequest.get(`/categories`);
             return response.data;
         } catch (error) {
-            if (error instanceof AxiosError && error.response) {
-                return rejectWithValue({ message: error.response.data.message });
-            } else {
-                return rejectWithValue({ message: 'Unexcepted error' });
-            }
+            return rejectWithValue({ 
+                message: 'Произошла ошибка во время загрузки данных с сервера' 
+            });
         }
     }
 );
@@ -62,7 +59,7 @@ export const categoriesSlice = createSlice({
             state.error = null;
         });
         builder.addCase(fetchCategories.rejected, (
-            state, action: PayloadAction<FetchError | undefined>
+            state, action: PayloadAction<IFetchError | undefined>
         ) => {
             state.loading = false;
             if (action.payload) {

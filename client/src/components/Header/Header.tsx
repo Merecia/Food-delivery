@@ -1,15 +1,14 @@
 import { FC, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { countFoodItemsInCart } from '../../utils/helper';
-import { openCart, selectCart } from '../../redux/cartSlice';
+import { openCart, selectCart } from '../../redux/slices/cartSlice';
 import { useDebounce } from '../../hooks/useDebounce';
 import { useAppDispatch } from '../../redux/hooks';
 import { IAutocompleteOption } from '../../types';
-import { fetchFoodById } from '../../redux/foodSlice';
+import { fetchFoodById } from '../../redux/slices/foodSlice';
 import { useOutsideClick } from '../../hooks/useOutsideClick';
-import { selectUser, signOut } from '../../redux/authSlice';
+import { selectUser, signOut } from '../../redux/slices/authSlice';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@mui/material';
 import {
     List,
     ListItem,
@@ -24,13 +23,15 @@ import {
     selectAutocompeteVisible,
     selectQuery,
     setQuery
-} from '../../redux/searchSlice';
+} from '../../redux/slices/searchSlice';
 import style from './Header.module.scss';
 import logo from '../../assets/images/logo.svg';
 import avatar from '../../assets/images/avatar.svg';
 import menu from '../../assets/images/menu.svg';
 import cartIcon from '../../assets/images/cartIcon.svg';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 
 const Header: FC = () => {
     const dispatch = useAppDispatch();
@@ -109,6 +110,14 @@ const Header: FC = () => {
                 className={style.DropdownMenu}
             >
                 <ListItem style={{ padding: '5px' }}>
+                    <ListItemButton onClick={() => navigate('/my-account')}>
+                        <ListItemIcon>
+                            <AccountBoxIcon />
+                        </ListItemIcon>
+                        <ListItemText primary='Мой аккаунт' />
+                    </ListItemButton>
+                </ListItem>
+                <ListItem style={{ padding: '5px' }}>
                     <ListItemButton onClick={signOutHandler}>
                         <ListItemIcon>
                             <ExitToAppIcon />
@@ -151,11 +160,7 @@ const Header: FC = () => {
                 className={style.Cart}
                 onClick={cartIconClickHandler}
             >
-                <img
-                    src={cartIcon}
-                    alt='cartIcon'
-                    className={style.Cart_Icon}
-                />
+                <img src={cartIcon} alt='cartIcon' />
                 {
                     foodItemsAmount > 0 &&
                     <div className={style.Cart_Counter}>
@@ -174,12 +179,10 @@ const Header: FC = () => {
                         />
                         {userOptionsVisible && renderDropdownMenu()}
                     </div>
-                    : <Button
-                        variant='outlined'
-                        onClick={() => navigate('/auth')}
-                    >
-                        Войти
-                    </Button>
+                    : <div className={style.SignIn} onClick={() => navigate('./auth')}>
+                        <p className={style.SignInLabel}> Войти </p>
+                        <PersonOutlineIcon />
+                    </div>         
             }
             <div className={style.ToggleMenu}>
                 <img
@@ -192,4 +195,4 @@ const Header: FC = () => {
     );
 }
 
-export default Header
+export default Header;

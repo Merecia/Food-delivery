@@ -43,7 +43,14 @@ export interface IUser {
     accessToken: string;
 }
 
-export interface FetchError {
+export interface IPersonalData {
+    firstName: string;
+    lastName: string;
+    password: string;
+    email: string;
+}
+
+export interface IFetchError {
     message: string;
 }
 

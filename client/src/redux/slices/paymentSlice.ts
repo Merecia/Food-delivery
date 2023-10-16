@@ -1,13 +1,8 @@
 import { Token } from 'react-stripe-checkout-nsen';
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { RootState } from './store';
-import { userRequest } from '../httpRequests';
-import { AxiosError } from 'axios';
-import { IPaymentData } from '../types';
-
-type PaymentError = {
-    message: string;
-}
+import { RootState } from '../store';
+import { userRequest } from '../../httpRequests';
+import { IPaymentData, IFetchError } from '../../types';
 
 interface IPaymentState {
   token: Token | null;
@@ -19,7 +14,7 @@ const initialState: IPaymentState = {
   token: null,
   error: null,
   paymentData: null
-};
+}
 
 interface IStripeRequest {
     token: Token;
@@ -27,7 +22,7 @@ interface IStripeRequest {
 }
 
 export const makeStripeRequest = createAsyncThunk<
-    IPaymentData, IStripeRequest, { rejectValue: PaymentError }
+    IPaymentData, IStripeRequest, { rejectValue: IFetchError }
 > (
     'payment/stripeRequest',
     async (request: IStripeRequest, { rejectWithValue }) => {
@@ -42,11 +37,9 @@ export const makeStripeRequest = createAsyncThunk<
 
             return response.data;
         } catch (error) {
-            if (error instanceof AxiosError && error.response) {
-                return rejectWithValue({ message: error.response.data.message });
-            } else {
-                return rejectWithValue({ message: 'Unexcepted error' });
-            }
+            return rejectWithValue({ 
+                message: 'Произошла ошибка во время оплаты' 
+            });
         }
     }
 );
@@ -72,7 +65,7 @@ export const paymentSlice = createSlice({
         state.error = null;
     });
     builder.addCase(makeStripeRequest.rejected, (
-        state, action: PayloadAction<PaymentError | undefined>
+        state, action: PayloadAction<IFetchError | undefined>
     ) => {
         if (action.payload) {
             state.error = action.payload.message;
@@ -85,8 +78,6 @@ export const selectToken = (state: RootState) => state.payment.token;
 export const selectError = (state: RootState) => state.payment.error;
 export const selectPaymentData = (state: RootState) => state.payment.paymentData;
 
-export const {
-    resetToInitial
-  } = paymentSlice.actions;
+export const { resetToInitial } = paymentSlice.actions;
 
 export default paymentSlice.reducer;

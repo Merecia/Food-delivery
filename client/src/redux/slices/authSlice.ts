@@ -1,20 +1,16 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { publicRequest } from "../httpRequests";
-import { ILoginData, IRegistrationData, IUser } from "../types";
-import { RootState } from "./store";
+import { publicRequest } from "../../httpRequests";
+import { ILoginData, IRegistrationData, IFetchError, IUser } from "../../types";
+import { RootState } from "../store";
 import { AxiosError } from "axios";
 
-type AuthError = {
-    message: string;
-}
-
-interface AuthState {
+interface IAuthState {
     user: IUser | null;
     error: string | null;
     loading: boolean;
 };
 
-const initialState: AuthState = {
+const initialState: IAuthState = {
     user: null,
     error: null,
     loading: false,
@@ -23,7 +19,7 @@ const initialState: AuthState = {
 export const registration = createAsyncThunk<
     IUser,
     IRegistrationData,
-    { rejectValue: AuthError }
+    { rejectValue: IFetchError }
 > (
     'auth/register',
     async (registrationData: IRegistrationData, { rejectWithValue }) => {
@@ -32,9 +28,13 @@ export const registration = createAsyncThunk<
             return response.data;
         } catch (error) {
             if (error instanceof AxiosError && error.response) {
-                return rejectWithValue({ message: error.response.data.message });
+                return rejectWithValue({ 
+                    message: error.response.data.message 
+                });
             } else {
-                return rejectWithValue({ message: 'Unexcepted error' });
+                return rejectWithValue({ 
+                    message: 'Произошла неизвестная ошибка во время регистрации' 
+                });
             }
         }
     }
@@ -43,7 +43,7 @@ export const registration = createAsyncThunk<
 export const login = createAsyncThunk<
     IUser,
     ILoginData,
-    { rejectValue: AuthError }
+    { rejectValue: IFetchError }
 > (
     'auth/login',
     async (loginData: ILoginData, { rejectWithValue }) => {
@@ -52,9 +52,13 @@ export const login = createAsyncThunk<
             return response.data;
         } catch (error) {
             if (error instanceof AxiosError && error.response) {
-                return rejectWithValue({ message: error.response.data.message });
+                return rejectWithValue({ 
+                    message: error.response.data.message 
+                });
             } else {
-                return rejectWithValue({ message: 'Unexcepted error' });
+                return rejectWithValue({ 
+                    message: 'Произошла неизвестная ошибка во время авторизации'
+                });
             }
         }
     }
@@ -74,7 +78,6 @@ export const authSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        // Registration
         builder.addCase(registration.pending, (state) => {
             state.loading = true;
             state.error = null;
@@ -85,15 +88,14 @@ export const authSlice = createSlice({
             state.error = null;
         });
         builder.addCase(registration.rejected, (
-            state, action: PayloadAction<AuthError | undefined>
+            state, action: PayloadAction<IFetchError | undefined>
         ) => {
             state.loading = false;
             if (action.payload) {
                 state.error = action.payload.message;
             }
         });
-
-        // Login
+        
         builder.addCase(login.pending, (state) => {
             state.loading = true;
             state.error = null;
@@ -104,7 +106,7 @@ export const authSlice = createSlice({
             state.error = null;
         });
         builder.addCase(login.rejected, (
-            state, action: PayloadAction<AuthError | undefined>
+            state, action: PayloadAction<IFetchError | undefined>
         ) => {
             state.loading = false;
             if (action.payload) {

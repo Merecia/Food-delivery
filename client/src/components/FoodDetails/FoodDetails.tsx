@@ -1,7 +1,7 @@
 import { FC, useState, useEffect } from 'react';
 import { ICartItem, IFood } from '../../types';
 import { Carousel } from 'react-responsive-carousel';
-import { closeFoodDetails } from '../../redux/foodDetailsSlice';
+import { closeFoodDetails } from '../../redux/slices/foodDetailsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useOutsideClick } from '../../hooks/useOutsideClick';
 import {
@@ -9,7 +9,7 @@ import {
     decreaseFoodAmountInCart,
     increaseFoodAmountInCart,
     selectCart
-} from '../../redux/cartSlice';
+} from '../../redux/slices/cartSlice';
 import Counter from '../../GUI/Counter/Counter';
 import style from './FoodDetails.module.scss';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
