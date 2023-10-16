@@ -22,6 +22,8 @@ import {
 } from '../../redux/slices/orderSlice';
 import style from './PaymentSuccess.module.scss';
 import Button from '../../GUI/Button/Button';
+import Substrate from '../../components/Substrate/Substrate';
+import Header from '../../components/Header/Header';
 
 const PaymentSuccess: FC = () => {
     const navigate = useNavigate();
@@ -62,7 +64,7 @@ const PaymentSuccess: FC = () => {
                 dispatch(
                     setError(`
                         Произошла ошибка во время сохранения заказа. 
-                        Данные о платеже были утеряны. Обратитесь к администратору.
+                        Не найдены данные о платеже. Обратитесь к администратору.
                     `)
                 );
             } else if (!user) {
@@ -99,10 +101,11 @@ const PaymentSuccess: FC = () => {
     }
 
     return (
-        <div className={style.Substrate}>
-            {error && renderErrorAlert(error)}
-
+        <Substrate>
+            <Header />
             <div className={style.PaymentSuccess}>
+                {error && renderErrorAlert(error)}
+
                 <div className={style.Checkmark}>
                     &#10003;
                 </div>
@@ -139,7 +142,7 @@ const PaymentSuccess: FC = () => {
                     В главное меню
                 </Button>
             </div>
-        </div>
+        </Substrate>
     );
 }
 

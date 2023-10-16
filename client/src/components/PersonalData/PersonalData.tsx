@@ -1,7 +1,6 @@
 import { FC, useEffect, CSSProperties } from 'react';
 import { useForm } from 'react-hook-form';
 import { Alert, Snackbar, TextField } from '@mui/material';
-import { IUser } from '../../types';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { useNavigate } from 'react-router-dom';
 import { selectUser as selectAuthorizedUser } from '../../redux/slices/authSlice';
@@ -106,10 +105,9 @@ const PersonalData: FC<IPersonalDataProps> = () => {
             );
         } else {
             const personalData = { firstName, lastName, email, password };
-            const userId: string = (user as IUser)._id;
 
             dispatch(
-                updatePersonalData({ userId, personalData })
+                updatePersonalData({ userId: userId as string, personalData })
             );
         }
     })

@@ -1,19 +1,22 @@
 import { FC } from 'react';
+import { useNavigate } from 'react-router-dom';
 import style from './PaymentError.module.scss';
 import Button from '../../GUI/Button/Button';
-import { useNavigate } from 'react-router-dom';
+import Substrate from '../../components/Substrate/Substrate';
+import Header from '../../components/Header/Header';
 
 const PaymentError: FC = () => {
     const navigate = useNavigate();
-    
+
     const backButtonClickHandler = () => {
         navigate('/');
     }
 
     return (
-        <div className={style.Substrate}>
-            <div className = {style.PaymentError}>
-                <div className = {style.Crossmark}>
+        <Substrate>
+            <Header />
+            <div className={style.PaymentError}>
+                <div className={style.Crossmark}>
                     X
                 </div>
                 <h2 className={style.Title}>
@@ -22,15 +25,15 @@ const PaymentError: FC = () => {
                 <p className={style.Message}>
                     We aren't able to process your payment. Please try again
                 </p>
-                <Button 
-                    type = 'error' 
+                <Button
+                    type='error'
                     cssProperties={{ margin: '0 auto' }}
-                    onClick = {backButtonClickHandler}
+                    onClick={backButtonClickHandler}
                 >
                     Back to Main Page
                 </Button>
             </div>
-        </div>
+        </Substrate>
     );
 }
 

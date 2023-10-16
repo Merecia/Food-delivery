@@ -5,6 +5,7 @@ import { useAppSelector } from '../../redux/hooks';
 import style from './PersonalAccount.module.scss';
 import PersonalData from '../../components/PersonalData/PersonalData';
 import Header from '../../components/Header/Header';
+import Substrate from '../../components/Substrate/Substrate';
 
 const PersonalAccount: FC = () => {
     interface IOption {
@@ -59,7 +60,7 @@ const PersonalAccount: FC = () => {
     }
 
     return (
-        <div className={style.Substrate}>
+        <Substrate>
             <Header />
             <div className={style.PersonalAccount}>
                 <div className={style.PersonalAccount_Form}>
@@ -72,7 +73,7 @@ const PersonalAccount: FC = () => {
                     {renderPersonalAccountOptions(options)}
                 </ul>
             </div>
-        </div>
+        </Substrate>
     );
 }
 

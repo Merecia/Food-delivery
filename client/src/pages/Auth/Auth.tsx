@@ -14,6 +14,7 @@ import {
 } from '../../redux/slices/authSlice';
 import style from './Auth.module.scss';
 import Header from '../../components/Header/Header';
+import Substrate from '../../components/Substrate/Substrate';
 
 const Auth: FC = () => {
     const {
@@ -271,7 +272,7 @@ const Auth: FC = () => {
     }, [user]);
 
     return (
-        <div className={style.Substrate}>
+        <Substrate>
             <Header />
             <form
                 className={style.AuthForm}
@@ -312,7 +313,7 @@ const Auth: FC = () => {
                     {signUp ? renderSignInLabel() : renderSignUpLabel()}
                 </div>
             </form>
-        </div>
+        </Substrate>
     );
 }
 
