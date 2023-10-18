@@ -78,15 +78,36 @@ export interface IAddress {
     state?: string;
 }
 
-export interface IOrderFood {
-    foodItemId: string;
+export interface IOrderedFood {
+    _id: string;
+    name: string;
+    price: number;
     amount: number;
+    totalCost: number;
 }
 
 export interface IOrder {
     _id?: string;
     userId: string,
-    foodList: IOrderFood[],
+    foodList: IOrderedFood[],
     totalCost: number,
     address: IAddress
+}
+
+export interface IOrderInfo {
+    _id: string;
+    date: string;
+    time: string;
+    totalCost: string;
+    address: string;
+    status: string;
+    orderedFood: IOrderedFood[];
+}
+
+export enum DeliveryStatus {
+    'WAS_PLACED' = 'Оформлен',
+    'WAS_CONFIRMED' = 'Подтверждён',
+    'IS_BEING_DELIVERED' = 'Доставляется',
+    'WAS_DELIVERED' = 'Доставлен',
+    'WAS_CANCELED' = 'Аннулирован'
 }

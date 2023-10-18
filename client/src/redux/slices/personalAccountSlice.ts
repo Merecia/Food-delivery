@@ -1,9 +1,10 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { publicRequest } from "../../httpRequests";
-import { IFetchError, IPersonalData, IUser } from "../../types";
+import { IFetchError, IOrder, IPersonalData, IUser } from "../../types";
 import { RootState } from "../store";
 
 interface IPersonalAccountState {
+    orders: IOrder[] | null;
     user: IUser | null;
     successNotification: string | null;
     error: string | null;
@@ -11,6 +12,7 @@ interface IPersonalAccountState {
 };
 
 const initialState: IPersonalAccountState = {
+    orders: null,
     user: null,
     successNotification: null,
     error: null,
@@ -55,6 +57,24 @@ export const fetchUserData = createAsyncThunk<
             return rejectWithValue({
                 message: 'Произошла ошибка во время загрузки личных данных'
             });
+        }
+    }
+)
+
+export const fetchOrders = createAsyncThunk<
+    IOrder[],
+    void,
+    { rejectValue: IFetchError }
+> (
+    'personalAccount/fetchOrders',
+    async (_: void, { rejectWithValue }) => {
+        try {
+            const response = await publicRequest.get(`/orders`);
+            return response.data;
+        } catch (error) {
+            return rejectWithValue({
+                message: 'Произошла ошибка во время загрузки заказов'
+            })
         }
     }
 )
@@ -111,10 +131,31 @@ export const personalAccountSlice = createSlice({
                 state.error = action.payload.message;
             }
         });
+
+        builder.addCase(fetchOrders.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        });
+        builder.addCase(fetchOrders.fulfilled, (
+            state, action: PayloadAction<IOrder[]>
+        ) => {
+            state.orders = action.payload;
+            state.loading = false;
+            state.error = null;
+        });
+        builder.addCase(fetchOrders.rejected, (
+            state, action: PayloadAction<IFetchError | undefined>
+        ) => {
+            state.loading = false;
+            if (action.payload) {
+                state.error = action.payload.message;
+            }
+        });
     }
 });
 
 export const selectUser = (state: RootState) => state.personalAccount.user;
+export const selectOrder = (state: RootState) => state.personalAccount.orders;
 export const selectSuccessNotification = (state: RootState) => state.personalAccount.successNotification;
 export const selectLoading = (state: RootState) => state.personalAccount.loading;
 export const selectError = (state: RootState) => state.personalAccount.error;

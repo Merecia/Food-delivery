@@ -3,7 +3,7 @@ import asian from './assets/images/asian.svg';
 import burger from './assets/images/burger.svg';
 import mexican from './assets/images/mexican.svg';
 import donat from './assets/images/donat.svg';
-import { ICartItem, ICategory, IFood } from './types';
+import { ICartItem, ICategory, IFood, IOrderInfo, IOrderedFood } from './types';
 
 export const categories: ICategory[] = [
     { _id: '1', name: 'Пицца', imageURL: pizza },
@@ -13,64 +13,90 @@ export const categories: ICategory[] = [
     { _id: '5', name: 'Пончики', imageURL: donat }
 ];
 
-export const foodList:  IFood[] = [
-    { 
-        _id: '1', 
+export const foodList: IFood[] = [
+    {
+        _id: '1',
         imagesURL: [
             'https://cheese-cake.ru/DesertImg/ponchiki-assorti-0-1-1.jpg',
             'https://upload.wikimedia.org/wikipedia/commons/7/77/00409_paczki_z_serem%2C_sanok.jpg'
-        ], 
+        ],
         name: 'Пончик',
-        category: '5', 
-        weight: 20, 
+        categoryId: '5',
+        weight: 20,
         price: 150,
         description: 'Это пончик',
-        inStock: true 
+        inStock: true
     },
-    { 
-        _id: '2', 
+    {
+        _id: '2',
         imagesURL: [
             'https://e2.edimdoma.ru/data/posts/0001/6493/16493-ed4_wide.jpg?1631186249',
             'https://static.1000.menu/img/content-v2/02/1d/53551/xot-dog-v-domashnix-usloviyax-v-bulochke-s-sosiskoi_1616347265_21_max.jpg'
-        ], 
-        category: '4',
-        name: 'Хот-доги', 
-        weight: 50, 
+        ],
+        categoryId: '4',
+        name: 'Хот-доги',
+        weight: 50,
         price: 200,
         description: 'Это хот-дог',
-        inStock: true 
+        inStock: true
     },
-    { 
-        _id: '3', 
+    {
+        _id: '3',
         imagesURL: [
             'https://cdn.tokyo-city.ru//goods/sake_sushi_13062022.jpg'
-        ], 
-        category: '2',
-        name: 'Суши', 
-        weight: 70, 
+        ],
+        categoryId: '2',
+        name: 'Суши',
+        weight: 70,
         price: 250,
         description: 'Тут суши',
         inStock: true
     },
-    { 
-        _id: '4', 
+    {
+        _id: '4',
         imagesURL: [
             'https://restoran-karamba.ru/wp-content/uploads/burgery.jpg',
             'https://www.gastronom.ru/binfiles/images/20160203/b267a543.jpg',
             'https://www.sterevan.ru/images/catalog/3fa4080579377c5e94c125fd0b124106.jpg'
         ],
-        category: '3', 
-        name: 'Бигмак', 
-        weight: 100, 
+        categoryId: '3',
+        name: 'Бигмак',
+        weight: 100,
         price: 300,
         description: 'Доставка прямо из McDonalds',
-        inStock: true  
+        inStock: true
     }
-];  
+];
 
 export const cartItems: ICartItem[] = [
     { foodItem: foodList[0], amount: 2 },
     { foodItem: foodList[1], amount: 3 },
     { foodItem: foodList[2], amount: 5 },
     { foodItem: foodList[3], amount: 1 }
+];
+
+export const orderedFood: IOrderedFood[] = [
+    { _id: '1', name: 'Пицца', price: 100, amount: 2, totalCost: 200 },
+    { _id: '2', name: 'Бургер', price: 80, amount: 3, totalCost: 240 },
+];
+
+export const orders: IOrderInfo[] = [
+    {
+        _id: '1',
+        date: '18.10.2023',
+        time: '03:23',
+        totalCost: '100',
+        address: 'Гоголя',
+        status: 'Подтверждён',
+        orderedFood
+    },
+    {
+        _id: '2',
+        date: '19.10.2023',
+        time: '11:25',
+        totalCost: '200',
+        address: 'Лермонтова',
+        status: 'Оформлен',
+        orderedFood
+    }
 ];

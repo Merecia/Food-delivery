@@ -6,6 +6,7 @@ import style from './PersonalAccount.module.scss';
 import PersonalData from '../../components/PersonalData/PersonalData';
 import Header from '../../components/Header/Header';
 import Substrate from '../../components/Substrate/Substrate';
+import Orders from '../../components/Orders/Orders';
 
 const PersonalAccount: FC = () => {
     interface IOption {
@@ -17,6 +18,18 @@ const PersonalAccount: FC = () => {
         { id: 'personalData', label: 'Личные данные' },
         { id: 'orders', label: 'Мои заказы' },
     ];
+
+    const forms = {
+        personalData: <PersonalData />,
+        orders: <Orders />
+    };
+
+    type formType = keyof typeof forms;
+
+    // const forms = [
+    //     { choicedOption: 'personalData', component: <PersonalAccount /> },
+    //     { choicedOption: 'orders', component: <Orders /> }
+    // ];
 
     const user = useAppSelector(selectUser);
     const [selectedOption, setSelectedOption] = useState<IOption>(options[0]);
@@ -67,7 +80,7 @@ const PersonalAccount: FC = () => {
                     <h2 className={style.Title}> 
                         {selectedOption.label} 
                     </h2>
-                    <PersonalData />
+                    { forms[selectedOption.id as formType] }
                 </div>
                 <ul className={style.PersonalAccount_Options}>
                     {renderPersonalAccountOptions(options)}
