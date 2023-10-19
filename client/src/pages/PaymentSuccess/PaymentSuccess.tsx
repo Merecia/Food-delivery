@@ -1,7 +1,7 @@
 import { FC, useEffect } from 'react';
 import { Alert, Snackbar } from '@mui/material';
 import { selectUser } from '../../redux/slices/authSlice';
-import { ICartItem } from '../../types';
+import { ICartItem } from '../../models/interfaces';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import {
@@ -52,7 +52,7 @@ const PaymentSuccess: FC = () => {
             dispatch(
                 createOrder({
                     userId: user._id,
-                    foodList: products,
+                    orderedFood: products,
                     totalCost: paymentData.amount / 100,
                     address: paymentData.billing_details.address
                 })

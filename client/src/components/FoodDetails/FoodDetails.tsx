@@ -1,5 +1,5 @@
 import { FC, useState, useEffect } from 'react';
-import { ICartItem, IFood } from '../../types';
+import { ICartItem, IFood } from '../../models/interfaces';
 import { Carousel } from 'react-responsive-carousel';
 import { closeFoodDetails } from '../../redux/slices/foodDetailsSlice';
 import { useOutsideClick } from '../../hooks/useOutsideClick';

@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { IFood } from '../../types';
+import { IFood } from '../../models/interfaces'
 import { RootState } from '../store';
 
 interface IFoodDetailsState {

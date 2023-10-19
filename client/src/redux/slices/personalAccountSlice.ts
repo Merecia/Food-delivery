@@ -1,10 +1,10 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { publicRequest } from "../../httpRequests";
-import { IFetchError, IOrder, IPersonalData, IUser } from "../../types";
+import { IFetchError, IOrder, IPersonalData, IUser } from '../../models/interfaces'
 import { RootState } from "../store";
 
 interface IPersonalAccountState {
-    orders: IOrder[] | null;
+    orders: IOrder[];
     user: IUser | null;
     successNotification: string | null;
     error: string | null;
@@ -12,7 +12,7 @@ interface IPersonalAccountState {
 };
 
 const initialState: IPersonalAccountState = {
-    orders: null,
+    orders: [],
     user: null,
     successNotification: null,
     error: null,
@@ -63,13 +63,13 @@ export const fetchUserData = createAsyncThunk<
 
 export const fetchOrders = createAsyncThunk<
     IOrder[],
-    void,
+    string,
     { rejectValue: IFetchError }
 > (
     'personalAccount/fetchOrders',
-    async (_: void, { rejectWithValue }) => {
+    async (id: string, { rejectWithValue }) => {
         try {
-            const response = await publicRequest.get(`/orders`);
+            const response = await publicRequest.get(`/orders/${id}/user`);
             return response.data;
         } catch (error) {
             return rejectWithValue({
@@ -155,7 +155,7 @@ export const personalAccountSlice = createSlice({
 });
 
 export const selectUser = (state: RootState) => state.personalAccount.user;
-export const selectOrder = (state: RootState) => state.personalAccount.orders;
+export const selectOrders = (state: RootState) => state.personalAccount.orders;
 export const selectSuccessNotification = (state: RootState) => state.personalAccount.successNotification;
 export const selectLoading = (state: RootState) => state.personalAccount.loading;
 export const selectError = (state: RootState) => state.personalAccount.error;

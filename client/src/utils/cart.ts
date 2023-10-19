@@ -1,14 +1,4 @@
-import { ICartItem, IFood, IRegistrationData } from "../types";
-
-export const amountFormatting = (amount: number): string => {
-    let formattedAmount = String(amount);
-
-    if (String(amount).length === 1) {
-        formattedAmount = '0' + String(amount);
-    }
-
-    return formattedAmount;
-}
+import { ICartItem, IFood } from '../models/interfaces';
 
 export const findCartItemIndex = (foodItem: IFood, cart: ICartItem[]) => {
     const cartItemIndex = cart.findIndex(
@@ -40,13 +30,4 @@ export const countFoodItemsCost = (cart: ICartItem[]) => {
     }
 
     return cost;
-}
-
-export const isRegistrationData = (data: any): data is IRegistrationData => {
-    return (
-        'firstName' in data && 
-        'lastName' in data && 
-        'email' in data && 
-        'password' in data
-    );
 }

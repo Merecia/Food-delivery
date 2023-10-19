@@ -1,5 +1,5 @@
 import { FC, CSSProperties } from 'react';
-import { ICartItem, IFood } from '../../types';
+import { ICartItem, IFood } from '../../models/interfaces';
 import { openFoodDetails } from '../../redux/slices/foodDetailsSlice';
 import {
     addFoodToCart,

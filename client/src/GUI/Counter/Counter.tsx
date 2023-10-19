@@ -1,5 +1,5 @@
 import { FC, CSSProperties } from 'react';
-import { amountFormatting } from '../../utils/helper';
+import { amountFormatting } from '../../utils/formatting';
 import style from './Counter.module.scss';
 
 interface ICounterProps {

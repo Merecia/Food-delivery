@@ -1,7 +1,6 @@
-import { IFetchError } from '../../types';
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { publicRequest } from "../../httpRequests";
-import { IFood } from "../../types";
+import { IFood, IFetchError } from "../../models/interfaces";
 import { RootState } from "../store";
 
 interface IFoodState {

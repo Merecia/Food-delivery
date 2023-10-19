@@ -7,7 +7,7 @@ const OrderSchema = new mongoose.Schema(
             ref: 'User',
             required: true
         },
-        foodList: [
+        orderedFood: [
             {
                 foodId: { type: String, required: true },
                 name: { type: String, required: true },
@@ -18,7 +18,7 @@ const OrderSchema = new mongoose.Schema(
         ],
         totalCost: { type: Number, required: true },
         address: { type: Object, required: true },
-        status: { type: String, default: 'pending' }
+        status: { type: String, default: 'Оформлен' }
     },
     { timestamps: true }
 );

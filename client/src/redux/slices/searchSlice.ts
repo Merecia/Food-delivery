@@ -1,7 +1,6 @@
-import { IAutocompleteOption, IFetchError } from '../../types';
+import { IAutocompleteOption, IFetchError, IFood } from '../../models/interfaces';
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { publicRequest } from "../../httpRequests";
-import { IFood } from "../../types";
 import { RootState } from "../store";
 
 interface ISearchState {

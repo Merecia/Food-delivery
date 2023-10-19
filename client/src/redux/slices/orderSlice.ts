@@ -1,7 +1,7 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 import { userRequest } from '../../httpRequests';
-import { IFetchError, IOrder } from '../../types';
+import { IFetchError, IOrder } from '../../models/interfaces';
 
 interface IOrderState {
   order: IOrder | null;

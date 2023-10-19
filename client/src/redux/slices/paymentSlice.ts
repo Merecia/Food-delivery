@@ -2,7 +2,7 @@ import { Token } from 'react-stripe-checkout-nsen';
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 import { userRequest } from '../../httpRequests';
-import { IPaymentData, IFetchError } from '../../types';
+import { IPaymentData, IFetchError } from '../../models/interfaces';
 
 interface IPaymentState {
   token: Token | null;

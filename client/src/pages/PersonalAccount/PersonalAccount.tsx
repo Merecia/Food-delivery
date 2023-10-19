@@ -26,11 +26,6 @@ const PersonalAccount: FC = () => {
 
     type formType = keyof typeof forms;
 
-    // const forms = [
-    //     { choicedOption: 'personalData', component: <PersonalAccount /> },
-    //     { choicedOption: 'orders', component: <Orders /> }
-    // ];
-
     const user = useAppSelector(selectUser);
     const [selectedOption, setSelectedOption] = useState<IOption>(options[0]);
     const navigate = useNavigate();

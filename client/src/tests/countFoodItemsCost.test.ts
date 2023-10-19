@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { countFoodItemsCost } from '../utils/helper';
-import { cartItems } from '../data';
+import { countFoodItemsCost } from '../utils/formatting';
+import { cartItems } from './data';
 
 describe('Counting cost of the food items in the cost', () => {
     it('There are a few items in the cart', () => {

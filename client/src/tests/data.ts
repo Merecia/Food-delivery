@@ -3,7 +3,7 @@ import asian from './assets/images/asian.svg';
 import burger from './assets/images/burger.svg';
 import mexican from './assets/images/mexican.svg';
 import donat from './assets/images/donat.svg';
-import { ICartItem, ICategory, IFood, IOrderInfo, IOrderedFood } from './types';
+import { ICartItem, ICategory, IFood } from '../models/interfaces';
 
 export const categories: ICategory[] = [
     { _id: '1', name: 'Пицца', imageURL: pizza },
@@ -73,30 +73,4 @@ export const cartItems: ICartItem[] = [
     { foodItem: foodList[1], amount: 3 },
     { foodItem: foodList[2], amount: 5 },
     { foodItem: foodList[3], amount: 1 }
-];
-
-export const orderedFood: IOrderedFood[] = [
-    { _id: '1', name: 'Пицца', price: 100, amount: 2, totalCost: 200 },
-    { _id: '2', name: 'Бургер', price: 80, amount: 3, totalCost: 240 },
-];
-
-export const orders: IOrderInfo[] = [
-    {
-        _id: '1',
-        date: '18.10.2023',
-        time: '03:23',
-        totalCost: '100',
-        address: 'Гоголя',
-        status: 'Подтверждён',
-        orderedFood
-    },
-    {
-        _id: '2',
-        date: '19.10.2023',
-        time: '11:25',
-        totalCost: '200',
-        address: 'Лермонтова',
-        status: 'Оформлен',
-        orderedFood
-    }
 ];

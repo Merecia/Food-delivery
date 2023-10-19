@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { ICartItem, IFood } from '../../types';
-import { findCartItemIndex } from '../../utils/helper';
+import { ICartItem, IFood } from '../../models/interfaces';
 import { RootState } from '../store';
+import { findCartItemIndex } from '../../utils/cart';
 
 interface ICartState {
     showCart: boolean;

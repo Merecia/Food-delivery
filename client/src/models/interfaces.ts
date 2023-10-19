@@ -88,26 +88,10 @@ export interface IOrderedFood {
 
 export interface IOrder {
     _id?: string;
-    userId: string,
-    foodList: IOrderedFood[],
-    totalCost: number,
-    address: IAddress
-}
-
-export interface IOrderInfo {
-    _id: string;
-    date: string;
-    time: string;
-    totalCost: string;
-    address: string;
-    status: string;
+    userId: string;
     orderedFood: IOrderedFood[];
-}
-
-export enum DeliveryStatus {
-    'WAS_PLACED' = 'Оформлен',
-    'WAS_CONFIRMED' = 'Подтверждён',
-    'IS_BEING_DELIVERED' = 'Доставляется',
-    'WAS_DELIVERED' = 'Доставлен',
-    'WAS_CANCELED' = 'Аннулирован'
+    totalCost: number;
+    address: IAddress;
+    createdAt?: string;
+    status?: string;
 }

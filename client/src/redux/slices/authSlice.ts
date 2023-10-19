@@ -1,7 +1,12 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { publicRequest } from "../../httpRequests";
-import { ILoginData, IRegistrationData, IFetchError, IUser } from "../../types";
 import { RootState } from "../store";
+import { 
+    ILoginData, 
+    IRegistrationData, 
+    IFetchError, 
+    IUser 
+} from "../../models/interfaces";
 import { AxiosError } from "axios";
 
 interface IAuthState {

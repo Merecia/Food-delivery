@@ -1,12 +1,12 @@
 import { FC, CSSProperties } from 'react';
-import { ICartItem } from '../../../types';
+import { ICartItem } from '../../models/interfaces';
 import { useDispatch } from 'react-redux';
 import { 
     decreaseFoodAmountInCart, 
     increaseFoodAmountInCart 
-} from '../../../redux/slices/cartSlice';
+} from '../../redux/slices/cartSlice';
 import style from './CartItem.module.scss';
-import Counter from '../../../GUI/Counter/Counter';
+import Counter from '../../GUI/Counter/Counter';
 
 interface ICartItemProps {
     cartItem: ICartItem;

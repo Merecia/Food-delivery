@@ -1,15 +1,14 @@
-.Table {
-    .StatusCircle {
-        display: inline-block;
-        border-radius: 90px;
-        width: 10px;
-        height: 10px;
-        margin-right: 10px;
-    }
+.FetchError {
+    display: flex;
+    justify-content: center;
 
-    .DropdownTable_Title {
-        font-size: 18px;
+    .FetchError_Title {
         font-weight: 300;
-        margin-bottom: 10px;
+        color: #67666D;
     }
+}
+
+.NothingFound, .Fetching {
+    font-weight: 300;
+    color: #67666D;
 }

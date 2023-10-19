@@ -1,9 +1,9 @@
 import { FC, useEffect, useState } from 'react';
-import { countFoodItemsInCart } from '../../utils/helper';
 import { openCart, selectCart } from '../../redux/slices/cartSlice';
+import { countFoodItemsInCart } from '../../utils/cart';
 import { useDebounce } from '../../hooks/useDebounce';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { IAutocompleteOption } from '../../types';
+import { IAutocompleteOption } from '../../models/interfaces';
 import { fetchFoodById } from '../../redux/slices/foodSlice';
 import { useOutsideClick } from '../../hooks/useOutsideClick';
 import { selectUser, signOut } from '../../redux/slices/authSlice';

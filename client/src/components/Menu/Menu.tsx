@@ -1,5 +1,5 @@
 import { CSSProperties, FC, useEffect } from 'react';
-import { ICategory, IFood } from '../../types';
+import { ICategory, IFood } from '../../models/interfaces';
 import { selectChosenCategoryId } from '../../redux/slices/categoriesSlice';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { Skeleton } from '@mui/material';
