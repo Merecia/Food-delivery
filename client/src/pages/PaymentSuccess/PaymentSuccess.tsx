@@ -47,6 +47,8 @@ const PaymentSuccess: FC = () => {
                 totalCost: cartItem.amount * cartItem.foodItem.price
             }));
 
+            dispatch(resetCartToInitial());
+
             dispatch(
                 createOrder({
                     userId: user._id,
@@ -58,31 +60,21 @@ const PaymentSuccess: FC = () => {
         } else {
             if (order) {
                 dispatch(
-                    setError(`
-                        Заказ уже был сохранён в базе данных. 
-                        Вы можете вернуться в главное меню.
-                    `)
+                    setError(`Вам нужно подтвердить оплату.`)
                 );
             } else if (!paymentData) {
                 dispatch(
-                    setError(`
-                        Произошла ошибка во время сохранения заказа. 
-                        Не найдены данные о платеже. Обратитесь к администратору.
-                    `)
+                    setError(`Не найдены данные о платеже.`)
                 );
             } else if (!user) {
                 dispatch(
-                    setError(`
-                        Произошла ошибка во время оплаты.
-                        Вы не авторизованы.
-                    `)
+                    setError(`Вы не авторизованы.`)
                 );
             }
         }
     }, [paymentData]);
 
-    const backButtonClickHandler = () => {
-        dispatch(resetCartToInitial());
+    const confirmButtonClickHandler = () => {
         dispatch(resetPaymentToInitial());
         dispatch(resetOrderToInitial());
         navigate('/');
@@ -122,12 +114,15 @@ const PaymentSuccess: FC = () => {
                             {`${user?.firstName} ${user?.lastName}`}
                         </p>
                     </div>
-                    <div className={style.Amount}>
-                        <p className={style.AttributeName}> Сумма: </p>
-                        <p className={style.AttributeValue}>
-                            {paymentData && `${paymentData.amount / 100}$`}
-                        </p>
-                    </div>
+                    {
+                        paymentData &&
+                        <div className={style.Amount}>
+                            <p className={style.AttributeName}> Сумма: </p>
+                            <p className={style.AttributeValue}>
+                                {`${paymentData.amount / 100}$`}
+                            </p>
+                        </div>
+                    }
                     {
                         !loading && order?._id &&
                         <div className={style.OrderNumber}>
@@ -139,10 +134,10 @@ const PaymentSuccess: FC = () => {
                 <Button
                     type='success'
                     cssProperties={{ margin: '0 auto' }}
-                    onClick={backButtonClickHandler}
+                    onClick={confirmButtonClickHandler}
                     disabled={loading}
                 >
-                    В главное меню
+                    Подтвердить
                 </Button>
             </div>
         </Substrate>
