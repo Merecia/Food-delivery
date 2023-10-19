@@ -40,8 +40,11 @@ const PaymentSuccess: FC = () => {
     useEffect(() => {
         if (!order && paymentData && user) {
             const products = cart.map((cartItem: ICartItem) => ({
-                foodItemId: cartItem.foodItem._id,
-                amount: cartItem.amount
+                foodId: cartItem.foodItem._id,
+                name: cartItem.foodItem.name,
+                price: cartItem.foodItem.price,
+                amount: cartItem.amount,
+                totalCost: cartItem.amount * cartItem.foodItem.price
             }));
 
             dispatch(

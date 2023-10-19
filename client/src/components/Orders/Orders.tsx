@@ -26,7 +26,7 @@ const Orders: FC = () => {
         const renderTableBody = (orderedFood: IOrderedFood[]) => {
             return orderedFood.map((foodItem) => {
                 return (
-                    <TableRow key={foodItem._id}>
+                    <TableRow key={foodItem.foodId}>
                         <TableCell align="center">
                             {foodItem.name}
                         </TableCell>

@@ -9,13 +9,11 @@ const OrderSchema = new mongoose.Schema(
         },
         foodList: [
             {
-                foodItemId: {
-                    type: String
-                },
-                quantity: {
-                    type: Number,
-                    default: 1
-                }
+                foodId: { type: String, required: true },
+                name: { type: String, required: true },
+                price: { type: Number, required: true },            
+                amount: { type: Number, default: 1 },
+                totalCost: { type: Number, required: true, }
             }
         ],
         totalCost: { type: Number, required: true },

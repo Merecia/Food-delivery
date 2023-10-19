@@ -79,7 +79,7 @@ export interface IAddress {
 }
 
 export interface IOrderedFood {
-    _id: string;
+    foodId: string;
     name: string;
     price: number;
     amount: number;
