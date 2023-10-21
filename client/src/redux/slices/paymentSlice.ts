@@ -1,7 +1,7 @@
 import { Token } from 'react-stripe-checkout-nsen';
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../store';
-import { userRequest } from '../../httpRequests';
+import { httpRequest } from '../../api';
 import { IPaymentData, IFetchError } from '../../models/interfaces';
 
 interface IPaymentState {
@@ -30,7 +30,7 @@ export const makeStripeRequest = createAsyncThunk<
             const PUBLISHABLE_KEY = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
             const { token, totalCost } = request;
 
-            const response = await userRequest.post('/payment', {
+            const response = await httpRequest.post('/payment', {
                 params: { tokenId: token.id, totalCost: totalCost },
                 headers: { Authorization: `Bearer ${PUBLISHABLE_KEY}` }
             });

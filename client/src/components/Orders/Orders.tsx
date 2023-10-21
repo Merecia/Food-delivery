@@ -42,44 +42,42 @@ const Orders: FC = () => {
         borderRadius: '10px'
     };
 
+    const renderEmptyRowWithMessage = (message: string) => {
+        return (
+            <TableRow>
+                <TableCell colSpan={10} align="center">
+                    <span className={style.Message}>
+                        { message }
+                    </span>
+                </TableCell>
+            </TableRow>
+        );
+    }
+
     const renderOrders = (orders: IOrder[]) => {
         if (loading) {
-            return (
-                <TableRow>
-                    <TableCell colSpan={10} align="center">
-                        <span className={style.Fetching}> 
-                            Идёт загрузка. Ожидайте... 
-                        </span>
-                    </TableCell>
-                </TableRow>
+            return renderEmptyRowWithMessage(
+                'Идёт загрузка. Ожидайте...'
+            );
+        } else if (error) {
+            return renderEmptyRowWithMessage(
+                'Произошла ошибка во время загрузки ваших заказов'
             );
         } else if (orders.length === 0) {
-            return (
-                <TableRow>
-                    <TableCell colSpan={10} align="center">
-                        <span className={style.NothingFound}>
-                            У вас ещё нет заказов
-                        </span>
-                    </TableCell>
-                </TableRow>
-            )
+            return renderEmptyRowWithMessage(
+                'У вас ещё нет заказов'
+            );
         } else {
             return orders.map((order: IOrder) => <Order order={order} />);
         }
     }
 
-    if (error) {
-        return (
-            <div className={style.FetchError}>
-                <h2 className={style.FetchError_Title}>
-                    Произошла ошибка во время загрузки данных
-                </h2>
-            </div>
-        );
-    }
-
     return (
-        <TableContainer style={tableContainerStyle} component={Paper}>
+        <TableContainer
+            style={tableContainerStyle}
+            component={Paper}
+            sx={{ width: '100%' }}
+        >
             <Table aria-label="collapsible table" className={style.Table}>
                 <TableHead>
                     <TableRow>
@@ -88,7 +86,7 @@ const Orders: FC = () => {
                         <TableCell align="center"> Дата </TableCell>
                         <TableCell align="center"> Время </TableCell>
                         <TableCell align="center"> Адресс </TableCell>
-                        <TableCell align="center"> Стоимость </TableCell>
+                        <TableCell align="center"> Стоимость ($) </TableCell>
                         <TableCell align="center"> Статус доставки </TableCell>
                     </TableRow>
                 </TableHead>

@@ -1,14 +1,6 @@
-.FetchError {
-    display: flex;
-    justify-content: center;
-
-    .FetchError_Title {
-        font-weight: 300;
-        color: #67666D;
-    }
-}
-
-.NothingFound, .Fetching {
+.Message {
+    display: block;
     font-weight: 300;
     color: #67666D;
+    padding: 10px;
 }

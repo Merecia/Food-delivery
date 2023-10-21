@@ -14,7 +14,6 @@ export const payment = (request, response) => {
             currency: 'usd'
         }, (stripeError, stripeResponse) => {
             if (stripeError) {
-                console.log(stripeError);
                 return response.status(500).json(stripeError);
             } else {
                 response.status(200).json(stripeResponse);

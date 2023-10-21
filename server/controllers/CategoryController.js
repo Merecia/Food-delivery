@@ -19,7 +19,6 @@ export const update = async (request, response) => {
         );
         response.status(200).json(updatedCategory);
     } catch(error) {
-        console.log(error);
         response.status(500).json(error);
     }
 }

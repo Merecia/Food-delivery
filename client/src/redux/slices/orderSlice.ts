@@ -1,6 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../store';
-import { userRequest } from '../../httpRequests';
+import { httpRequest } from '../../api';
 import { IFetchError, IOrder } from '../../models/interfaces';
 
 interface IOrderState {
@@ -16,17 +16,22 @@ const initialState: IOrderState = {
 };
 
 export const createOrder = createAsyncThunk<
-  IOrder, IOrder, { rejectValue: IFetchError }
-> (
+  IOrder, 
+  IOrder, 
+  { rejectValue: IFetchError, state: RootState }
+>(
   'order/create',
-  async (order: IOrder, { rejectWithValue }) => {
+  async (order: IOrder, { rejectWithValue, getState }) => {
     try {
-      const response = await userRequest.post('/orders', order);
+      const TOKEN = getState().auth.user?.accessToken;
+      const config = { headers: { token: `Bearer ${TOKEN}` } };
+
+      const response = await httpRequest.post('/orders', order, config);
       return response.data;
     } catch (error) {
-        return rejectWithValue({ 
-          message: 'Произошла ошибка во время сохранения заказа' 
-        });
+      return rejectWithValue({
+        message: 'Произошла ошибка во время сохранения заказа'
+      });
     }
   }
 );
@@ -59,10 +64,10 @@ export const orderSlice = createSlice({
     builder.addCase(createOrder.rejected, (
       state, action: PayloadAction<IFetchError | undefined>
     ) => {
-        state.loading = false;
-        if (action.payload) {
-          state.error = action.payload.message;
-        }
+      state.loading = false;
+      if (action.payload) {
+        state.error = action.payload.message;
+      }
     });
   }
 });

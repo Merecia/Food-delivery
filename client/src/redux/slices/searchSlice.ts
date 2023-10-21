@@ -1,6 +1,6 @@
 import { IAutocompleteOption, IFetchError, IFood } from '../../models/interfaces';
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { publicRequest } from "../../httpRequests";
+import { httpRequest } from "../../api";
 import { RootState } from "../store";
 
 interface ISearchState {
@@ -19,18 +19,20 @@ const initialState: ISearchState = {
 
 export const getAutocompleteOptions = createAsyncThunk<
     IFood[], string, { rejectValue: IFetchError }
-> (
+>(
     'search/query',
     async (query: string, { rejectWithValue }) => {
         try {
-            const response = await publicRequest.get(`/food/?query=${query}`);
+            const response = await httpRequest.get(`/food/?query=${query}`);
+
             const autocompleteOptions = response.data.map((foodItem: IFood) => {
                 return { _id: foodItem._id, name: foodItem.name };
             });
+
             return autocompleteOptions;
         } catch (error) {
-            return rejectWithValue({ 
-                message: 'Произошла ошибка во время поиска' 
+            return rejectWithValue({
+                message: 'Произошла ошибка во время поиска'
             });
         }
     }

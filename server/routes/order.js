@@ -1,20 +1,25 @@
 import express from 'express';
 import { 
     create, 
-    getAll,
-    getById,
-    getOrdersOfUser,
-    remove,
-    update
+    getAll, 
+    getById, 
+    getOrdersOfUser, 
+    remove, 
+    update 
 } from '../controllers/OrderController.js';
+import { 
+    isAnyAuthorizedUser, 
+    isAdmin, 
+    isSpecificUser 
+} from '../controllers/VerifyTokenController.js';
 
 const orderRouter = express.Router();
 
-orderRouter.get('/', getAll);
-orderRouter.get('/:id', getById);
-orderRouter.get('/:userId/user', getOrdersOfUser);
-orderRouter.post('/', create);
-orderRouter.delete('/:id', remove);
-orderRouter.put('/:id', update);
+orderRouter.post('/', isAnyAuthorizedUser, create);
+orderRouter.get('/:id/user', isSpecificUser, getOrdersOfUser);
+orderRouter.get('/', isAdmin, getAll);
+orderRouter.get('/:id', isAdmin, getById);
+orderRouter.delete('/:id', isAdmin, remove);
+orderRouter.put('/:id', isAdmin, update);
 
 export default orderRouter;

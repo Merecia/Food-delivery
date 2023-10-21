@@ -6,13 +6,14 @@ import {
     remove, 
     update 
 } from '../controllers/CategoryController.js';
+import { isAdmin } from '../controllers/VerifyTokenController.js';
 
 const categoryRouter = express.Router();
 
 categoryRouter.get('/', getAll);
 categoryRouter.get('/:id', getById);
-categoryRouter.post('/', create);
-categoryRouter.delete('/:id', remove);
-categoryRouter.put('/:id', update);
+categoryRouter.post('/', isAdmin, create); 
+categoryRouter.delete('/:id', isAdmin, remove);
+categoryRouter.put('/:id', isAdmin, update); 
 
 export default categoryRouter;

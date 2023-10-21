@@ -22,7 +22,6 @@ export const update = async (request, response) => {
 
         response.status(200).json(updatedUser);
     } catch (error) {
-        console.log(error);
         response.status(500).json(error);
     }
 }
@@ -65,139 +64,138 @@ export const getAll = async (request, response) => {
     }
 }
 
-export const getStats = async (request, response) => {
+export const getStatsForYear = async (request, response) => {
     try {
-        const year = request.query.year;
-        const month = request.query.month;
-        const dayOfMonth = request.query.dayOfMonth;
+        const year = request.params.year;
 
-        let stats;
+        const beginningOfYear = new Date(
+            Number(year), 0, 2
+        );
 
-        if (year) stats = await getStatsForYear(year);
-        else if (month) stats = await getStatsForMonth(month);
-        else if (dayOfMonth) stats = await getStatsForDayOfMonth(dayOfMonth);
-        else stats = await getAggregateStats();
+        const beginningOfNextYear = new Date(
+            Number(year) + 1, 0, 2
+        );
 
-        response.status(200).send(stats);
+        const stats = await User.aggregate([
+            {
+                $match: {
+                    createdAt: {
+                        $gte: beginningOfYear,
+                        $lt: beginningOfNextYear
+                    }
+                }
+            },
+            {
+                $project: {
+                    year: { $year: '$createdAt' }
+                }
+            },
+            {
+                $group: {
+                    _id: '$year',
+                    total: { $sum: 1 }
+                }
+            }
+        ]);
+
+        return response.status(200).send(stats);
     } catch (error) {
-        console.log(error);
-        response.status(500).json(error);
+        return response.status(500).json(error);
     }
 }
 
-const getStatsForYear = async (year) => {
-    const beginningOfYear = new Date(
-        Number(year), 0, 2
-    );
+export const getStatsForMonth = async (request, response) => {
+    try {
+        const month = request.params.month;
 
-    const beginningOfNextYear = new Date(
-        Number(year) + 1, 0, 2
-    );
+        const currentYear = new Date().getFullYear();
 
-    const stats = await User.aggregate([
-        {
-            $match: {
-                createdAt: {
-                    $gte: beginningOfYear,
-                    $lt: beginningOfNextYear
+        const beginningOfMonth = new Date(
+            currentYear, Number(month) - 1, 2
+        );
+
+        const beginningOfNextMonth = new Date(
+            currentYear, Number(month), 2
+        );
+
+        const stats = await User.aggregate([
+            {
+                $match: {
+                    createdAt: {
+                        $gte: beginningOfMonth,
+                        $lt: beginningOfNextMonth
+                    }
+                }
+            },
+            {
+                $project: {
+                    month: { $month: '$createdAt' }
+                }
+            },
+            {
+                $group: {
+                    _id: '$month',
+                    total: { $sum: 1 }
                 }
             }
-        },
-        {
-            $project: {
-                year: { $year: '$createdAt' }
-            }
-        },
-        {
-            $group: {
-                _id: '$year',
-                total: { $sum: 1 }
-            }
-        }
-    ]);
+        ]);
 
-    return stats;
+        return response.status(200).send(stats);
+    } catch (error) {
+        return response.status(500).json(error);
+    }
 }
 
-const getStatsForMonth = async (month) => {
-    const currentYear = new Date().getFullYear();
+export const getStatsForDayOfMonth = async (request, response) => {
+    try {
+        const dayOfMonth = request.params.dayOfMonth;
 
-    const beginningOfMonth = new Date(
-        currentYear, Number(month) - 1, 2
-    );
+        const now = new Date();
+        const currentYear = now.getFullYear();
+        const currentMonth = now.getMonth();
 
-    const beginningOfNextMonth = new Date(
-        currentYear, Number(month), 2
-    );
+        const beginningOfDay = new Date(
+            currentYear, currentMonth, Number(dayOfMonth)
+        );
 
-    const stats = await User.aggregate([
-        {
-            $match: {
-                createdAt: {
-                    $gte: beginningOfMonth,
-                    $lt: beginningOfNextMonth
+        const beginningOfNextDay = new Date(
+            currentYear, currentMonth, Number(dayOfMonth) + 1
+        );
+
+        const stats = await User.aggregate([
+            {
+                $match: {
+                    createdAt: {
+                        $gte: beginningOfDay,
+                        $lt: beginningOfNextDay
+                    }
+                }
+            },
+            {
+                $project: {
+                    dayOfMonth: { $dayOfMonth: '$createdAt' }
+                }
+            },
+            {
+                $group: {
+                    _id: '$dayOfMonth',
+                    total: { $sum: 1 }
                 }
             }
-        },
-        {
-            $project: {
-                month: { $month: '$createdAt' }
-            }
-        },
-        {
-            $group: {
-                _id: '$month',
-                total: { $sum: 1 }
-            }
-        }
-    ]);
+        ]);
 
-    return stats;
+        return response.status(200).send(stats);
+    } catch (error) {
+        return response.status(500).json(error);
+    }
 }
 
-const getStatsForDayOfMonth = async (dayOfMonth) => {
-    const now = new Date();
-    const currentYear = now.getFullYear();
-    const currentMonth = now.getMonth();
-
-    const beginningOfDay = new Date(
-        currentYear, currentMonth, Number(dayOfMonth)
-    );
-
-    const beginningOfNextDay = new Date(
-        currentYear, currentMonth, Number(dayOfMonth) + 1
-    );
-
-    const stats = await User.aggregate([
-        {
-            $match: {
-                createdAt: {
-                    $gte: beginningOfDay,
-                    $lt: beginningOfNextDay
-                }
-            }
-        },
-        {
-            $project: {
-                dayOfMonth: { $dayOfMonth: '$createdAt' }
-            }
-        },
-        {
-            $group: {
-                _id: '$dayOfMonth',
-                total: { $sum: 1 }
-            }
-        }
-    ]);
-
-    return stats;
-}
-
-const getAggregateStats = async () => {
-    const amount = await User.countDocuments({});
-
-    return {
-        _id: new Date(),
-        total: amount
-    };
+export const getGeneralStats = async (request, response) => {
+    try {
+        const amount = await User.countDocuments({});
+        const stats = { _id: new Date(), total: amount };
+        return response.status(200).send(stats);
+    } catch (error) {
+        return response.status(500).json(error);
+    }
 }

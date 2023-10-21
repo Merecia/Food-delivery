@@ -1,11 +1,11 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { publicRequest } from "../../httpRequests";
+import { httpRequest } from "../../api";
 import { RootState } from "../store";
-import { 
-    ILoginData, 
-    IRegistrationData, 
-    IFetchError, 
-    IUser 
+import {
+    ILoginData,
+    IRegistrationData,
+    IFetchError,
+    IUser
 } from "../../models/interfaces";
 import { AxiosError } from "axios";
 
@@ -25,20 +25,20 @@ export const registration = createAsyncThunk<
     IUser,
     IRegistrationData,
     { rejectValue: IFetchError }
-> (
+>(
     'auth/register',
     async (registrationData: IRegistrationData, { rejectWithValue }) => {
         try {
-            const response = await publicRequest.post('/auth/register', registrationData);
+            const response = await httpRequest.post('/auth/register', registrationData);
             return response.data;
         } catch (error) {
             if (error instanceof AxiosError && error.response) {
-                return rejectWithValue({ 
-                    message: error.response.data.message 
+                return rejectWithValue({
+                    message: error.response.data.message
                 });
             } else {
-                return rejectWithValue({ 
-                    message: 'Произошла неизвестная ошибка во время регистрации' 
+                return rejectWithValue({
+                    message: 'Произошла неизвестная ошибка во время регистрации'
                 });
             }
         }
@@ -49,19 +49,19 @@ export const login = createAsyncThunk<
     IUser,
     ILoginData,
     { rejectValue: IFetchError }
-> (
+>(
     'auth/login',
     async (loginData: ILoginData, { rejectWithValue }) => {
         try {
-            const response = await publicRequest.post('/auth/login', loginData);
+            const response = await httpRequest.post('/auth/login', loginData);
             return response.data;
         } catch (error) {
             if (error instanceof AxiosError && error.response) {
-                return rejectWithValue({ 
-                    message: error.response.data.message 
+                return rejectWithValue({
+                    message: error.response.data.message
                 });
             } else {
-                return rejectWithValue({ 
+                return rejectWithValue({
                     message: 'Произошла неизвестная ошибка во время авторизации'
                 });
             }
@@ -100,7 +100,7 @@ export const authSlice = createSlice({
                 state.error = action.payload.message;
             }
         });
-        
+
         builder.addCase(login.pending, (state) => {
             state.loading = true;
             state.error = null;

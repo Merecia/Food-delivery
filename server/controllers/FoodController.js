@@ -19,7 +19,6 @@ export const update = async (request, response) => {
         );
         response.status(200).json(updatedFood);
     } catch (error) {
-        console.log(error);
         response.status(500).json(error);
     }
 }
@@ -44,7 +43,7 @@ export const getById = async (request, response) => {
 
 export const getByCategory = async (request, response) => {
     try {
-        const categoryId = request.params.categoryId;
+        const categoryId = request.params.id;
         const food = await Food.find({ categoryId });
         response.status(200).json(food);
     } catch (error) {

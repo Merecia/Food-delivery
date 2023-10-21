@@ -32,16 +32,12 @@ const Menu: FC = () => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        if (categories.length === 0) {
-            dispatch(fetchCategories());
-        }
+        dispatch(fetchCategories());
 
-        if (foodList.length === 0) {
-            if (chosenCategoryId) {
-                dispatch(fetchFoodByCategory(chosenCategoryId));
-            } else {
-                dispatch(fetchAllFood());
-            }
+        if (chosenCategoryId) {
+            dispatch(fetchFoodByCategory(chosenCategoryId));
+        } else {
+            dispatch(fetchAllFood());
         }
     }, []);
 

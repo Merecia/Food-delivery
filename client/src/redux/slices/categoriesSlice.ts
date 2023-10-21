@@ -1,6 +1,6 @@
 import { IFetchError, ICategory } from '../../models/interfaces';
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { publicRequest } from "../../httpRequests";
+import { httpRequest } from "../../api";
 import { RootState } from "../store";
 
 interface ICategoriesState {
@@ -19,15 +19,15 @@ const initialState: ICategoriesState = {
 
 export const fetchCategories = createAsyncThunk<
     ICategory[], void, { rejectValue: IFetchError }
-> (
+>(
     'categories/all',
     async (_: void, { rejectWithValue }) => {
         try {
-            const response = await publicRequest.get(`/categories`);
+            const response = await httpRequest.get(`/categories`);
             return response.data;
         } catch (error) {
-            return rejectWithValue({ 
-                message: 'Произошла ошибка во время загрузки данных с сервера' 
+            return rejectWithValue({
+                message: 'Произошла ошибка во время загрузки данных с сервера'
             });
         }
     }

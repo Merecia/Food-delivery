@@ -37,7 +37,6 @@ export const register = async (request, response) => {
         const { password: userPassword, ...userData } = savedUser._doc;
         response.status(201).json({ ...userData, accessToken });
     } catch (error) {
-        console.log(error);
         response.status(500).json({ message: 'Не удалось зарегистрироваться' });
     }
 };
@@ -70,7 +69,6 @@ export const login = async (request, response) => {
         const { password: userPassword, ...userData } = user._doc;
         response.status(200).json({ ...userData, accessToken });
     } catch (error) {
-        console.log(error);
         response.status(500).json({ message: 'Не удалось авторизоваться' });
     }
 };

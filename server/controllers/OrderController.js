@@ -34,7 +34,7 @@ export const remove = async (request, response) => {
 
 export const getOrdersOfUser = async (request, response) => {
     try {
-        const userId = request.params.userId;
+        const userId = request.params.id;
         const orders = await Order.find({ userId });
         response.status(200).json(orders);
     } catch (error) {

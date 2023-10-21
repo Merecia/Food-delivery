@@ -7,14 +7,15 @@ import {
     remove, 
     update 
 } from '../controllers/FoodController.js';
+import { isAdmin } from '../controllers/VerifyTokenController.js';
 
 const foodRouter = express.Router();
 
 foodRouter.get('/', getAll);
 foodRouter.get('/:id', getById);
-foodRouter.get('/:categoryId/category', getByCategory);
-foodRouter.post('/', create);
-foodRouter.delete('/:id', remove);
-foodRouter.put('/:id', update);
+foodRouter.get('/:id/category', getByCategory);
+foodRouter.post('/', isAdmin, create);
+foodRouter.delete('/:id', isAdmin, remove);
+foodRouter.put('/:id', isAdmin, update);
 
 export default foodRouter;

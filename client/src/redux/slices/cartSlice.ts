@@ -4,15 +4,15 @@ import { RootState } from '../store';
 import { findCartItemIndex } from '../../utils/cart';
 
 interface ICartState {
-    showCart: boolean;
-    cart: ICartItem[];
-    error: string | null;
+  showCart: boolean;
+  cart: ICartItem[];
+  error: string | null;
 };
 
 const initialState: ICartState = {
-    showCart: false,
-    cart: [],
-    error: null
+  showCart: false,
+  cart: [],
+  error: null
 };
 
 export const cartSlice = createSlice({
@@ -26,8 +26,8 @@ export const cartSlice = createSlice({
       state.showCart = false;
     },
     resetToInitial: (state) => {
-        state.showCart = false;
-        state.cart = [];
+      state.showCart = false;
+      state.cart = [];
     },
     addFoodToCart: (state, action: PayloadAction<IFood>) => {
       const foodItem = action.payload;
@@ -71,12 +71,12 @@ export const selectShowCart = (state: RootState) => state.cart.showCart;
 export const selectError = (state: RootState) => state.cart.error;
 
 export const {
-  openCart, 
-  closeCart, 
+  openCart,
+  closeCart,
   emptyCart,
   resetToInitial,
   addFoodToCart,
-  increaseFoodAmountInCart, 
+  increaseFoodAmountInCart,
   decreaseFoodAmountInCart
 } = cartSlice.actions;
 

@@ -1,5 +1,5 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { publicRequest } from "../../httpRequests";
+import { httpRequest } from "../../api";
 import { IFetchError, IOrder, IPersonalData, IUser } from '../../models/interfaces'
 import { RootState } from "../store";
 
@@ -27,17 +27,21 @@ interface IUpdatePersonalDataRequest {
 export const updatePersonalData = createAsyncThunk<
     string,
     IUpdatePersonalDataRequest,
-    { rejectValue: IFetchError }
-> (
+    { rejectValue: IFetchError, state: RootState }
+>(
     'personalAccount/updatePersonalData',
-    async (request, { rejectWithValue }) => {
+    async (request, { rejectWithValue, getState }) => {
         try {
-            const { userId, personalData } = request; 
-            await publicRequest.put(`/users/${userId}`, personalData);
+            const { userId, personalData } = request;
+
+            const TOKEN = getState().auth.user?.accessToken;
+            const config = { headers: { token: `Bearer ${TOKEN}` } };
+
+            await httpRequest.put(`/users/${userId}`, personalData, config);
             return 'Ваши данные успешно изменены';
         } catch (error) {
-            return rejectWithValue({ 
-                message: 'Произошла ошибка во время обновления данных' 
+            return rejectWithValue({
+                message: 'Произошла ошибка во время обновления данных'
             });
         }
     }
@@ -46,12 +50,15 @@ export const updatePersonalData = createAsyncThunk<
 export const fetchUserData = createAsyncThunk<
     IUser,
     string,
-    { rejectValue: IFetchError }
-> (
+    { rejectValue: IFetchError, state: RootState }
+>(
     'personalAccout/fetchUser',
-    async (id: string, { rejectWithValue }) => {
+    async (id: string, { rejectWithValue, getState }) => {
         try {
-            const response = await publicRequest.get(`/users/find/${id}`);
+            const TOKEN = getState().auth.user?.accessToken;
+            const config = { headers: { token: `Bearer ${TOKEN}` } };
+
+            const response = await httpRequest.get(`/users/${id}`, config);
             return response.data;
         } catch (error) {
             return rejectWithValue({
@@ -64,12 +71,15 @@ export const fetchUserData = createAsyncThunk<
 export const fetchOrders = createAsyncThunk<
     IOrder[],
     string,
-    { rejectValue: IFetchError }
-> (
+    { rejectValue: IFetchError, state: RootState }
+>(
     'personalAccount/fetchOrders',
-    async (id: string, { rejectWithValue }) => {
+    async (id: string, { rejectWithValue, getState }) => {
         try {
-            const response = await publicRequest.get(`/orders/${id}/user`);
+            const TOKEN = getState().auth.user?.accessToken;
+            const config = { headers: { token: `Bearer ${TOKEN}` } };
+
+            const response = await httpRequest.get(`/orders/${id}/user`, config);
             return response.data;
         } catch (error) {
             return rejectWithValue({
