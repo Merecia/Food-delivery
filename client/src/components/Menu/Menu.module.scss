@@ -1,11 +1,7 @@
 .Menu {
     background: rgb(246, 244, 244);
     padding: 50px 0px 10px 0px;
-
-    h1 {
-        color: #323643;
-        font-size: 18px;
-    }
+    min-height: 100vh;
 
     .Categories {
         display: flex;
@@ -21,24 +17,26 @@
     }
 }
 
-.NothingFound, .FetchError {
+.NothingFound {
     display: flex;
     justify-content: center;
     width: 100vw;
-
-    .NothingFound_Title, .FetchError_Title {
-        font-weight: 300;
-        color: #67666D;
-    }
-}
-
-.NothingFound {
     margin-top: 50px;
 }
 
 .FetchError {
-    margin-top: 150px;
+    background: rgb(246, 244, 244);
+    padding: 150px 0px 10px 0px;
+    min-height: 100vh;
+    text-align: center;
 }
+
+.NothingFound_Title, .FetchError_Title {
+    font-weight: 300;
+    color: #67666D;
+}
+
+
 
 
 
