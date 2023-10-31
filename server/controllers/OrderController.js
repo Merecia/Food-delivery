@@ -26,7 +26,7 @@ export const update = async (request, response) => {
 export const remove = async (request, response) => {
     try {
         await Order.findByIdAndDelete(request.params.id);
-        response.status(200).json('Order has been deleted');
+        response.status(200).json('Заказ был удалён');
     } catch (error) {
         response.status(500).json(error);
     }

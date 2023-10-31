@@ -25,17 +25,17 @@ const PaymentError: FC = () => {
                     X
                 </div>
                 <h2 className={style.Title}>
-                    Something went wrong
+                    Ошибка при оплате
                 </h2>
                 <p className={style.Message}>
-                    We aren't able to process your payment. Please try again
+                    Мы не смогли обработать ваш платёж. Повторите ещё раз
                 </p>
                 <Button
                     type='error'
                     cssProperties={{ margin: '0 auto' }}
                     onClick={backButtonClickHandler}
                 >
-                    Back to Main Page
+                    Подтвердить
                 </Button>
             </div>
         </Substrate>

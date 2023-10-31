@@ -21,7 +21,7 @@ export const isAnyAuthorizedUser = (request, response, next) => {
 
 export const isSpecificUser = (request, response, next) => {
     isAnyAuthorizedUser(request, response, () => {
-        if (request.user.id === request.params.id || request.user.isAdmin) {
+        if (request.user._id === request.params.id || request.user.isAdmin) {
             next();
         } else {
             response.status(403).json('У вас нет прав доступа');
@@ -31,7 +31,7 @@ export const isSpecificUser = (request, response, next) => {
 
 export const isAdmin = (request, response, next) => {
     isAnyAuthorizedUser(request, response, () => {
-        if (request.user.isAdmin) {
+        if (request?.user?.isAdmin) {
             next();
         } else {
             response.status(403).json(
